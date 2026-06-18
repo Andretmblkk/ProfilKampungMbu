@@ -1,0 +1,3947 @@
+{
+    "system": "Profil Kampung System",
+    "level": 2,
+    "meta": {
+        "generatedAt": "2026-05-22T11:29:30+00:00",
+        "routes": 50,
+        "processes": 123,
+        "dataStores": 0,
+        "externalEntities": 1,
+        "warnings": [
+            "Tidak ada proses kompleks untuk Level 3. Diagram Level 3 dibuat sebagai empty state."
+        ],
+        "creator": "Andre Tumbelaka"
+    },
+    "groups": [
+        {
+            "key": "authentication",
+            "label": "Autentikasi",
+            "number": "1.0",
+            "processId": "process.group.authentication",
+            "processes": [
+                {
+                    "id": "process.Filament.Actions.Exports.Http.Controllers.DownloadExport",
+                    "name": "Filament\\Actions\\Exports\\Http\\Controllers\\DownloadExport",
+                    "inputs": [
+                        "GET|HEAD filament/exports/{export}/download"
+                    ],
+                    "outputs": [
+                        "filled",
+                        "Gate.getPolicyFor",
+                        "authorize",
+                        "abort_unless",
+                        "export->user.is",
+                        "export.user",
+                        "auth.user",
+                        "auth",
+                        "this.resolveFormatFromRequest",
+                        "PhpParser\\Node\\Expr\\MethodCall",
+                        "format.getDownloader",
+                        "ExportFormat.tryFrom",
+                        "request.query"
+                    ]
+                },
+                {
+                    "id": "process.Filament.Actions.Imports.Http.Controllers.DownloadImportFailureCsv",
+                    "name": "Filament\\Actions\\Imports\\Http\\Controllers\\DownloadImportFailureCsv",
+                    "inputs": [
+                        "GET|HEAD filament/imports/{import}/failed-rows/download"
+                    ],
+                    "outputs": [
+                        "filled",
+                        "Gate.getPolicyFor",
+                        "authorize",
+                        "abort_unless",
+                        "import->user.is",
+                        "import.user",
+                        "auth.user",
+                        "auth",
+                        "Writer.createFromFileObject",
+                        "csv.setOutputBOM",
+                        "import->failedRows.first",
+                        "import.failedRows",
+                        "array_keys",
+                        "__",
+                        "csv.insertOne",
+                        "import->failedRows->lazyById.each",
+                        "import->failedRows.lazyById",
+                        "response.streamDownload",
+                        "response",
+                        "csv.chunk",
+                        "flush",
+                        "import.getKey",
+                        "str->beforeLast.remove",
+                        "str.beforeLast",
+                        "str"
+                    ]
+                },
+                {
+                    "id": "process.Filament.Pages.Auth.Login",
+                    "name": "Filament\\Pages\\Auth\\Login",
+                    "inputs": [
+                        "GET|HEAD admin/login"
+                    ],
+                    "outputs": [
+                        "Filament::auth.check",
+                        "Filament.auth",
+                        "redirect.intended",
+                        "redirect",
+                        "Filament.getUrl",
+                        "PhpParser\\Node\\Expr\\PropertyFetch.fill",
+                        "this.rateLimit",
+                        "this.getRateLimitedNotification",
+                        "PhpParser\\Node\\Expr\\PropertyFetch.getState",
+                        "Filament::auth.attempt",
+                        "this.getCredentialsFromFormData",
+                        "this.throwFailureValidationException",
+                        "Filament::auth.user",
+                        "user.canAccessPanel",
+                        "Filament.getCurrentPanel",
+                        "Filament::auth.logout",
+                        "session.regenerate",
+                        "session",
+                        "app",
+                        "Notification::make->title->body.danger",
+                        "Notification::make->title.body",
+                        "Notification::make.title",
+                        "Notification.make",
+                        "__",
+                        "array_key_exists",
+                        "ValidationException.withMessages",
+                        "this.form",
+                        "this->makeForm->schema.statePath",
+                        "this->makeForm.schema",
+                        "this.makeForm",
+                        "this.getEmailFormComponent",
+                        "this.getPasswordFormComponent",
+                        "this.getRememberFormComponent",
+                        "TextInput::make->label->email->required->autocomplete->autofocus.extraInputAttributes",
+                        "TextInput::make->label->email->required->autocomplete.autofocus",
+                        "TextInput::make->label->email->required.autocomplete",
+                        "TextInput::make->label->email.required",
+                        "TextInput::make->label.email",
+                        "TextInput::make.label",
+                        "TextInput.make",
+                        "TextInput::make->label->hint->password->revealable->autocomplete->required.extraInputAttributes",
+                        "TextInput::make->label->hint->password->revealable->autocomplete.required",
+                        "TextInput::make->label->hint->password->revealable.autocomplete",
+                        "TextInput::make->label->hint->password.revealable",
+                        "TextInput::make->label->hint.password",
+                        "TextInput::make->label.hint",
+                        "filament.hasPasswordReset",
+                        "filament",
+                        "Blade.render",
+                        "filament.arePasswordsRevealable",
+                        "Checkbox::make.label",
+                        "Checkbox.make",
+                        "Action::make->link->label.url",
+                        "Action::make->link.label",
+                        "Action::make.link",
+                        "Action.make",
+                        "filament.getRegistrationUrl",
+                        "this.getAuthenticateFormAction",
+                        "Action::make->label.submit",
+                        "Action::make.label"
+                    ]
+                },
+                {
+                    "id": "process.Filament.Http.Controllers.Auth.LogoutController",
+                    "name": "Filament\\Http\\Controllers\\Auth\\LogoutController",
+                    "inputs": [
+                        "POST admin/logout"
+                    ],
+                    "outputs": [
+                        "Filament::auth.logout",
+                        "Filament.auth",
+                        "session.invalidate",
+                        "session",
+                        "session.regenerateToken",
+                        "app"
+                    ]
+                },
+                {
+                    "id": "process.App.Http.Controllers.AuthController.showLogin",
+                    "name": "App\\Http\\Controllers\\AuthController@showLogin",
+                    "inputs": [
+                        "GET|HEAD login"
+                    ],
+                    "outputs": [
+                        "view",
+                        "request.validate",
+                        "Auth.attempt",
+                        "request.boolean",
+                        "request->session.regenerate",
+                        "request.session",
+                        "redirect.intended",
+                        "redirect",
+                        "route",
+                        "back->withErrors.onlyInput",
+                        "back.withErrors",
+                        "back",
+                        "Auth.logout",
+                        "request->session.invalidate",
+                        "request->session.regenerateToken",
+                        "redirect.route"
+                    ]
+                },
+                {
+                    "id": "process.App.Http.Controllers.AuthController.login",
+                    "name": "App\\Http\\Controllers\\AuthController@login",
+                    "inputs": [
+                        "POST login"
+                    ],
+                    "outputs": [
+                        "view",
+                        "request.validate",
+                        "Auth.attempt",
+                        "request.boolean",
+                        "request->session.regenerate",
+                        "request.session",
+                        "redirect.intended",
+                        "redirect",
+                        "route",
+                        "back->withErrors.onlyInput",
+                        "back.withErrors",
+                        "back",
+                        "Auth.logout",
+                        "request->session.invalidate",
+                        "request->session.regenerateToken",
+                        "redirect.route"
+                    ]
+                },
+                {
+                    "id": "process.App.Http.Controllers.AuthController.logout",
+                    "name": "App\\Http\\Controllers\\AuthController@logout",
+                    "inputs": [
+                        "POST logout"
+                    ],
+                    "outputs": [
+                        "view",
+                        "request.validate",
+                        "Auth.attempt",
+                        "request.boolean",
+                        "request->session.regenerate",
+                        "request.session",
+                        "redirect.intended",
+                        "redirect",
+                        "route",
+                        "back->withErrors.onlyInput",
+                        "back.withErrors",
+                        "back",
+                        "Auth.logout",
+                        "request->session.invalidate",
+                        "request->session.regenerateToken",
+                        "redirect.route"
+                    ]
+                }
+            ]
+        },
+        {
+            "key": "product",
+            "label": "Manajemen Produk",
+            "number": "2.0",
+            "processId": "process.group.product",
+            "processes": [
+                {
+                    "id": "process.App.Filament.Resources.KategoriAnggaranResource.Pages.ListKategoriAnggarans",
+                    "name": "App\\Filament\\Resources\\KategoriAnggaranResource\\Pages\\ListKategoriAnggarans",
+                    "inputs": [
+                        "GET|HEAD admin/kategori-anggarans"
+                    ],
+                    "outputs": [
+                        "Actions\\CreateAction.make"
+                    ]
+                },
+                {
+                    "id": "process.App.Filament.Resources.KategoriAnggaranResource.Pages.CreateKategoriAnggaran",
+                    "name": "App\\Filament\\Resources\\KategoriAnggaranResource\\Pages\\CreateKategoriAnggaran",
+                    "inputs": [
+                        "GET|HEAD admin/kategori-anggarans/create"
+                    ],
+                    "outputs": []
+                },
+                {
+                    "id": "process.App.Filament.Resources.KategoriAnggaranResource.Pages.EditKategoriAnggaran",
+                    "name": "App\\Filament\\Resources\\KategoriAnggaranResource\\Pages\\EditKategoriAnggaran",
+                    "inputs": [
+                        "GET|HEAD admin/kategori-anggarans/{record}/edit"
+                    ],
+                    "outputs": [
+                        "Actions\\DeleteAction.make"
+                    ]
+                }
+            ]
+        },
+        {
+            "key": "dashboard-g-e-t-h-e-a-d-admin-filament-icon-resolve-filament-has-top-navigation-filament-get-widgets-this-filter-visible-widgets-this-get-widgets",
+            "label": "Manajemen Dashboard  G E T| H E A D admin __  Filament Icon.resolve  Filament.has Top Navigation  Filament.get Widgets this.filter Visible Widgets this.get Widgets",
+            "number": "3.0",
+            "processId": "process.group.dashboard-g-e-t-h-e-a-d-admin-filament-icon-resolve-filament-has-top-navigation-filament-get-widgets-this-filter-visible-widgets-this-get-widgets",
+            "processes": [
+                {
+                    "id": "process.Filament.Pages.Dashboard",
+                    "name": "Filament\\Pages\\Dashboard",
+                    "inputs": [
+                        "GET|HEAD admin"
+                    ],
+                    "outputs": [
+                        "__",
+                        "FilamentIcon.resolve",
+                        "Filament.hasTopNavigation",
+                        "Filament.getWidgets",
+                        "this.filterVisibleWidgets",
+                        "this.getWidgets"
+                    ]
+                }
+            ]
+        },
+        {
+            "key": "create-action-make",
+            "label": "Manajemen Create Action.make",
+            "number": "4.0",
+            "processId": "process.group.create-action-make",
+            "processes": [
+                {
+                    "id": "process.App.Filament.Resources.DanaMasukResource.Pages.ListDanaMasuks",
+                    "name": "App\\Filament\\Resources\\DanaMasukResource\\Pages\\ListDanaMasuks",
+                    "inputs": [
+                        "GET|HEAD admin/dana-masuks"
+                    ],
+                    "outputs": [
+                        "Actions\\CreateAction.make"
+                    ]
+                },
+                {
+                    "id": "process.App.Filament.Resources.LaporanKeuanganResource.Pages.ListLaporanKeuangans",
+                    "name": "App\\Filament\\Resources\\LaporanKeuanganResource\\Pages\\ListLaporanKeuangans",
+                    "inputs": [
+                        "GET|HEAD admin/laporan-keuangans"
+                    ],
+                    "outputs": [
+                        "Actions\\CreateAction.make"
+                    ]
+                },
+                {
+                    "id": "process.App.Filament.Resources.LaporanWargaResource.Pages.ListLaporanWargas",
+                    "name": "App\\Filament\\Resources\\LaporanWargaResource\\Pages\\ListLaporanWargas",
+                    "inputs": [
+                        "GET|HEAD admin/laporan-wargas"
+                    ],
+                    "outputs": [
+                        "Actions\\CreateAction.make"
+                    ]
+                },
+                {
+                    "id": "process.App.Filament.Resources.PengeluaranResource.Pages.ListPengeluarans",
+                    "name": "App\\Filament\\Resources\\PengeluaranResource\\Pages\\ListPengeluarans",
+                    "inputs": [
+                        "GET|HEAD admin/pengeluarans"
+                    ],
+                    "outputs": [
+                        "Actions\\CreateAction.make"
+                    ]
+                },
+                {
+                    "id": "process.App.Filament.Resources.ProyekKampungResource.Pages.ListProyekKampungs",
+                    "name": "App\\Filament\\Resources\\ProyekKampungResource\\Pages\\ListProyekKampungs",
+                    "inputs": [
+                        "GET|HEAD admin/proyek-kampungs"
+                    ],
+                    "outputs": [
+                        "Actions\\CreateAction.make"
+                    ]
+                },
+                {
+                    "id": "process.App.Filament.Resources.UserResource.Pages.ListUsers",
+                    "name": "App\\Filament\\Resources\\UserResource\\Pages\\ListUsers",
+                    "inputs": [
+                        "GET|HEAD admin/users"
+                    ],
+                    "outputs": [
+                        "Actions\\CreateAction.make"
+                    ]
+                }
+            ]
+        },
+        {
+            "key": "create",
+            "label": "Manajemen create",
+            "number": "5.0",
+            "processId": "process.group.create",
+            "processes": [
+                {
+                    "id": "process.App.Filament.Resources.DanaMasukResource.Pages.CreateDanaMasuk",
+                    "name": "App\\Filament\\Resources\\DanaMasukResource\\Pages\\CreateDanaMasuk",
+                    "inputs": [
+                        "GET|HEAD admin/dana-masuks/create"
+                    ],
+                    "outputs": []
+                },
+                {
+                    "id": "process.App.Filament.Resources.LaporanKeuanganResource.Pages.CreateLaporanKeuangan",
+                    "name": "App\\Filament\\Resources\\LaporanKeuanganResource\\Pages\\CreateLaporanKeuangan",
+                    "inputs": [
+                        "GET|HEAD admin/laporan-keuangans/create"
+                    ],
+                    "outputs": []
+                },
+                {
+                    "id": "process.App.Filament.Resources.PengeluaranResource.Pages.CreatePengeluaran",
+                    "name": "App\\Filament\\Resources\\PengeluaranResource\\Pages\\CreatePengeluaran",
+                    "inputs": [
+                        "GET|HEAD admin/pengeluarans/create"
+                    ],
+                    "outputs": []
+                },
+                {
+                    "id": "process.App.Filament.Resources.ProyekKampungResource.Pages.CreateProyekKampung",
+                    "name": "App\\Filament\\Resources\\ProyekKampungResource\\Pages\\CreateProyekKampung",
+                    "inputs": [
+                        "GET|HEAD admin/proyek-kampungs/create"
+                    ],
+                    "outputs": []
+                },
+                {
+                    "id": "process.App.Filament.Resources.UserResource.Pages.CreateUser",
+                    "name": "App\\Filament\\Resources\\UserResource\\Pages\\CreateUser",
+                    "inputs": [
+                        "GET|HEAD admin/users/create"
+                    ],
+                    "outputs": []
+                }
+            ]
+        },
+        {
+            "key": "delete-action-make",
+            "label": "Manajemen Delete Action.make",
+            "number": "6.0",
+            "processId": "process.group.delete-action-make",
+            "processes": [
+                {
+                    "id": "process.App.Filament.Resources.DanaMasukResource.Pages.EditDanaMasuk",
+                    "name": "App\\Filament\\Resources\\DanaMasukResource\\Pages\\EditDanaMasuk",
+                    "inputs": [
+                        "GET|HEAD admin/dana-masuks/{record}/edit"
+                    ],
+                    "outputs": [
+                        "Actions\\DeleteAction.make"
+                    ]
+                },
+                {
+                    "id": "process.App.Filament.Resources.LaporanKeuanganResource.Pages.EditLaporanKeuangan",
+                    "name": "App\\Filament\\Resources\\LaporanKeuanganResource\\Pages\\EditLaporanKeuangan",
+                    "inputs": [
+                        "GET|HEAD admin/laporan-keuangans/{record}/edit"
+                    ],
+                    "outputs": [
+                        "Actions\\DeleteAction.make"
+                    ]
+                },
+                {
+                    "id": "process.App.Filament.Resources.LaporanWargaResource.Pages.EditLaporanWarga",
+                    "name": "App\\Filament\\Resources\\LaporanWargaResource\\Pages\\EditLaporanWarga",
+                    "inputs": [
+                        "GET|HEAD admin/laporan-wargas/{record}/edit"
+                    ],
+                    "outputs": [
+                        "Actions\\DeleteAction.make"
+                    ]
+                },
+                {
+                    "id": "process.App.Filament.Resources.PengeluaranResource.Pages.EditPengeluaran",
+                    "name": "App\\Filament\\Resources\\PengeluaranResource\\Pages\\EditPengeluaran",
+                    "inputs": [
+                        "GET|HEAD admin/pengeluarans/{record}/edit"
+                    ],
+                    "outputs": [
+                        "Actions\\DeleteAction.make"
+                    ]
+                },
+                {
+                    "id": "process.App.Filament.Resources.ProyekKampungResource.Pages.EditProyekKampung",
+                    "name": "App\\Filament\\Resources\\ProyekKampungResource\\Pages\\EditProyekKampung",
+                    "inputs": [
+                        "GET|HEAD admin/proyek-kampungs/{record}/edit"
+                    ],
+                    "outputs": [
+                        "Actions\\DeleteAction.make"
+                    ]
+                },
+                {
+                    "id": "process.App.Filament.Resources.UserResource.Pages.EditUser",
+                    "name": "App\\Filament\\Resources\\UserResource\\Pages\\EditUser",
+                    "inputs": [
+                        "GET|HEAD admin/users/{record}/edit"
+                    ],
+                    "outputs": [
+                        "Actions\\DeleteAction.make"
+                    ]
+                }
+            ]
+        },
+        {
+            "key": "create-now-format-now-str-upper-str-random",
+            "label": "Manajemen create now.format now  Str.upper  Str.random",
+            "number": "7.0",
+            "processId": "process.group.create-now-format-now-str-upper-str-random",
+            "processes": [
+                {
+                    "id": "process.App.Filament.Resources.LaporanWargaResource.Pages.CreateLaporanWarga",
+                    "name": "App\\Filament\\Resources\\LaporanWargaResource\\Pages\\CreateLaporanWarga",
+                    "inputs": [
+                        "GET|HEAD admin/laporan-wargas/create"
+                    ],
+                    "outputs": [
+                        "now.format",
+                        "now",
+                        "Str.upper",
+                        "Str.random"
+                    ]
+                }
+            ]
+        },
+        {
+            "key": "handle-requests",
+            "label": "Manajemen Handle Requests",
+            "number": "8.0",
+            "processId": "process.group.handle-requests",
+            "processes": [
+                {
+                    "id": "process.Livewire.Mechanisms.HandleRequests.HandleRequests.handleUpdate",
+                    "name": "Livewire\\Mechanisms\\HandleRequests\\HandleRequests@handleUpdate",
+                    "inputs": [
+                        "POST livewire/update"
+                    ],
+                    "outputs": [
+                        "this.updateRouteExists",
+                        "app.setUpdateRoute",
+                        "app",
+                        "Route::post->middleware.name",
+                        "Route::post.middleware",
+                        "Route.post",
+                        "this.skipRequestPayloadTamperingMiddleware",
+                        "this.findUpdateRoute",
+                        "str.start",
+                        "str",
+                        "app.toRoute",
+                        "Route::getRoutes.getRoutes",
+                        "Route.getRoutes",
+                        "str.endsWith",
+                        "route.getName",
+                        "Illuminate\\Foundation\\Http\\Middleware\\ConvertEmptyStringsToNull.skipWhen",
+                        "this.isLivewireRequest",
+                        "Illuminate\\Foundation\\Http\\Middleware\\TrimStrings.skipWhen",
+                        "callback",
+                        "route.name",
+                        "request.hasHeader",
+                        "request",
+                        "request.route",
+                        "route.named",
+                        "is_array",
+                        "abort",
+                        "is_string",
+                        "trigger",
+                        "finish",
+                        "json_decode",
+                        "app.update",
+                        "config",
+                        "json_encode",
+                        "SupportScriptsAndAssets.getAssets"
+                    ]
+                }
+            ]
+        },
+        {
+            "key": "frontend-assets",
+            "label": "Manajemen Frontend Assets",
+            "number": "9.0",
+            "processId": "process.group.frontend-assets",
+            "processes": [
+                {
+                    "id": "process.Livewire.Mechanisms.FrontendAssets.FrontendAssets.returnJavaScriptAsFile",
+                    "name": "Livewire\\Mechanisms\\FrontendAssets\\FrontendAssets@returnJavaScriptAsFile",
+                    "inputs": [
+                        "GET|HEAD livewire/livewire.js"
+                    ],
+                    "outputs": [
+                        "app.setScriptRoute",
+                        "app",
+                        "config",
+                        "Route.get",
+                        "Blade.directive",
+                        "app.provide",
+                        "this.publishes",
+                        "public_path",
+                        "on",
+                        "array_merge",
+                        "callback",
+                        "Utils.pretendResponseIsFile",
+                        "static.nonce",
+                        "static.minify",
+                        "static.js",
+                        "implode",
+                        "rtrim",
+                        "str.when",
+                        "str",
+                        "str.isUrl",
+                        "url.start",
+                        "file_exists",
+                        "json_decode",
+                        "file_get_contents",
+                        "app.has",
+                        "csrf_token",
+                        "static.usePublishedAssetsIfAvailable",
+                        "app.getUpdateUri",
+                        "Utils.stringifyHtmlAttributes",
+                        "json_encode",
+                        "app.isRunningServerless",
+                        "url",
+                        "preg_replace",
+                        "Vite.cspNonce"
+                    ]
+                },
+                {
+                    "id": "process.Livewire.Mechanisms.FrontendAssets.FrontendAssets.maps",
+                    "name": "Livewire\\Mechanisms\\FrontendAssets\\FrontendAssets@maps",
+                    "inputs": [
+                        "GET|HEAD livewire/livewire.min.js.map"
+                    ],
+                    "outputs": [
+                        "app.setScriptRoute",
+                        "app",
+                        "config",
+                        "Route.get",
+                        "Blade.directive",
+                        "app.provide",
+                        "this.publishes",
+                        "public_path",
+                        "on",
+                        "array_merge",
+                        "callback",
+                        "Utils.pretendResponseIsFile",
+                        "static.nonce",
+                        "static.minify",
+                        "static.js",
+                        "implode",
+                        "rtrim",
+                        "str.when",
+                        "str",
+                        "str.isUrl",
+                        "url.start",
+                        "file_exists",
+                        "json_decode",
+                        "file_get_contents",
+                        "app.has",
+                        "csrf_token",
+                        "static.usePublishedAssetsIfAvailable",
+                        "app.getUpdateUri",
+                        "Utils.stringifyHtmlAttributes",
+                        "json_encode",
+                        "app.isRunningServerless",
+                        "url",
+                        "preg_replace",
+                        "Vite.cspNonce"
+                    ]
+                }
+            ]
+        },
+        {
+            "key": "file-upload",
+            "label": "Manajemen File Upload",
+            "number": "10.0",
+            "processId": "process.group.file-upload",
+            "processes": [
+                {
+                    "id": "process.Livewire.Features.SupportFileUploads.FileUploadController.handle",
+                    "name": "Livewire\\Features\\SupportFileUploads\\FileUploadController@handle",
+                    "inputs": [
+                        "POST livewire/upload-file"
+                    ],
+                    "outputs": [
+                        "FileUploadConfiguration.middleware",
+                        "array_reverse",
+                        "in_array",
+                        "array_unshift",
+                        "array_map",
+                        "abort_unless",
+                        "request.hasValidSignature",
+                        "request",
+                        "FileUploadConfiguration.disk",
+                        "this.validateAndStore",
+                        "Validator::make.validate",
+                        "Validator.make",
+                        "FileUploadConfiguration.rules",
+                        "collect.map",
+                        "collect",
+                        "TemporaryUploadedFile.generateHashNameWithOriginalNameEmbedded",
+                        "file.storeAs",
+                        "FileUploadConfiguration.path",
+                        "fileHashPaths.map",
+                        "str_replace"
+                    ]
+                }
+            ]
+        },
+        {
+            "key": "file-preview",
+            "label": "Manajemen File Preview",
+            "number": "11.0",
+            "processId": "process.group.file-preview",
+            "processes": [
+                {
+                    "id": "process.Livewire.Features.SupportFileUploads.FilePreviewController.handle",
+                    "name": "Livewire\\Features\\SupportFileUploads\\FilePreviewController@handle",
+                    "inputs": [
+                        "GET|HEAD livewire/preview-file/{filename}"
+                    ],
+                    "outputs": [
+                        "array_map",
+                        "abort_unless",
+                        "request.hasValidSignature",
+                        "request",
+                        "Utils.pretendPreviewResponseIsPreviewFile"
+                    ]
+                }
+            ]
+        },
+        {
+            "key": "public-page",
+            "label": "Manajemen Public Page",
+            "number": "12.0",
+            "processId": "process.group.public-page",
+            "processes": [
+                {
+                    "id": "process.App.Http.Controllers.PublicPageController.transparency",
+                    "name": "App\\Http\\Controllers\\PublicPageController@transparency",
+                    "inputs": [
+                        "GET|HEAD transparansi"
+                    ],
+                    "outputs": [
+                        "request.query",
+                        "collect->when->values.all",
+                        "collect->when.values",
+                        "collect.when",
+                        "collect",
+                        "this.projects",
+                        "items.where",
+                        "view",
+                        "this.stats",
+                        "this.posts",
+                        "collect.firstWhere",
+                        "abort_if",
+                        "this.minimalPdf",
+                        "response.streamDownload",
+                        "response",
+                        "str_replace",
+                        "strlen",
+                        "count",
+                        "array_slice",
+                        "str_pad"
+                    ]
+                },
+                {
+                    "id": "process.App.Http.Controllers.PublicPageController.news",
+                    "name": "App\\Http\\Controllers\\PublicPageController@news",
+                    "inputs": [
+                        "GET|HEAD berita"
+                    ],
+                    "outputs": [
+                        "request.query",
+                        "collect->when->values.all",
+                        "collect->when.values",
+                        "collect.when",
+                        "collect",
+                        "this.projects",
+                        "items.where",
+                        "view",
+                        "this.stats",
+                        "this.posts",
+                        "collect.firstWhere",
+                        "abort_if",
+                        "this.minimalPdf",
+                        "response.streamDownload",
+                        "response",
+                        "str_replace",
+                        "strlen",
+                        "count",
+                        "array_slice",
+                        "str_pad"
+                    ]
+                },
+                {
+                    "id": "process.App.Http.Controllers.PublicPageController.newsDetail",
+                    "name": "App\\Http\\Controllers\\PublicPageController@newsDetail",
+                    "inputs": [
+                        "GET|HEAD berita/{slug}"
+                    ],
+                    "outputs": [
+                        "request.query",
+                        "collect->when->values.all",
+                        "collect->when.values",
+                        "collect.when",
+                        "collect",
+                        "this.projects",
+                        "items.where",
+                        "view",
+                        "this.stats",
+                        "this.posts",
+                        "collect.firstWhere",
+                        "abort_if",
+                        "this.minimalPdf",
+                        "response.streamDownload",
+                        "response",
+                        "str_replace",
+                        "strlen",
+                        "count",
+                        "array_slice",
+                        "str_pad"
+                    ]
+                },
+                {
+                    "id": "process.App.Http.Controllers.PublicPageController.downloadPdf",
+                    "name": "App\\Http\\Controllers\\PublicPageController@downloadPdf",
+                    "inputs": [
+                        "GET|HEAD laporan/pdf"
+                    ],
+                    "outputs": [
+                        "request.query",
+                        "collect->when->values.all",
+                        "collect->when.values",
+                        "collect.when",
+                        "collect",
+                        "this.projects",
+                        "items.where",
+                        "view",
+                        "this.stats",
+                        "this.posts",
+                        "collect.firstWhere",
+                        "abort_if",
+                        "this.minimalPdf",
+                        "response.streamDownload",
+                        "response",
+                        "str_replace",
+                        "strlen",
+                        "count",
+                        "array_slice",
+                        "str_pad"
+                    ]
+                },
+                {
+                    "id": "process.App.Http.Controllers.PublicPageController.contact",
+                    "name": "App\\Http\\Controllers\\PublicPageController@contact",
+                    "inputs": [
+                        "GET|HEAD kontak"
+                    ],
+                    "outputs": [
+                        "request.query",
+                        "collect->when->values.all",
+                        "collect->when.values",
+                        "collect.when",
+                        "collect",
+                        "this.projects",
+                        "items.where",
+                        "view",
+                        "this.stats",
+                        "this.posts",
+                        "collect.firstWhere",
+                        "abort_if",
+                        "this.minimalPdf",
+                        "response.streamDownload",
+                        "response",
+                        "str_replace",
+                        "strlen",
+                        "count",
+                        "array_slice",
+                        "str_pad"
+                    ]
+                },
+                {
+                    "id": "process.App.Http.Controllers.PublicPageController.support",
+                    "name": "App\\Http\\Controllers\\PublicPageController@support",
+                    "inputs": [
+                        "GET|HEAD support"
+                    ],
+                    "outputs": [
+                        "request.query",
+                        "collect->when->values.all",
+                        "collect->when.values",
+                        "collect.when",
+                        "collect",
+                        "this.projects",
+                        "items.where",
+                        "view",
+                        "this.stats",
+                        "this.posts",
+                        "collect.firstWhere",
+                        "abort_if",
+                        "this.minimalPdf",
+                        "response.streamDownload",
+                        "response",
+                        "str_replace",
+                        "strlen",
+                        "count",
+                        "array_slice",
+                        "str_pad"
+                    ]
+                },
+                {
+                    "id": "process.App.Http.Controllers.PublicPageController.forgotPassword",
+                    "name": "App\\Http\\Controllers\\PublicPageController@forgotPassword",
+                    "inputs": [
+                        "GET|HEAD forgot-password"
+                    ],
+                    "outputs": [
+                        "request.query",
+                        "collect->when->values.all",
+                        "collect->when.values",
+                        "collect.when",
+                        "collect",
+                        "this.projects",
+                        "items.where",
+                        "view",
+                        "this.stats",
+                        "this.posts",
+                        "collect.firstWhere",
+                        "abort_if",
+                        "this.minimalPdf",
+                        "response.streamDownload",
+                        "response",
+                        "str_replace",
+                        "strlen",
+                        "count",
+                        "array_slice",
+                        "str_pad"
+                    ]
+                },
+                {
+                    "id": "process.App.Http.Controllers.PublicPageController.privacy",
+                    "name": "App\\Http\\Controllers\\PublicPageController@privacy",
+                    "inputs": [
+                        "GET|HEAD kebijakan-privasi"
+                    ],
+                    "outputs": [
+                        "request.query",
+                        "collect->when->values.all",
+                        "collect->when.values",
+                        "collect.when",
+                        "collect",
+                        "this.projects",
+                        "items.where",
+                        "view",
+                        "this.stats",
+                        "this.posts",
+                        "collect.firstWhere",
+                        "abort_if",
+                        "this.minimalPdf",
+                        "response.streamDownload",
+                        "response",
+                        "str_replace",
+                        "strlen",
+                        "count",
+                        "array_slice",
+                        "str_pad"
+                    ]
+                },
+                {
+                    "id": "process.App.Http.Controllers.PublicPageController.sitemap",
+                    "name": "App\\Http\\Controllers\\PublicPageController@sitemap",
+                    "inputs": [
+                        "GET|HEAD peta-situs"
+                    ],
+                    "outputs": [
+                        "request.query",
+                        "collect->when->values.all",
+                        "collect->when.values",
+                        "collect.when",
+                        "collect",
+                        "this.projects",
+                        "items.where",
+                        "view",
+                        "this.stats",
+                        "this.posts",
+                        "collect.firstWhere",
+                        "abort_if",
+                        "this.minimalPdf",
+                        "response.streamDownload",
+                        "response",
+                        "str_replace",
+                        "strlen",
+                        "count",
+                        "array_slice",
+                        "str_pad"
+                    ]
+                }
+            ]
+        },
+        {
+            "key": "laporan-warga",
+            "label": "Manajemen Laporan Warga",
+            "number": "13.0",
+            "processId": "process.group.laporan-warga",
+            "processes": [
+                {
+                    "id": "process.App.Http.Controllers.LaporanWargaController.create",
+                    "name": "App\\Http\\Controllers\\LaporanWargaController@create",
+                    "inputs": [
+                        "GET|HEAD laporan-warga"
+                    ],
+                    "outputs": [
+                        "view",
+                        "request.validate",
+                        "request.hasFile",
+                        "request->file.store",
+                        "request.file",
+                        "now.format",
+                        "now",
+                        "Str.upper",
+                        "Str.random",
+                        "LaporanWarga::query.create",
+                        "LaporanWarga.query",
+                        "redirect->route.with",
+                        "redirect.route",
+                        "redirect"
+                    ]
+                },
+                {
+                    "id": "process.App.Http.Controllers.LaporanWargaController.store",
+                    "name": "App\\Http\\Controllers\\LaporanWargaController@store",
+                    "inputs": [
+                        "POST laporan-warga"
+                    ],
+                    "outputs": [
+                        "view",
+                        "request.validate",
+                        "request.hasFile",
+                        "request->file.store",
+                        "request.file",
+                        "now.format",
+                        "now",
+                        "Str.upper",
+                        "Str.random",
+                        "LaporanWarga::query.create",
+                        "LaporanWarga.query",
+                        "redirect->route.with",
+                        "redirect.route",
+                        "redirect"
+                    ]
+                }
+            ]
+        },
+        {
+            "key": "admin-page",
+            "label": "Manajemen Admin Page",
+            "number": "14.0",
+            "processId": "process.group.admin-page",
+            "processes": [
+                {
+                    "id": "process.App.Http.Controllers.AdminPageController.dashboard",
+                    "name": "App\\Http\\Controllers\\AdminPageController@dashboard",
+                    "inputs": [
+                        "GET|HEAD dashboard"
+                    ],
+                    "outputs": [
+                        "view"
+                    ]
+                },
+                {
+                    "id": "process.App.Http.Controllers.AdminPageController.funds",
+                    "name": "App\\Http\\Controllers\\AdminPageController@funds",
+                    "inputs": [
+                        "GET|HEAD dashboard/dana"
+                    ],
+                    "outputs": [
+                        "view"
+                    ]
+                },
+                {
+                    "id": "process.App.Http.Controllers.AdminPageController.projects",
+                    "name": "App\\Http\\Controllers\\AdminPageController@projects",
+                    "inputs": [
+                        "GET|HEAD dashboard/proyek"
+                    ],
+                    "outputs": [
+                        "view"
+                    ]
+                },
+                {
+                    "id": "process.App.Http.Controllers.AdminPageController.reports",
+                    "name": "App\\Http\\Controllers\\AdminPageController@reports",
+                    "inputs": [
+                        "GET|HEAD dashboard/laporan"
+                    ],
+                    "outputs": [
+                        "view"
+                    ]
+                },
+                {
+                    "id": "process.App.Http.Controllers.AdminPageController.users",
+                    "name": "App\\Http\\Controllers\\AdminPageController@users",
+                    "inputs": [
+                        "GET|HEAD dashboard/pengguna"
+                    ],
+                    "outputs": [
+                        "view"
+                    ]
+                }
+            ]
+        }
+    ],
+    "diagrams": [
+        {
+            "id": "level-2-authentication",
+            "level": 2,
+            "title": "Level 2 Autentikasi",
+            "parentProcessId": "process.group.authentication",
+            "childLevelIds": [],
+            "processes": [
+                {
+                    "id": "process.level2.authentication.1",
+                    "number": "1.1",
+                    "name": "Input Data Login",
+                    "label": "1.1 Input Data Login",
+                    "level": 2,
+                    "parentId": "process.group.authentication",
+                    "sourceProcessIds": [
+                        "process.Filament.Actions.Exports.Http.Controllers.DownloadExport"
+                    ],
+                    "inputs": [
+                        "GET|HEAD filament/exports/{export}/download"
+                    ],
+                    "outputs": []
+                },
+                {
+                    "id": "process.level2.authentication.2",
+                    "number": "1.2",
+                    "name": "Validasi Login",
+                    "label": "1.2 Validasi Login",
+                    "level": 2,
+                    "parentId": "process.group.authentication",
+                    "sourceProcessIds": [
+                        "process.Filament.Actions.Exports.Http.Controllers.DownloadExport"
+                    ],
+                    "inputs": [],
+                    "outputs": []
+                },
+                {
+                    "id": "process.level2.authentication.3",
+                    "number": "1.3",
+                    "name": "Buat Sesi User",
+                    "label": "1.3 Buat Sesi User",
+                    "level": 2,
+                    "parentId": "process.group.authentication",
+                    "sourceProcessIds": [
+                        "process.Filament.Actions.Exports.Http.Controllers.DownloadExport"
+                    ],
+                    "inputs": [],
+                    "outputs": []
+                },
+                {
+                    "id": "process.level2.authentication.4",
+                    "number": "1.4",
+                    "name": "Kirim Status Login",
+                    "label": "1.4 Kirim Status Login",
+                    "level": 2,
+                    "parentId": "process.group.authentication",
+                    "sourceProcessIds": [
+                        "process.Filament.Actions.Exports.Http.Controllers.DownloadExport"
+                    ],
+                    "inputs": [],
+                    "outputs": [
+                        "filled",
+                        "Gate.getPolicyFor",
+                        "authorize",
+                        "abort_unless",
+                        "export->user.is",
+                        "export.user",
+                        "auth.user",
+                        "auth",
+                        "this.resolveFormatFromRequest",
+                        "PhpParser\\Node\\Expr\\MethodCall",
+                        "format.getDownloader",
+                        "ExportFormat.tryFrom",
+                        "request.query"
+                    ]
+                },
+                {
+                    "id": "process.level2.authentication.5",
+                    "number": "1.5",
+                    "name": "Input Data Login",
+                    "label": "1.5 Input Data Login",
+                    "level": 2,
+                    "parentId": "process.group.authentication",
+                    "sourceProcessIds": [
+                        "process.Filament.Actions.Imports.Http.Controllers.DownloadImportFailureCsv"
+                    ],
+                    "inputs": [
+                        "GET|HEAD filament/imports/{import}/failed-rows/download"
+                    ],
+                    "outputs": []
+                },
+                {
+                    "id": "process.level2.authentication.6",
+                    "number": "1.6",
+                    "name": "Validasi Login",
+                    "label": "1.6 Validasi Login",
+                    "level": 2,
+                    "parentId": "process.group.authentication",
+                    "sourceProcessIds": [
+                        "process.Filament.Actions.Imports.Http.Controllers.DownloadImportFailureCsv"
+                    ],
+                    "inputs": [],
+                    "outputs": []
+                },
+                {
+                    "id": "process.level2.authentication.7",
+                    "number": "1.7",
+                    "name": "Buat Sesi User",
+                    "label": "1.7 Buat Sesi User",
+                    "level": 2,
+                    "parentId": "process.group.authentication",
+                    "sourceProcessIds": [
+                        "process.Filament.Actions.Imports.Http.Controllers.DownloadImportFailureCsv"
+                    ],
+                    "inputs": [],
+                    "outputs": []
+                },
+                {
+                    "id": "process.level2.authentication.8",
+                    "number": "1.8",
+                    "name": "Kirim Status Login",
+                    "label": "1.8 Kirim Status Login",
+                    "level": 2,
+                    "parentId": "process.group.authentication",
+                    "sourceProcessIds": [
+                        "process.Filament.Actions.Imports.Http.Controllers.DownloadImportFailureCsv"
+                    ],
+                    "inputs": [],
+                    "outputs": [
+                        "filled",
+                        "Gate.getPolicyFor",
+                        "authorize",
+                        "abort_unless",
+                        "import->user.is",
+                        "import.user",
+                        "auth.user",
+                        "auth",
+                        "Writer.createFromFileObject",
+                        "csv.setOutputBOM",
+                        "import->failedRows.first",
+                        "import.failedRows",
+                        "array_keys",
+                        "__",
+                        "csv.insertOne",
+                        "import->failedRows->lazyById.each",
+                        "import->failedRows.lazyById",
+                        "response.streamDownload",
+                        "response",
+                        "csv.chunk",
+                        "flush",
+                        "import.getKey",
+                        "str->beforeLast.remove",
+                        "str.beforeLast",
+                        "str"
+                    ]
+                },
+                {
+                    "id": "process.level2.authentication.9",
+                    "number": "1.9",
+                    "name": "Input Data Login",
+                    "label": "1.9 Input Data Login",
+                    "level": 2,
+                    "parentId": "process.group.authentication",
+                    "sourceProcessIds": [
+                        "process.Filament.Pages.Auth.Login"
+                    ],
+                    "inputs": [
+                        "GET|HEAD admin/login"
+                    ],
+                    "outputs": []
+                },
+                {
+                    "id": "process.level2.authentication.10",
+                    "number": "1.10",
+                    "name": "Validasi Login",
+                    "label": "1.10 Validasi Login",
+                    "level": 2,
+                    "parentId": "process.group.authentication",
+                    "sourceProcessIds": [
+                        "process.Filament.Pages.Auth.Login"
+                    ],
+                    "inputs": [],
+                    "outputs": []
+                },
+                {
+                    "id": "process.level2.authentication.11",
+                    "number": "1.11",
+                    "name": "Buat Sesi User",
+                    "label": "1.11 Buat Sesi User",
+                    "level": 2,
+                    "parentId": "process.group.authentication",
+                    "sourceProcessIds": [
+                        "process.Filament.Pages.Auth.Login"
+                    ],
+                    "inputs": [],
+                    "outputs": []
+                },
+                {
+                    "id": "process.level2.authentication.12",
+                    "number": "1.12",
+                    "name": "Kirim Status Login",
+                    "label": "1.12 Kirim Status Login",
+                    "level": 2,
+                    "parentId": "process.group.authentication",
+                    "sourceProcessIds": [
+                        "process.Filament.Pages.Auth.Login"
+                    ],
+                    "inputs": [],
+                    "outputs": [
+                        "Filament::auth.check",
+                        "Filament.auth",
+                        "redirect.intended",
+                        "redirect",
+                        "Filament.getUrl",
+                        "PhpParser\\Node\\Expr\\PropertyFetch.fill",
+                        "this.rateLimit",
+                        "this.getRateLimitedNotification",
+                        "PhpParser\\Node\\Expr\\PropertyFetch.getState",
+                        "Filament::auth.attempt",
+                        "this.getCredentialsFromFormData",
+                        "this.throwFailureValidationException",
+                        "Filament::auth.user",
+                        "user.canAccessPanel",
+                        "Filament.getCurrentPanel",
+                        "Filament::auth.logout",
+                        "session.regenerate",
+                        "session",
+                        "app",
+                        "Notification::make->title->body.danger",
+                        "Notification::make->title.body",
+                        "Notification::make.title",
+                        "Notification.make",
+                        "__",
+                        "array_key_exists",
+                        "ValidationException.withMessages",
+                        "this.form",
+                        "this->makeForm->schema.statePath",
+                        "this->makeForm.schema",
+                        "this.makeForm",
+                        "this.getEmailFormComponent",
+                        "this.getPasswordFormComponent",
+                        "this.getRememberFormComponent",
+                        "TextInput::make->label->email->required->autocomplete->autofocus.extraInputAttributes",
+                        "TextInput::make->label->email->required->autocomplete.autofocus",
+                        "TextInput::make->label->email->required.autocomplete",
+                        "TextInput::make->label->email.required",
+                        "TextInput::make->label.email",
+                        "TextInput::make.label",
+                        "TextInput.make",
+                        "TextInput::make->label->hint->password->revealable->autocomplete->required.extraInputAttributes",
+                        "TextInput::make->label->hint->password->revealable->autocomplete.required",
+                        "TextInput::make->label->hint->password->revealable.autocomplete",
+                        "TextInput::make->label->hint->password.revealable",
+                        "TextInput::make->label->hint.password",
+                        "TextInput::make->label.hint",
+                        "filament.hasPasswordReset",
+                        "filament",
+                        "Blade.render",
+                        "filament.arePasswordsRevealable",
+                        "Checkbox::make.label",
+                        "Checkbox.make",
+                        "Action::make->link->label.url",
+                        "Action::make->link.label",
+                        "Action::make.link",
+                        "Action.make",
+                        "filament.getRegistrationUrl",
+                        "this.getAuthenticateFormAction",
+                        "Action::make->label.submit",
+                        "Action::make.label"
+                    ]
+                },
+                {
+                    "id": "process.level2.authentication.13",
+                    "number": "1.13",
+                    "name": "Input Data Login",
+                    "label": "1.13 Input Data Login",
+                    "level": 2,
+                    "parentId": "process.group.authentication",
+                    "sourceProcessIds": [
+                        "process.Filament.Http.Controllers.Auth.LogoutController"
+                    ],
+                    "inputs": [
+                        "POST admin/logout"
+                    ],
+                    "outputs": []
+                },
+                {
+                    "id": "process.level2.authentication.14",
+                    "number": "1.14",
+                    "name": "Validasi Login",
+                    "label": "1.14 Validasi Login",
+                    "level": 2,
+                    "parentId": "process.group.authentication",
+                    "sourceProcessIds": [
+                        "process.Filament.Http.Controllers.Auth.LogoutController"
+                    ],
+                    "inputs": [],
+                    "outputs": []
+                },
+                {
+                    "id": "process.level2.authentication.15",
+                    "number": "1.15",
+                    "name": "Buat Sesi User",
+                    "label": "1.15 Buat Sesi User",
+                    "level": 2,
+                    "parentId": "process.group.authentication",
+                    "sourceProcessIds": [
+                        "process.Filament.Http.Controllers.Auth.LogoutController"
+                    ],
+                    "inputs": [],
+                    "outputs": []
+                },
+                {
+                    "id": "process.level2.authentication.16",
+                    "number": "1.16",
+                    "name": "Kirim Status Login",
+                    "label": "1.16 Kirim Status Login",
+                    "level": 2,
+                    "parentId": "process.group.authentication",
+                    "sourceProcessIds": [
+                        "process.Filament.Http.Controllers.Auth.LogoutController"
+                    ],
+                    "inputs": [],
+                    "outputs": [
+                        "Filament::auth.logout",
+                        "Filament.auth",
+                        "session.invalidate",
+                        "session",
+                        "session.regenerateToken",
+                        "app"
+                    ]
+                },
+                {
+                    "id": "process.level2.authentication.17",
+                    "number": "1.17",
+                    "name": "Input Data Login",
+                    "label": "1.17 Input Data Login",
+                    "level": 2,
+                    "parentId": "process.group.authentication",
+                    "sourceProcessIds": [
+                        "process.App.Http.Controllers.AuthController.showLogin"
+                    ],
+                    "inputs": [
+                        "GET|HEAD login"
+                    ],
+                    "outputs": []
+                },
+                {
+                    "id": "process.level2.authentication.18",
+                    "number": "1.18",
+                    "name": "Validasi Login",
+                    "label": "1.18 Validasi Login",
+                    "level": 2,
+                    "parentId": "process.group.authentication",
+                    "sourceProcessIds": [
+                        "process.App.Http.Controllers.AuthController.showLogin"
+                    ],
+                    "inputs": [],
+                    "outputs": []
+                },
+                {
+                    "id": "process.level2.authentication.19",
+                    "number": "1.19",
+                    "name": "Buat Sesi User",
+                    "label": "1.19 Buat Sesi User",
+                    "level": 2,
+                    "parentId": "process.group.authentication",
+                    "sourceProcessIds": [
+                        "process.App.Http.Controllers.AuthController.showLogin"
+                    ],
+                    "inputs": [],
+                    "outputs": []
+                },
+                {
+                    "id": "process.level2.authentication.20",
+                    "number": "1.20",
+                    "name": "Kirim Status Login",
+                    "label": "1.20 Kirim Status Login",
+                    "level": 2,
+                    "parentId": "process.group.authentication",
+                    "sourceProcessIds": [
+                        "process.App.Http.Controllers.AuthController.showLogin"
+                    ],
+                    "inputs": [],
+                    "outputs": [
+                        "view",
+                        "request.validate",
+                        "Auth.attempt",
+                        "request.boolean",
+                        "request->session.regenerate",
+                        "request.session",
+                        "redirect.intended",
+                        "redirect",
+                        "route",
+                        "back->withErrors.onlyInput",
+                        "back.withErrors",
+                        "back",
+                        "Auth.logout",
+                        "request->session.invalidate",
+                        "request->session.regenerateToken",
+                        "redirect.route"
+                    ]
+                },
+                {
+                    "id": "process.level2.authentication.21",
+                    "number": "1.21",
+                    "name": "Input Data Login",
+                    "label": "1.21 Input Data Login",
+                    "level": 2,
+                    "parentId": "process.group.authentication",
+                    "sourceProcessIds": [
+                        "process.App.Http.Controllers.AuthController.login"
+                    ],
+                    "inputs": [
+                        "POST login"
+                    ],
+                    "outputs": []
+                },
+                {
+                    "id": "process.level2.authentication.22",
+                    "number": "1.22",
+                    "name": "Validasi Login",
+                    "label": "1.22 Validasi Login",
+                    "level": 2,
+                    "parentId": "process.group.authentication",
+                    "sourceProcessIds": [
+                        "process.App.Http.Controllers.AuthController.login"
+                    ],
+                    "inputs": [],
+                    "outputs": []
+                },
+                {
+                    "id": "process.level2.authentication.23",
+                    "number": "1.23",
+                    "name": "Buat Sesi User",
+                    "label": "1.23 Buat Sesi User",
+                    "level": 2,
+                    "parentId": "process.group.authentication",
+                    "sourceProcessIds": [
+                        "process.App.Http.Controllers.AuthController.login"
+                    ],
+                    "inputs": [],
+                    "outputs": []
+                },
+                {
+                    "id": "process.level2.authentication.24",
+                    "number": "1.24",
+                    "name": "Kirim Status Login",
+                    "label": "1.24 Kirim Status Login",
+                    "level": 2,
+                    "parentId": "process.group.authentication",
+                    "sourceProcessIds": [
+                        "process.App.Http.Controllers.AuthController.login"
+                    ],
+                    "inputs": [],
+                    "outputs": [
+                        "view",
+                        "request.validate",
+                        "Auth.attempt",
+                        "request.boolean",
+                        "request->session.regenerate",
+                        "request.session",
+                        "redirect.intended",
+                        "redirect",
+                        "route",
+                        "back->withErrors.onlyInput",
+                        "back.withErrors",
+                        "back",
+                        "Auth.logout",
+                        "request->session.invalidate",
+                        "request->session.regenerateToken",
+                        "redirect.route"
+                    ]
+                },
+                {
+                    "id": "process.level2.authentication.25",
+                    "number": "1.25",
+                    "name": "Input Data Login",
+                    "label": "1.25 Input Data Login",
+                    "level": 2,
+                    "parentId": "process.group.authentication",
+                    "sourceProcessIds": [
+                        "process.App.Http.Controllers.AuthController.logout"
+                    ],
+                    "inputs": [
+                        "POST logout"
+                    ],
+                    "outputs": []
+                },
+                {
+                    "id": "process.level2.authentication.26",
+                    "number": "1.26",
+                    "name": "Validasi Login",
+                    "label": "1.26 Validasi Login",
+                    "level": 2,
+                    "parentId": "process.group.authentication",
+                    "sourceProcessIds": [
+                        "process.App.Http.Controllers.AuthController.logout"
+                    ],
+                    "inputs": [],
+                    "outputs": []
+                },
+                {
+                    "id": "process.level2.authentication.27",
+                    "number": "1.27",
+                    "name": "Buat Sesi User",
+                    "label": "1.27 Buat Sesi User",
+                    "level": 2,
+                    "parentId": "process.group.authentication",
+                    "sourceProcessIds": [
+                        "process.App.Http.Controllers.AuthController.logout"
+                    ],
+                    "inputs": [],
+                    "outputs": []
+                },
+                {
+                    "id": "process.level2.authentication.28",
+                    "number": "1.28",
+                    "name": "Kirim Status Login",
+                    "label": "1.28 Kirim Status Login",
+                    "level": 2,
+                    "parentId": "process.group.authentication",
+                    "sourceProcessIds": [
+                        "process.App.Http.Controllers.AuthController.logout"
+                    ],
+                    "inputs": [],
+                    "outputs": [
+                        "view",
+                        "request.validate",
+                        "Auth.attempt",
+                        "request.boolean",
+                        "request->session.regenerate",
+                        "request.session",
+                        "redirect.intended",
+                        "redirect",
+                        "route",
+                        "back->withErrors.onlyInput",
+                        "back.withErrors",
+                        "back",
+                        "Auth.logout",
+                        "request->session.invalidate",
+                        "request->session.regenerateToken",
+                        "redirect.route"
+                    ]
+                }
+            ],
+            "dataStores": [],
+            "externalEntities": [
+                {
+                    "id": "external.client",
+                    "name": "User"
+                }
+            ],
+            "flows": [
+                {
+                    "from": "process.level2.authentication.1",
+                    "to": "process.level2.authentication.2",
+                    "label": "Data Login"
+                },
+                {
+                    "from": "process.level2.authentication.2",
+                    "to": "process.level2.authentication.3",
+                    "label": "Data Bisnis"
+                },
+                {
+                    "from": "process.level2.authentication.3",
+                    "to": "process.level2.authentication.4",
+                    "label": "Data Login"
+                },
+                {
+                    "from": "external.client",
+                    "to": "process.level2.authentication.1",
+                    "label": "Data Bisnis"
+                },
+                {
+                    "from": "process.level2.authentication.4",
+                    "to": "process.level2.authentication.5",
+                    "label": "Data Login"
+                },
+                {
+                    "from": "process.level2.authentication.5",
+                    "to": "process.level2.authentication.6",
+                    "label": "Data Login"
+                },
+                {
+                    "from": "process.level2.authentication.6",
+                    "to": "process.level2.authentication.7",
+                    "label": "Data Bisnis"
+                },
+                {
+                    "from": "process.level2.authentication.7",
+                    "to": "process.level2.authentication.8",
+                    "label": "Data Login"
+                },
+                {
+                    "from": "process.level2.authentication.8",
+                    "to": "process.level2.authentication.9",
+                    "label": "Data Login"
+                },
+                {
+                    "from": "process.level2.authentication.9",
+                    "to": "process.level2.authentication.10",
+                    "label": "Data Login"
+                },
+                {
+                    "from": "process.level2.authentication.10",
+                    "to": "process.level2.authentication.11",
+                    "label": "Data Bisnis"
+                },
+                {
+                    "from": "process.level2.authentication.11",
+                    "to": "process.level2.authentication.12",
+                    "label": "Data Login"
+                },
+                {
+                    "from": "process.level2.authentication.12",
+                    "to": "process.level2.authentication.13",
+                    "label": "Data Login"
+                },
+                {
+                    "from": "process.level2.authentication.13",
+                    "to": "process.level2.authentication.14",
+                    "label": "Data Login"
+                },
+                {
+                    "from": "process.level2.authentication.14",
+                    "to": "process.level2.authentication.15",
+                    "label": "Data Bisnis"
+                },
+                {
+                    "from": "process.level2.authentication.15",
+                    "to": "process.level2.authentication.16",
+                    "label": "Data Login"
+                },
+                {
+                    "from": "process.level2.authentication.16",
+                    "to": "process.level2.authentication.17",
+                    "label": "Data Login"
+                },
+                {
+                    "from": "process.level2.authentication.17",
+                    "to": "process.level2.authentication.18",
+                    "label": "Data Login"
+                },
+                {
+                    "from": "process.level2.authentication.18",
+                    "to": "process.level2.authentication.19",
+                    "label": "Data Bisnis"
+                },
+                {
+                    "from": "process.level2.authentication.19",
+                    "to": "process.level2.authentication.20",
+                    "label": "Data Login"
+                },
+                {
+                    "from": "process.level2.authentication.20",
+                    "to": "process.level2.authentication.21",
+                    "label": "Data Login"
+                },
+                {
+                    "from": "process.level2.authentication.21",
+                    "to": "process.level2.authentication.22",
+                    "label": "Data Login"
+                },
+                {
+                    "from": "process.level2.authentication.22",
+                    "to": "process.level2.authentication.23",
+                    "label": "Data Bisnis"
+                },
+                {
+                    "from": "process.level2.authentication.23",
+                    "to": "process.level2.authentication.24",
+                    "label": "Data Login"
+                },
+                {
+                    "from": "process.level2.authentication.24",
+                    "to": "process.level2.authentication.25",
+                    "label": "Data Login"
+                },
+                {
+                    "from": "process.level2.authentication.25",
+                    "to": "process.level2.authentication.26",
+                    "label": "Data Login"
+                },
+                {
+                    "from": "process.level2.authentication.26",
+                    "to": "process.level2.authentication.27",
+                    "label": "Data Bisnis"
+                },
+                {
+                    "from": "process.level2.authentication.27",
+                    "to": "process.level2.authentication.28",
+                    "label": "Data Login"
+                }
+            ]
+        },
+        {
+            "id": "level-2-product",
+            "level": 2,
+            "title": "Level 2 Manajemen Produk",
+            "parentProcessId": "process.group.product",
+            "childLevelIds": [],
+            "processes": [
+                {
+                    "id": "process.level2.product.1",
+                    "number": "2.1",
+                    "name": "Ambil Data Produk",
+                    "label": "2.1 Ambil Data Produk",
+                    "level": 2,
+                    "parentId": "process.group.product",
+                    "sourceProcessIds": [
+                        "process.App.Filament.Resources.KategoriAnggaranResource.Pages.ListKategoriAnggarans"
+                    ],
+                    "inputs": [
+                        "GET|HEAD admin/kategori-anggarans"
+                    ],
+                    "outputs": []
+                },
+                {
+                    "id": "process.level2.product.2",
+                    "number": "2.2",
+                    "name": "Susun Informasi Produk",
+                    "label": "2.2 Susun Informasi Produk",
+                    "level": 2,
+                    "parentId": "process.group.product",
+                    "sourceProcessIds": [
+                        "process.App.Filament.Resources.KategoriAnggaranResource.Pages.ListKategoriAnggarans"
+                    ],
+                    "inputs": [],
+                    "outputs": []
+                },
+                {
+                    "id": "process.level2.product.3",
+                    "number": "2.3",
+                    "name": "Tampilkan Daftar Produk",
+                    "label": "2.3 Tampilkan Daftar Produk",
+                    "level": 2,
+                    "parentId": "process.group.product",
+                    "sourceProcessIds": [
+                        "process.App.Filament.Resources.KategoriAnggaranResource.Pages.ListKategoriAnggarans"
+                    ],
+                    "inputs": [],
+                    "outputs": [
+                        "Actions\\CreateAction.make"
+                    ]
+                },
+                {
+                    "id": "process.level2.product.4",
+                    "number": "2.4",
+                    "name": "Ambil Data Produk",
+                    "label": "2.4 Ambil Data Produk",
+                    "level": 2,
+                    "parentId": "process.group.product",
+                    "sourceProcessIds": [
+                        "process.App.Filament.Resources.KategoriAnggaranResource.Pages.CreateKategoriAnggaran"
+                    ],
+                    "inputs": [
+                        "GET|HEAD admin/kategori-anggarans/create"
+                    ],
+                    "outputs": []
+                },
+                {
+                    "id": "process.level2.product.5",
+                    "number": "2.5",
+                    "name": "Susun Informasi Produk",
+                    "label": "2.5 Susun Informasi Produk",
+                    "level": 2,
+                    "parentId": "process.group.product",
+                    "sourceProcessIds": [
+                        "process.App.Filament.Resources.KategoriAnggaranResource.Pages.CreateKategoriAnggaran"
+                    ],
+                    "inputs": [],
+                    "outputs": []
+                },
+                {
+                    "id": "process.level2.product.6",
+                    "number": "2.6",
+                    "name": "Tampilkan Daftar Produk",
+                    "label": "2.6 Tampilkan Daftar Produk",
+                    "level": 2,
+                    "parentId": "process.group.product",
+                    "sourceProcessIds": [
+                        "process.App.Filament.Resources.KategoriAnggaranResource.Pages.CreateKategoriAnggaran"
+                    ],
+                    "inputs": [],
+                    "outputs": []
+                },
+                {
+                    "id": "process.level2.product.7",
+                    "number": "2.7",
+                    "name": "Ambil Data Produk",
+                    "label": "2.7 Ambil Data Produk",
+                    "level": 2,
+                    "parentId": "process.group.product",
+                    "sourceProcessIds": [
+                        "process.App.Filament.Resources.KategoriAnggaranResource.Pages.EditKategoriAnggaran"
+                    ],
+                    "inputs": [
+                        "GET|HEAD admin/kategori-anggarans/{record}/edit"
+                    ],
+                    "outputs": []
+                },
+                {
+                    "id": "process.level2.product.8",
+                    "number": "2.8",
+                    "name": "Susun Informasi Produk",
+                    "label": "2.8 Susun Informasi Produk",
+                    "level": 2,
+                    "parentId": "process.group.product",
+                    "sourceProcessIds": [
+                        "process.App.Filament.Resources.KategoriAnggaranResource.Pages.EditKategoriAnggaran"
+                    ],
+                    "inputs": [],
+                    "outputs": []
+                },
+                {
+                    "id": "process.level2.product.9",
+                    "number": "2.9",
+                    "name": "Tampilkan Daftar Produk",
+                    "label": "2.9 Tampilkan Daftar Produk",
+                    "level": 2,
+                    "parentId": "process.group.product",
+                    "sourceProcessIds": [
+                        "process.App.Filament.Resources.KategoriAnggaranResource.Pages.EditKategoriAnggaran"
+                    ],
+                    "inputs": [],
+                    "outputs": [
+                        "Actions\\DeleteAction.make"
+                    ]
+                }
+            ],
+            "dataStores": [],
+            "externalEntities": [
+                {
+                    "id": "external.client",
+                    "name": "User"
+                }
+            ],
+            "flows": [
+                {
+                    "from": "process.level2.product.1",
+                    "to": "process.level2.product.2",
+                    "label": "Data Produk"
+                },
+                {
+                    "from": "process.level2.product.2",
+                    "to": "process.level2.product.3",
+                    "label": "Data Produk"
+                },
+                {
+                    "from": "external.client",
+                    "to": "process.level2.product.1",
+                    "label": "Data Produk"
+                },
+                {
+                    "from": "process.level2.product.3",
+                    "to": "process.level2.product.4",
+                    "label": "Data Produk"
+                },
+                {
+                    "from": "process.level2.product.4",
+                    "to": "process.level2.product.5",
+                    "label": "Data Produk"
+                },
+                {
+                    "from": "process.level2.product.5",
+                    "to": "process.level2.product.6",
+                    "label": "Data Produk"
+                },
+                {
+                    "from": "process.level2.product.6",
+                    "to": "process.level2.product.7",
+                    "label": "Data Produk"
+                },
+                {
+                    "from": "process.level2.product.7",
+                    "to": "process.level2.product.8",
+                    "label": "Data Produk"
+                },
+                {
+                    "from": "process.level2.product.8",
+                    "to": "process.level2.product.9",
+                    "label": "Data Produk"
+                }
+            ]
+        },
+        {
+            "id": "level-2-dashboard-g-e-t-h-e-a-d-admin-filament-icon-resolve-filament-has-top-navigation-filament-get-widgets-this-filter-visible-widgets-this-get-widgets",
+            "level": 2,
+            "title": "Level 2 Manajemen Dashboard  G E T| H E A D admin __  Filament Icon.resolve  Filament.has Top Navigation  Filament.get Widgets this.filter Visible Widgets this.get Widgets",
+            "parentProcessId": "process.group.dashboard-g-e-t-h-e-a-d-admin-filament-icon-resolve-filament-has-top-navigation-filament-get-widgets-this-filter-visible-widgets-this-get-widgets",
+            "childLevelIds": [],
+            "processes": [
+                {
+                    "id": "process.level2.dashboard-g-e-t-h-e-a-d-admin-filament-icon-resolve-filament-has-top-navigation-filament-get-widgets-this-filter-visible-widgets-this-get-widgets.1",
+                    "number": "3.1",
+                    "name": "Ambil Data",
+                    "label": "3.1 Ambil Data",
+                    "level": 2,
+                    "parentId": "process.group.dashboard-g-e-t-h-e-a-d-admin-filament-icon-resolve-filament-has-top-navigation-filament-get-widgets-this-filter-visible-widgets-this-get-widgets",
+                    "sourceProcessIds": [
+                        "process.Filament.Pages.Dashboard"
+                    ],
+                    "inputs": [
+                        "GET|HEAD admin"
+                    ],
+                    "outputs": []
+                },
+                {
+                    "id": "process.level2.dashboard-g-e-t-h-e-a-d-admin-filament-icon-resolve-filament-has-top-navigation-filament-get-widgets-this-filter-visible-widgets-this-get-widgets.2",
+                    "number": "3.2",
+                    "name": "Kelola Dashboard",
+                    "label": "3.2 Kelola Dashboard",
+                    "level": 2,
+                    "parentId": "process.group.dashboard-g-e-t-h-e-a-d-admin-filament-icon-resolve-filament-has-top-navigation-filament-get-widgets-this-filter-visible-widgets-this-get-widgets",
+                    "sourceProcessIds": [
+                        "process.Filament.Pages.Dashboard"
+                    ],
+                    "inputs": [],
+                    "outputs": [
+                        "__",
+                        "FilamentIcon.resolve",
+                        "Filament.hasTopNavigation",
+                        "Filament.getWidgets",
+                        "this.filterVisibleWidgets",
+                        "this.getWidgets"
+                    ]
+                }
+            ],
+            "dataStores": [],
+            "externalEntities": [
+                {
+                    "id": "external.client",
+                    "name": "User"
+                }
+            ],
+            "flows": [
+                {
+                    "from": "process.level2.dashboard-g-e-t-h-e-a-d-admin-filament-icon-resolve-filament-has-top-navigation-filament-get-widgets-this-filter-visible-widgets-this-get-widgets.1",
+                    "to": "process.level2.dashboard-g-e-t-h-e-a-d-admin-filament-icon-resolve-filament-has-top-navigation-filament-get-widgets-this-filter-visible-widgets-this-get-widgets.2",
+                    "label": "Data Bisnis"
+                },
+                {
+                    "from": "external.client",
+                    "to": "process.level2.dashboard-g-e-t-h-e-a-d-admin-filament-icon-resolve-filament-has-top-navigation-filament-get-widgets-this-filter-visible-widgets-this-get-widgets.1",
+                    "label": "Data Bisnis"
+                }
+            ]
+        },
+        {
+            "id": "level-2-create-action-make",
+            "level": 2,
+            "title": "Level 2 Manajemen Create Action.make",
+            "parentProcessId": "process.group.create-action-make",
+            "childLevelIds": [],
+            "processes": [
+                {
+                    "id": "process.level2.create-action-make.1",
+                    "number": "4.1",
+                    "name": "Simpan Data",
+                    "label": "4.1 Simpan Data",
+                    "level": 2,
+                    "parentId": "process.group.create-action-make",
+                    "sourceProcessIds": [
+                        "process.App.Filament.Resources.DanaMasukResource.Pages.ListDanaMasuks"
+                    ],
+                    "inputs": [
+                        "GET|HEAD admin/dana-masuks"
+                    ],
+                    "outputs": []
+                },
+                {
+                    "id": "process.level2.create-action-make.2",
+                    "number": "4.2",
+                    "name": "Kelola List Dana Masuks",
+                    "label": "4.2 Kelola List Dana Masuks",
+                    "level": 2,
+                    "parentId": "process.group.create-action-make",
+                    "sourceProcessIds": [
+                        "process.App.Filament.Resources.DanaMasukResource.Pages.ListDanaMasuks"
+                    ],
+                    "inputs": [],
+                    "outputs": [
+                        "Actions\\CreateAction.make"
+                    ]
+                },
+                {
+                    "id": "process.level2.create-action-make.3",
+                    "number": "4.3",
+                    "name": "Simpan Data",
+                    "label": "4.3 Simpan Data",
+                    "level": 2,
+                    "parentId": "process.group.create-action-make",
+                    "sourceProcessIds": [
+                        "process.App.Filament.Resources.LaporanKeuanganResource.Pages.ListLaporanKeuangans"
+                    ],
+                    "inputs": [
+                        "GET|HEAD admin/laporan-keuangans"
+                    ],
+                    "outputs": []
+                },
+                {
+                    "id": "process.level2.create-action-make.4",
+                    "number": "4.4",
+                    "name": "Kelola List Laporan Keuangans",
+                    "label": "4.4 Kelola List Laporan Keuangans",
+                    "level": 2,
+                    "parentId": "process.group.create-action-make",
+                    "sourceProcessIds": [
+                        "process.App.Filament.Resources.LaporanKeuanganResource.Pages.ListLaporanKeuangans"
+                    ],
+                    "inputs": [],
+                    "outputs": [
+                        "Actions\\CreateAction.make"
+                    ]
+                },
+                {
+                    "id": "process.level2.create-action-make.5",
+                    "number": "4.5",
+                    "name": "Simpan Data",
+                    "label": "4.5 Simpan Data",
+                    "level": 2,
+                    "parentId": "process.group.create-action-make",
+                    "sourceProcessIds": [
+                        "process.App.Filament.Resources.LaporanWargaResource.Pages.ListLaporanWargas"
+                    ],
+                    "inputs": [
+                        "GET|HEAD admin/laporan-wargas"
+                    ],
+                    "outputs": []
+                },
+                {
+                    "id": "process.level2.create-action-make.6",
+                    "number": "4.6",
+                    "name": "Kelola List Laporan Wargas",
+                    "label": "4.6 Kelola List Laporan Wargas",
+                    "level": 2,
+                    "parentId": "process.group.create-action-make",
+                    "sourceProcessIds": [
+                        "process.App.Filament.Resources.LaporanWargaResource.Pages.ListLaporanWargas"
+                    ],
+                    "inputs": [],
+                    "outputs": [
+                        "Actions\\CreateAction.make"
+                    ]
+                },
+                {
+                    "id": "process.level2.create-action-make.7",
+                    "number": "4.7",
+                    "name": "Simpan Data",
+                    "label": "4.7 Simpan Data",
+                    "level": 2,
+                    "parentId": "process.group.create-action-make",
+                    "sourceProcessIds": [
+                        "process.App.Filament.Resources.PengeluaranResource.Pages.ListPengeluarans"
+                    ],
+                    "inputs": [
+                        "GET|HEAD admin/pengeluarans"
+                    ],
+                    "outputs": []
+                },
+                {
+                    "id": "process.level2.create-action-make.8",
+                    "number": "4.8",
+                    "name": "Kelola List Pengeluarans",
+                    "label": "4.8 Kelola List Pengeluarans",
+                    "level": 2,
+                    "parentId": "process.group.create-action-make",
+                    "sourceProcessIds": [
+                        "process.App.Filament.Resources.PengeluaranResource.Pages.ListPengeluarans"
+                    ],
+                    "inputs": [],
+                    "outputs": [
+                        "Actions\\CreateAction.make"
+                    ]
+                },
+                {
+                    "id": "process.level2.create-action-make.9",
+                    "number": "4.9",
+                    "name": "Simpan Data",
+                    "label": "4.9 Simpan Data",
+                    "level": 2,
+                    "parentId": "process.group.create-action-make",
+                    "sourceProcessIds": [
+                        "process.App.Filament.Resources.ProyekKampungResource.Pages.ListProyekKampungs"
+                    ],
+                    "inputs": [
+                        "GET|HEAD admin/proyek-kampungs"
+                    ],
+                    "outputs": []
+                },
+                {
+                    "id": "process.level2.create-action-make.10",
+                    "number": "4.10",
+                    "name": "Kelola List Proyek Kampungs",
+                    "label": "4.10 Kelola List Proyek Kampungs",
+                    "level": 2,
+                    "parentId": "process.group.create-action-make",
+                    "sourceProcessIds": [
+                        "process.App.Filament.Resources.ProyekKampungResource.Pages.ListProyekKampungs"
+                    ],
+                    "inputs": [],
+                    "outputs": [
+                        "Actions\\CreateAction.make"
+                    ]
+                },
+                {
+                    "id": "process.level2.create-action-make.11",
+                    "number": "4.11",
+                    "name": "Simpan Data",
+                    "label": "4.11 Simpan Data",
+                    "level": 2,
+                    "parentId": "process.group.create-action-make",
+                    "sourceProcessIds": [
+                        "process.App.Filament.Resources.UserResource.Pages.ListUsers"
+                    ],
+                    "inputs": [
+                        "GET|HEAD admin/users"
+                    ],
+                    "outputs": []
+                },
+                {
+                    "id": "process.level2.create-action-make.12",
+                    "number": "4.12",
+                    "name": "Kelola List Users",
+                    "label": "4.12 Kelola List Users",
+                    "level": 2,
+                    "parentId": "process.group.create-action-make",
+                    "sourceProcessIds": [
+                        "process.App.Filament.Resources.UserResource.Pages.ListUsers"
+                    ],
+                    "inputs": [],
+                    "outputs": [
+                        "Actions\\CreateAction.make"
+                    ]
+                }
+            ],
+            "dataStores": [],
+            "externalEntities": [
+                {
+                    "id": "external.client",
+                    "name": "User"
+                }
+            ],
+            "flows": [
+                {
+                    "from": "process.level2.create-action-make.1",
+                    "to": "process.level2.create-action-make.2",
+                    "label": "Data Bisnis"
+                },
+                {
+                    "from": "external.client",
+                    "to": "process.level2.create-action-make.1",
+                    "label": "Data Bisnis"
+                },
+                {
+                    "from": "process.level2.create-action-make.2",
+                    "to": "process.level2.create-action-make.3",
+                    "label": "Data Bisnis"
+                },
+                {
+                    "from": "process.level2.create-action-make.3",
+                    "to": "process.level2.create-action-make.4",
+                    "label": "Data Bisnis"
+                },
+                {
+                    "from": "process.level2.create-action-make.4",
+                    "to": "process.level2.create-action-make.5",
+                    "label": "Data Bisnis"
+                },
+                {
+                    "from": "process.level2.create-action-make.5",
+                    "to": "process.level2.create-action-make.6",
+                    "label": "Data Bisnis"
+                },
+                {
+                    "from": "process.level2.create-action-make.6",
+                    "to": "process.level2.create-action-make.7",
+                    "label": "Data Bisnis"
+                },
+                {
+                    "from": "process.level2.create-action-make.7",
+                    "to": "process.level2.create-action-make.8",
+                    "label": "Data Bisnis"
+                },
+                {
+                    "from": "process.level2.create-action-make.8",
+                    "to": "process.level2.create-action-make.9",
+                    "label": "Data Bisnis"
+                },
+                {
+                    "from": "process.level2.create-action-make.9",
+                    "to": "process.level2.create-action-make.10",
+                    "label": "Data Bisnis"
+                },
+                {
+                    "from": "process.level2.create-action-make.10",
+                    "to": "process.level2.create-action-make.11",
+                    "label": "Data Bisnis"
+                },
+                {
+                    "from": "process.level2.create-action-make.11",
+                    "to": "process.level2.create-action-make.12",
+                    "label": "Data Bisnis"
+                }
+            ]
+        },
+        {
+            "id": "level-2-create",
+            "level": 2,
+            "title": "Level 2 Manajemen create",
+            "parentProcessId": "process.group.create",
+            "childLevelIds": [],
+            "processes": [
+                {
+                    "id": "process.level2.create.1",
+                    "number": "5.1",
+                    "name": "Kelola Create Dana Masuk",
+                    "label": "5.1 Kelola Create Dana Masuk",
+                    "level": 2,
+                    "parentId": "process.group.create",
+                    "sourceProcessIds": [
+                        "process.App.Filament.Resources.DanaMasukResource.Pages.CreateDanaMasuk"
+                    ],
+                    "inputs": [
+                        "GET|HEAD admin/dana-masuks/create"
+                    ],
+                    "outputs": []
+                },
+                {
+                    "id": "process.level2.create.2",
+                    "number": "5.2",
+                    "name": "Kelola Create Laporan Keuangan",
+                    "label": "5.2 Kelola Create Laporan Keuangan",
+                    "level": 2,
+                    "parentId": "process.group.create",
+                    "sourceProcessIds": [
+                        "process.App.Filament.Resources.LaporanKeuanganResource.Pages.CreateLaporanKeuangan"
+                    ],
+                    "inputs": [
+                        "GET|HEAD admin/laporan-keuangans/create"
+                    ],
+                    "outputs": []
+                },
+                {
+                    "id": "process.level2.create.3",
+                    "number": "5.3",
+                    "name": "Kelola Create Pengeluaran",
+                    "label": "5.3 Kelola Create Pengeluaran",
+                    "level": 2,
+                    "parentId": "process.group.create",
+                    "sourceProcessIds": [
+                        "process.App.Filament.Resources.PengeluaranResource.Pages.CreatePengeluaran"
+                    ],
+                    "inputs": [
+                        "GET|HEAD admin/pengeluarans/create"
+                    ],
+                    "outputs": []
+                },
+                {
+                    "id": "process.level2.create.4",
+                    "number": "5.4",
+                    "name": "Kelola Create Proyek Kampung",
+                    "label": "5.4 Kelola Create Proyek Kampung",
+                    "level": 2,
+                    "parentId": "process.group.create",
+                    "sourceProcessIds": [
+                        "process.App.Filament.Resources.ProyekKampungResource.Pages.CreateProyekKampung"
+                    ],
+                    "inputs": [
+                        "GET|HEAD admin/proyek-kampungs/create"
+                    ],
+                    "outputs": []
+                },
+                {
+                    "id": "process.level2.create.5",
+                    "number": "5.5",
+                    "name": "Kelola Create User",
+                    "label": "5.5 Kelola Create User",
+                    "level": 2,
+                    "parentId": "process.group.create",
+                    "sourceProcessIds": [
+                        "process.App.Filament.Resources.UserResource.Pages.CreateUser"
+                    ],
+                    "inputs": [
+                        "GET|HEAD admin/users/create"
+                    ],
+                    "outputs": []
+                }
+            ],
+            "dataStores": [],
+            "externalEntities": [
+                {
+                    "id": "external.client",
+                    "name": "User"
+                }
+            ],
+            "flows": [
+                {
+                    "from": "external.client",
+                    "to": "process.level2.create.1",
+                    "label": "Data Bisnis"
+                },
+                {
+                    "from": "process.level2.create.1",
+                    "to": "process.level2.create.2",
+                    "label": "Data Bisnis"
+                },
+                {
+                    "from": "process.level2.create.2",
+                    "to": "process.level2.create.3",
+                    "label": "Data Bisnis"
+                },
+                {
+                    "from": "process.level2.create.3",
+                    "to": "process.level2.create.4",
+                    "label": "Data Bisnis"
+                },
+                {
+                    "from": "process.level2.create.4",
+                    "to": "process.level2.create.5",
+                    "label": "Data Bisnis"
+                }
+            ]
+        },
+        {
+            "id": "level-2-delete-action-make",
+            "level": 2,
+            "title": "Level 2 Manajemen Delete Action.make",
+            "parentProcessId": "process.group.delete-action-make",
+            "childLevelIds": [],
+            "processes": [
+                {
+                    "id": "process.level2.delete-action-make.1",
+                    "number": "6.1",
+                    "name": "Hapus Data",
+                    "label": "6.1 Hapus Data",
+                    "level": 2,
+                    "parentId": "process.group.delete-action-make",
+                    "sourceProcessIds": [
+                        "process.App.Filament.Resources.DanaMasukResource.Pages.EditDanaMasuk"
+                    ],
+                    "inputs": [
+                        "GET|HEAD admin/dana-masuks/{record}/edit"
+                    ],
+                    "outputs": []
+                },
+                {
+                    "id": "process.level2.delete-action-make.2",
+                    "number": "6.2",
+                    "name": "Kelola Edit Dana Masuk",
+                    "label": "6.2 Kelola Edit Dana Masuk",
+                    "level": 2,
+                    "parentId": "process.group.delete-action-make",
+                    "sourceProcessIds": [
+                        "process.App.Filament.Resources.DanaMasukResource.Pages.EditDanaMasuk"
+                    ],
+                    "inputs": [],
+                    "outputs": [
+                        "Actions\\DeleteAction.make"
+                    ]
+                },
+                {
+                    "id": "process.level2.delete-action-make.3",
+                    "number": "6.3",
+                    "name": "Hapus Data",
+                    "label": "6.3 Hapus Data",
+                    "level": 2,
+                    "parentId": "process.group.delete-action-make",
+                    "sourceProcessIds": [
+                        "process.App.Filament.Resources.LaporanKeuanganResource.Pages.EditLaporanKeuangan"
+                    ],
+                    "inputs": [
+                        "GET|HEAD admin/laporan-keuangans/{record}/edit"
+                    ],
+                    "outputs": []
+                },
+                {
+                    "id": "process.level2.delete-action-make.4",
+                    "number": "6.4",
+                    "name": "Kelola Edit Laporan Keuangan",
+                    "label": "6.4 Kelola Edit Laporan Keuangan",
+                    "level": 2,
+                    "parentId": "process.group.delete-action-make",
+                    "sourceProcessIds": [
+                        "process.App.Filament.Resources.LaporanKeuanganResource.Pages.EditLaporanKeuangan"
+                    ],
+                    "inputs": [],
+                    "outputs": [
+                        "Actions\\DeleteAction.make"
+                    ]
+                },
+                {
+                    "id": "process.level2.delete-action-make.5",
+                    "number": "6.5",
+                    "name": "Hapus Data",
+                    "label": "6.5 Hapus Data",
+                    "level": 2,
+                    "parentId": "process.group.delete-action-make",
+                    "sourceProcessIds": [
+                        "process.App.Filament.Resources.LaporanWargaResource.Pages.EditLaporanWarga"
+                    ],
+                    "inputs": [
+                        "GET|HEAD admin/laporan-wargas/{record}/edit"
+                    ],
+                    "outputs": []
+                },
+                {
+                    "id": "process.level2.delete-action-make.6",
+                    "number": "6.6",
+                    "name": "Kelola Edit Laporan Warga",
+                    "label": "6.6 Kelola Edit Laporan Warga",
+                    "level": 2,
+                    "parentId": "process.group.delete-action-make",
+                    "sourceProcessIds": [
+                        "process.App.Filament.Resources.LaporanWargaResource.Pages.EditLaporanWarga"
+                    ],
+                    "inputs": [],
+                    "outputs": [
+                        "Actions\\DeleteAction.make"
+                    ]
+                },
+                {
+                    "id": "process.level2.delete-action-make.7",
+                    "number": "6.7",
+                    "name": "Hapus Data",
+                    "label": "6.7 Hapus Data",
+                    "level": 2,
+                    "parentId": "process.group.delete-action-make",
+                    "sourceProcessIds": [
+                        "process.App.Filament.Resources.PengeluaranResource.Pages.EditPengeluaran"
+                    ],
+                    "inputs": [
+                        "GET|HEAD admin/pengeluarans/{record}/edit"
+                    ],
+                    "outputs": []
+                },
+                {
+                    "id": "process.level2.delete-action-make.8",
+                    "number": "6.8",
+                    "name": "Kelola Edit Pengeluaran",
+                    "label": "6.8 Kelola Edit Pengeluaran",
+                    "level": 2,
+                    "parentId": "process.group.delete-action-make",
+                    "sourceProcessIds": [
+                        "process.App.Filament.Resources.PengeluaranResource.Pages.EditPengeluaran"
+                    ],
+                    "inputs": [],
+                    "outputs": [
+                        "Actions\\DeleteAction.make"
+                    ]
+                },
+                {
+                    "id": "process.level2.delete-action-make.9",
+                    "number": "6.9",
+                    "name": "Hapus Data",
+                    "label": "6.9 Hapus Data",
+                    "level": 2,
+                    "parentId": "process.group.delete-action-make",
+                    "sourceProcessIds": [
+                        "process.App.Filament.Resources.ProyekKampungResource.Pages.EditProyekKampung"
+                    ],
+                    "inputs": [
+                        "GET|HEAD admin/proyek-kampungs/{record}/edit"
+                    ],
+                    "outputs": []
+                },
+                {
+                    "id": "process.level2.delete-action-make.10",
+                    "number": "6.10",
+                    "name": "Kelola Edit Proyek Kampung",
+                    "label": "6.10 Kelola Edit Proyek Kampung",
+                    "level": 2,
+                    "parentId": "process.group.delete-action-make",
+                    "sourceProcessIds": [
+                        "process.App.Filament.Resources.ProyekKampungResource.Pages.EditProyekKampung"
+                    ],
+                    "inputs": [],
+                    "outputs": [
+                        "Actions\\DeleteAction.make"
+                    ]
+                },
+                {
+                    "id": "process.level2.delete-action-make.11",
+                    "number": "6.11",
+                    "name": "Hapus Data",
+                    "label": "6.11 Hapus Data",
+                    "level": 2,
+                    "parentId": "process.group.delete-action-make",
+                    "sourceProcessIds": [
+                        "process.App.Filament.Resources.UserResource.Pages.EditUser"
+                    ],
+                    "inputs": [
+                        "GET|HEAD admin/users/{record}/edit"
+                    ],
+                    "outputs": []
+                },
+                {
+                    "id": "process.level2.delete-action-make.12",
+                    "number": "6.12",
+                    "name": "Kelola Edit User",
+                    "label": "6.12 Kelola Edit User",
+                    "level": 2,
+                    "parentId": "process.group.delete-action-make",
+                    "sourceProcessIds": [
+                        "process.App.Filament.Resources.UserResource.Pages.EditUser"
+                    ],
+                    "inputs": [],
+                    "outputs": [
+                        "Actions\\DeleteAction.make"
+                    ]
+                }
+            ],
+            "dataStores": [],
+            "externalEntities": [
+                {
+                    "id": "external.client",
+                    "name": "User"
+                }
+            ],
+            "flows": [
+                {
+                    "from": "process.level2.delete-action-make.1",
+                    "to": "process.level2.delete-action-make.2",
+                    "label": "Data Bisnis"
+                },
+                {
+                    "from": "external.client",
+                    "to": "process.level2.delete-action-make.1",
+                    "label": "Data Bisnis"
+                },
+                {
+                    "from": "process.level2.delete-action-make.2",
+                    "to": "process.level2.delete-action-make.3",
+                    "label": "Data Bisnis"
+                },
+                {
+                    "from": "process.level2.delete-action-make.3",
+                    "to": "process.level2.delete-action-make.4",
+                    "label": "Data Bisnis"
+                },
+                {
+                    "from": "process.level2.delete-action-make.4",
+                    "to": "process.level2.delete-action-make.5",
+                    "label": "Data Bisnis"
+                },
+                {
+                    "from": "process.level2.delete-action-make.5",
+                    "to": "process.level2.delete-action-make.6",
+                    "label": "Data Bisnis"
+                },
+                {
+                    "from": "process.level2.delete-action-make.6",
+                    "to": "process.level2.delete-action-make.7",
+                    "label": "Data Bisnis"
+                },
+                {
+                    "from": "process.level2.delete-action-make.7",
+                    "to": "process.level2.delete-action-make.8",
+                    "label": "Data Bisnis"
+                },
+                {
+                    "from": "process.level2.delete-action-make.8",
+                    "to": "process.level2.delete-action-make.9",
+                    "label": "Data Bisnis"
+                },
+                {
+                    "from": "process.level2.delete-action-make.9",
+                    "to": "process.level2.delete-action-make.10",
+                    "label": "Data Bisnis"
+                },
+                {
+                    "from": "process.level2.delete-action-make.10",
+                    "to": "process.level2.delete-action-make.11",
+                    "label": "Data Bisnis"
+                },
+                {
+                    "from": "process.level2.delete-action-make.11",
+                    "to": "process.level2.delete-action-make.12",
+                    "label": "Data Bisnis"
+                }
+            ]
+        },
+        {
+            "id": "level-2-create-now-format-now-str-upper-str-random",
+            "level": 2,
+            "title": "Level 2 Manajemen create now.format now  Str.upper  Str.random",
+            "parentProcessId": "process.group.create-now-format-now-str-upper-str-random",
+            "childLevelIds": [],
+            "processes": [
+                {
+                    "id": "process.level2.create-now-format-now-str-upper-str-random.1",
+                    "number": "7.1",
+                    "name": "Kelola Create Laporan Warga",
+                    "label": "7.1 Kelola Create Laporan Warga",
+                    "level": 2,
+                    "parentId": "process.group.create-now-format-now-str-upper-str-random",
+                    "sourceProcessIds": [
+                        "process.App.Filament.Resources.LaporanWargaResource.Pages.CreateLaporanWarga"
+                    ],
+                    "inputs": [
+                        "GET|HEAD admin/laporan-wargas/create"
+                    ],
+                    "outputs": [
+                        "now.format",
+                        "now",
+                        "Str.upper",
+                        "Str.random"
+                    ]
+                }
+            ],
+            "dataStores": [],
+            "externalEntities": [
+                {
+                    "id": "external.client",
+                    "name": "User"
+                }
+            ],
+            "flows": [
+                {
+                    "from": "external.client",
+                    "to": "process.level2.create-now-format-now-str-upper-str-random.1",
+                    "label": "Data Bisnis"
+                }
+            ]
+        },
+        {
+            "id": "level-2-handle-requests",
+            "level": 2,
+            "title": "Level 2 Manajemen Handle Requests",
+            "parentProcessId": "process.group.handle-requests",
+            "childLevelIds": [],
+            "processes": [
+                {
+                    "id": "process.level2.handle-requests.1",
+                    "number": "8.1",
+                    "name": "Perbarui Data",
+                    "label": "8.1 Perbarui Data",
+                    "level": 2,
+                    "parentId": "process.group.handle-requests",
+                    "sourceProcessIds": [
+                        "process.Livewire.Mechanisms.HandleRequests.HandleRequests.handleUpdate"
+                    ],
+                    "inputs": [
+                        "POST livewire/update"
+                    ],
+                    "outputs": []
+                },
+                {
+                    "id": "process.level2.handle-requests.2",
+                    "number": "8.2",
+                    "name": "Ambil Data",
+                    "label": "8.2 Ambil Data",
+                    "level": 2,
+                    "parentId": "process.group.handle-requests",
+                    "sourceProcessIds": [
+                        "process.Livewire.Mechanisms.HandleRequests.HandleRequests.handleUpdate"
+                    ],
+                    "inputs": [],
+                    "outputs": []
+                },
+                {
+                    "id": "process.level2.handle-requests.3",
+                    "number": "8.3",
+                    "name": "Kelola Handle Requests",
+                    "label": "8.3 Kelola Handle Requests",
+                    "level": 2,
+                    "parentId": "process.group.handle-requests",
+                    "sourceProcessIds": [
+                        "process.Livewire.Mechanisms.HandleRequests.HandleRequests.handleUpdate"
+                    ],
+                    "inputs": [],
+                    "outputs": [
+                        "this.updateRouteExists",
+                        "app.setUpdateRoute",
+                        "app",
+                        "Route::post->middleware.name",
+                        "Route::post.middleware",
+                        "Route.post",
+                        "this.skipRequestPayloadTamperingMiddleware",
+                        "this.findUpdateRoute",
+                        "str.start",
+                        "str",
+                        "app.toRoute",
+                        "Route::getRoutes.getRoutes",
+                        "Route.getRoutes",
+                        "str.endsWith",
+                        "route.getName",
+                        "Illuminate\\Foundation\\Http\\Middleware\\ConvertEmptyStringsToNull.skipWhen",
+                        "this.isLivewireRequest",
+                        "Illuminate\\Foundation\\Http\\Middleware\\TrimStrings.skipWhen",
+                        "callback",
+                        "route.name",
+                        "request.hasHeader",
+                        "request",
+                        "request.route",
+                        "route.named",
+                        "is_array",
+                        "abort",
+                        "is_string",
+                        "trigger",
+                        "finish",
+                        "json_decode",
+                        "app.update",
+                        "config",
+                        "json_encode",
+                        "SupportScriptsAndAssets.getAssets"
+                    ]
+                }
+            ],
+            "dataStores": [],
+            "externalEntities": [
+                {
+                    "id": "external.client",
+                    "name": "User"
+                }
+            ],
+            "flows": [
+                {
+                    "from": "process.level2.handle-requests.1",
+                    "to": "process.level2.handle-requests.2",
+                    "label": "Data Bisnis"
+                },
+                {
+                    "from": "process.level2.handle-requests.2",
+                    "to": "process.level2.handle-requests.3",
+                    "label": "Data Bisnis"
+                },
+                {
+                    "from": "external.client",
+                    "to": "process.level2.handle-requests.1",
+                    "label": "Data Bisnis"
+                }
+            ]
+        },
+        {
+            "id": "level-2-frontend-assets",
+            "level": 2,
+            "title": "Level 2 Manajemen Frontend Assets",
+            "parentProcessId": "process.group.frontend-assets",
+            "childLevelIds": [],
+            "processes": [
+                {
+                    "id": "process.level2.frontend-assets.1",
+                    "number": "9.1",
+                    "name": "Ambil Data",
+                    "label": "9.1 Ambil Data",
+                    "level": 2,
+                    "parentId": "process.group.frontend-assets",
+                    "sourceProcessIds": [
+                        "process.Livewire.Mechanisms.FrontendAssets.FrontendAssets.returnJavaScriptAsFile"
+                    ],
+                    "inputs": [
+                        "GET|HEAD livewire/livewire.js"
+                    ],
+                    "outputs": []
+                },
+                {
+                    "id": "process.level2.frontend-assets.2",
+                    "number": "9.2",
+                    "name": "Kelola Frontend Assets",
+                    "label": "9.2 Kelola Frontend Assets",
+                    "level": 2,
+                    "parentId": "process.group.frontend-assets",
+                    "sourceProcessIds": [
+                        "process.Livewire.Mechanisms.FrontendAssets.FrontendAssets.returnJavaScriptAsFile"
+                    ],
+                    "inputs": [],
+                    "outputs": [
+                        "app.setScriptRoute",
+                        "app",
+                        "config",
+                        "Route.get",
+                        "Blade.directive",
+                        "app.provide",
+                        "this.publishes",
+                        "public_path",
+                        "on",
+                        "array_merge",
+                        "callback",
+                        "Utils.pretendResponseIsFile",
+                        "static.nonce",
+                        "static.minify",
+                        "static.js",
+                        "implode",
+                        "rtrim",
+                        "str.when",
+                        "str",
+                        "str.isUrl",
+                        "url.start",
+                        "file_exists",
+                        "json_decode",
+                        "file_get_contents",
+                        "app.has",
+                        "csrf_token",
+                        "static.usePublishedAssetsIfAvailable",
+                        "app.getUpdateUri",
+                        "Utils.stringifyHtmlAttributes",
+                        "json_encode",
+                        "app.isRunningServerless",
+                        "url",
+                        "preg_replace",
+                        "Vite.cspNonce"
+                    ]
+                },
+                {
+                    "id": "process.level2.frontend-assets.3",
+                    "number": "9.3",
+                    "name": "Ambil Data",
+                    "label": "9.3 Ambil Data",
+                    "level": 2,
+                    "parentId": "process.group.frontend-assets",
+                    "sourceProcessIds": [
+                        "process.Livewire.Mechanisms.FrontendAssets.FrontendAssets.maps"
+                    ],
+                    "inputs": [
+                        "GET|HEAD livewire/livewire.min.js.map"
+                    ],
+                    "outputs": []
+                },
+                {
+                    "id": "process.level2.frontend-assets.4",
+                    "number": "9.4",
+                    "name": "Kelola Frontend Assets",
+                    "label": "9.4 Kelola Frontend Assets",
+                    "level": 2,
+                    "parentId": "process.group.frontend-assets",
+                    "sourceProcessIds": [
+                        "process.Livewire.Mechanisms.FrontendAssets.FrontendAssets.maps"
+                    ],
+                    "inputs": [],
+                    "outputs": [
+                        "app.setScriptRoute",
+                        "app",
+                        "config",
+                        "Route.get",
+                        "Blade.directive",
+                        "app.provide",
+                        "this.publishes",
+                        "public_path",
+                        "on",
+                        "array_merge",
+                        "callback",
+                        "Utils.pretendResponseIsFile",
+                        "static.nonce",
+                        "static.minify",
+                        "static.js",
+                        "implode",
+                        "rtrim",
+                        "str.when",
+                        "str",
+                        "str.isUrl",
+                        "url.start",
+                        "file_exists",
+                        "json_decode",
+                        "file_get_contents",
+                        "app.has",
+                        "csrf_token",
+                        "static.usePublishedAssetsIfAvailable",
+                        "app.getUpdateUri",
+                        "Utils.stringifyHtmlAttributes",
+                        "json_encode",
+                        "app.isRunningServerless",
+                        "url",
+                        "preg_replace",
+                        "Vite.cspNonce"
+                    ]
+                }
+            ],
+            "dataStores": [],
+            "externalEntities": [
+                {
+                    "id": "external.client",
+                    "name": "User"
+                }
+            ],
+            "flows": [
+                {
+                    "from": "process.level2.frontend-assets.1",
+                    "to": "process.level2.frontend-assets.2",
+                    "label": "Data Bisnis"
+                },
+                {
+                    "from": "external.client",
+                    "to": "process.level2.frontend-assets.1",
+                    "label": "Data Bisnis"
+                },
+                {
+                    "from": "process.level2.frontend-assets.2",
+                    "to": "process.level2.frontend-assets.3",
+                    "label": "Data Bisnis"
+                },
+                {
+                    "from": "process.level2.frontend-assets.3",
+                    "to": "process.level2.frontend-assets.4",
+                    "label": "Data Bisnis"
+                }
+            ]
+        },
+        {
+            "id": "level-2-file-upload",
+            "level": 2,
+            "title": "Level 2 Manajemen File Upload",
+            "parentProcessId": "process.group.file-upload",
+            "childLevelIds": [],
+            "processes": [
+                {
+                    "id": "process.level2.file-upload.1",
+                    "number": "10.1",
+                    "name": "Validasi Data",
+                    "label": "10.1 Validasi Data",
+                    "level": 2,
+                    "parentId": "process.group.file-upload",
+                    "sourceProcessIds": [
+                        "process.Livewire.Features.SupportFileUploads.FileUploadController.handle"
+                    ],
+                    "inputs": [
+                        "POST livewire/upload-file"
+                    ],
+                    "outputs": []
+                },
+                {
+                    "id": "process.level2.file-upload.2",
+                    "number": "10.2",
+                    "name": "Kelola File Upload",
+                    "label": "10.2 Kelola File Upload",
+                    "level": 2,
+                    "parentId": "process.group.file-upload",
+                    "sourceProcessIds": [
+                        "process.Livewire.Features.SupportFileUploads.FileUploadController.handle"
+                    ],
+                    "inputs": [],
+                    "outputs": [
+                        "FileUploadConfiguration.middleware",
+                        "array_reverse",
+                        "in_array",
+                        "array_unshift",
+                        "array_map",
+                        "abort_unless",
+                        "request.hasValidSignature",
+                        "request",
+                        "FileUploadConfiguration.disk",
+                        "this.validateAndStore",
+                        "Validator::make.validate",
+                        "Validator.make",
+                        "FileUploadConfiguration.rules",
+                        "collect.map",
+                        "collect",
+                        "TemporaryUploadedFile.generateHashNameWithOriginalNameEmbedded",
+                        "file.storeAs",
+                        "FileUploadConfiguration.path",
+                        "fileHashPaths.map",
+                        "str_replace"
+                    ]
+                }
+            ],
+            "dataStores": [],
+            "externalEntities": [
+                {
+                    "id": "external.client",
+                    "name": "User"
+                }
+            ],
+            "flows": [
+                {
+                    "from": "process.level2.file-upload.1",
+                    "to": "process.level2.file-upload.2",
+                    "label": "Data Bisnis"
+                },
+                {
+                    "from": "external.client",
+                    "to": "process.level2.file-upload.1",
+                    "label": "Data Bisnis"
+                }
+            ]
+        },
+        {
+            "id": "level-2-file-preview",
+            "level": 2,
+            "title": "Level 2 Manajemen File Preview",
+            "parentProcessId": "process.group.file-preview",
+            "childLevelIds": [],
+            "processes": [
+                {
+                    "id": "process.level2.file-preview.1",
+                    "number": "11.1",
+                    "name": "Kelola File Preview",
+                    "label": "11.1 Kelola File Preview",
+                    "level": 2,
+                    "parentId": "process.group.file-preview",
+                    "sourceProcessIds": [
+                        "process.Livewire.Features.SupportFileUploads.FilePreviewController.handle"
+                    ],
+                    "inputs": [
+                        "GET|HEAD livewire/preview-file/{filename}"
+                    ],
+                    "outputs": [
+                        "array_map",
+                        "abort_unless",
+                        "request.hasValidSignature",
+                        "request",
+                        "Utils.pretendPreviewResponseIsPreviewFile"
+                    ]
+                }
+            ],
+            "dataStores": [],
+            "externalEntities": [
+                {
+                    "id": "external.client",
+                    "name": "User"
+                }
+            ],
+            "flows": [
+                {
+                    "from": "external.client",
+                    "to": "process.level2.file-preview.1",
+                    "label": "Data Bisnis"
+                }
+            ]
+        },
+        {
+            "id": "level-2-public-page",
+            "level": 2,
+            "title": "Level 2 Manajemen Public Page",
+            "parentProcessId": "process.group.public-page",
+            "childLevelIds": [],
+            "processes": [
+                {
+                    "id": "process.level2.public-page.1",
+                    "number": "12.1",
+                    "name": "Ambil Data",
+                    "label": "12.1 Ambil Data",
+                    "level": 2,
+                    "parentId": "process.group.public-page",
+                    "sourceProcessIds": [
+                        "process.App.Http.Controllers.PublicPageController.transparency"
+                    ],
+                    "inputs": [
+                        "GET|HEAD transparansi"
+                    ],
+                    "outputs": []
+                },
+                {
+                    "id": "process.level2.public-page.2",
+                    "number": "12.2",
+                    "name": "Kelola Public Page",
+                    "label": "12.2 Kelola Public Page",
+                    "level": 2,
+                    "parentId": "process.group.public-page",
+                    "sourceProcessIds": [
+                        "process.App.Http.Controllers.PublicPageController.transparency"
+                    ],
+                    "inputs": [],
+                    "outputs": [
+                        "request.query",
+                        "collect->when->values.all",
+                        "collect->when.values",
+                        "collect.when",
+                        "collect",
+                        "this.projects",
+                        "items.where",
+                        "view",
+                        "this.stats",
+                        "this.posts",
+                        "collect.firstWhere",
+                        "abort_if",
+                        "this.minimalPdf",
+                        "response.streamDownload",
+                        "response",
+                        "str_replace",
+                        "strlen",
+                        "count",
+                        "array_slice",
+                        "str_pad"
+                    ]
+                },
+                {
+                    "id": "process.level2.public-page.3",
+                    "number": "12.3",
+                    "name": "Ambil Data",
+                    "label": "12.3 Ambil Data",
+                    "level": 2,
+                    "parentId": "process.group.public-page",
+                    "sourceProcessIds": [
+                        "process.App.Http.Controllers.PublicPageController.news"
+                    ],
+                    "inputs": [
+                        "GET|HEAD berita"
+                    ],
+                    "outputs": []
+                },
+                {
+                    "id": "process.level2.public-page.4",
+                    "number": "12.4",
+                    "name": "Kelola Public Page",
+                    "label": "12.4 Kelola Public Page",
+                    "level": 2,
+                    "parentId": "process.group.public-page",
+                    "sourceProcessIds": [
+                        "process.App.Http.Controllers.PublicPageController.news"
+                    ],
+                    "inputs": [],
+                    "outputs": [
+                        "request.query",
+                        "collect->when->values.all",
+                        "collect->when.values",
+                        "collect.when",
+                        "collect",
+                        "this.projects",
+                        "items.where",
+                        "view",
+                        "this.stats",
+                        "this.posts",
+                        "collect.firstWhere",
+                        "abort_if",
+                        "this.minimalPdf",
+                        "response.streamDownload",
+                        "response",
+                        "str_replace",
+                        "strlen",
+                        "count",
+                        "array_slice",
+                        "str_pad"
+                    ]
+                },
+                {
+                    "id": "process.level2.public-page.5",
+                    "number": "12.5",
+                    "name": "Ambil Data",
+                    "label": "12.5 Ambil Data",
+                    "level": 2,
+                    "parentId": "process.group.public-page",
+                    "sourceProcessIds": [
+                        "process.App.Http.Controllers.PublicPageController.newsDetail"
+                    ],
+                    "inputs": [
+                        "GET|HEAD berita/{slug}"
+                    ],
+                    "outputs": []
+                },
+                {
+                    "id": "process.level2.public-page.6",
+                    "number": "12.6",
+                    "name": "Kelola Public Page",
+                    "label": "12.6 Kelola Public Page",
+                    "level": 2,
+                    "parentId": "process.group.public-page",
+                    "sourceProcessIds": [
+                        "process.App.Http.Controllers.PublicPageController.newsDetail"
+                    ],
+                    "inputs": [],
+                    "outputs": [
+                        "request.query",
+                        "collect->when->values.all",
+                        "collect->when.values",
+                        "collect.when",
+                        "collect",
+                        "this.projects",
+                        "items.where",
+                        "view",
+                        "this.stats",
+                        "this.posts",
+                        "collect.firstWhere",
+                        "abort_if",
+                        "this.minimalPdf",
+                        "response.streamDownload",
+                        "response",
+                        "str_replace",
+                        "strlen",
+                        "count",
+                        "array_slice",
+                        "str_pad"
+                    ]
+                },
+                {
+                    "id": "process.level2.public-page.7",
+                    "number": "12.7",
+                    "name": "Ambil Data",
+                    "label": "12.7 Ambil Data",
+                    "level": 2,
+                    "parentId": "process.group.public-page",
+                    "sourceProcessIds": [
+                        "process.App.Http.Controllers.PublicPageController.downloadPdf"
+                    ],
+                    "inputs": [
+                        "GET|HEAD laporan/pdf"
+                    ],
+                    "outputs": []
+                },
+                {
+                    "id": "process.level2.public-page.8",
+                    "number": "12.8",
+                    "name": "Kelola Public Page",
+                    "label": "12.8 Kelola Public Page",
+                    "level": 2,
+                    "parentId": "process.group.public-page",
+                    "sourceProcessIds": [
+                        "process.App.Http.Controllers.PublicPageController.downloadPdf"
+                    ],
+                    "inputs": [],
+                    "outputs": [
+                        "request.query",
+                        "collect->when->values.all",
+                        "collect->when.values",
+                        "collect.when",
+                        "collect",
+                        "this.projects",
+                        "items.where",
+                        "view",
+                        "this.stats",
+                        "this.posts",
+                        "collect.firstWhere",
+                        "abort_if",
+                        "this.minimalPdf",
+                        "response.streamDownload",
+                        "response",
+                        "str_replace",
+                        "strlen",
+                        "count",
+                        "array_slice",
+                        "str_pad"
+                    ]
+                },
+                {
+                    "id": "process.level2.public-page.9",
+                    "number": "12.9",
+                    "name": "Ambil Data",
+                    "label": "12.9 Ambil Data",
+                    "level": 2,
+                    "parentId": "process.group.public-page",
+                    "sourceProcessIds": [
+                        "process.App.Http.Controllers.PublicPageController.contact"
+                    ],
+                    "inputs": [
+                        "GET|HEAD kontak"
+                    ],
+                    "outputs": []
+                },
+                {
+                    "id": "process.level2.public-page.10",
+                    "number": "12.10",
+                    "name": "Kelola Public Page",
+                    "label": "12.10 Kelola Public Page",
+                    "level": 2,
+                    "parentId": "process.group.public-page",
+                    "sourceProcessIds": [
+                        "process.App.Http.Controllers.PublicPageController.contact"
+                    ],
+                    "inputs": [],
+                    "outputs": [
+                        "request.query",
+                        "collect->when->values.all",
+                        "collect->when.values",
+                        "collect.when",
+                        "collect",
+                        "this.projects",
+                        "items.where",
+                        "view",
+                        "this.stats",
+                        "this.posts",
+                        "collect.firstWhere",
+                        "abort_if",
+                        "this.minimalPdf",
+                        "response.streamDownload",
+                        "response",
+                        "str_replace",
+                        "strlen",
+                        "count",
+                        "array_slice",
+                        "str_pad"
+                    ]
+                },
+                {
+                    "id": "process.level2.public-page.11",
+                    "number": "12.11",
+                    "name": "Ambil Data",
+                    "label": "12.11 Ambil Data",
+                    "level": 2,
+                    "parentId": "process.group.public-page",
+                    "sourceProcessIds": [
+                        "process.App.Http.Controllers.PublicPageController.support"
+                    ],
+                    "inputs": [
+                        "GET|HEAD support"
+                    ],
+                    "outputs": []
+                },
+                {
+                    "id": "process.level2.public-page.12",
+                    "number": "12.12",
+                    "name": "Kelola Public Page",
+                    "label": "12.12 Kelola Public Page",
+                    "level": 2,
+                    "parentId": "process.group.public-page",
+                    "sourceProcessIds": [
+                        "process.App.Http.Controllers.PublicPageController.support"
+                    ],
+                    "inputs": [],
+                    "outputs": [
+                        "request.query",
+                        "collect->when->values.all",
+                        "collect->when.values",
+                        "collect.when",
+                        "collect",
+                        "this.projects",
+                        "items.where",
+                        "view",
+                        "this.stats",
+                        "this.posts",
+                        "collect.firstWhere",
+                        "abort_if",
+                        "this.minimalPdf",
+                        "response.streamDownload",
+                        "response",
+                        "str_replace",
+                        "strlen",
+                        "count",
+                        "array_slice",
+                        "str_pad"
+                    ]
+                },
+                {
+                    "id": "process.level2.public-page.13",
+                    "number": "12.13",
+                    "name": "Ambil Data",
+                    "label": "12.13 Ambil Data",
+                    "level": 2,
+                    "parentId": "process.group.public-page",
+                    "sourceProcessIds": [
+                        "process.App.Http.Controllers.PublicPageController.forgotPassword"
+                    ],
+                    "inputs": [
+                        "GET|HEAD forgot-password"
+                    ],
+                    "outputs": []
+                },
+                {
+                    "id": "process.level2.public-page.14",
+                    "number": "12.14",
+                    "name": "Kelola Public Page",
+                    "label": "12.14 Kelola Public Page",
+                    "level": 2,
+                    "parentId": "process.group.public-page",
+                    "sourceProcessIds": [
+                        "process.App.Http.Controllers.PublicPageController.forgotPassword"
+                    ],
+                    "inputs": [],
+                    "outputs": [
+                        "request.query",
+                        "collect->when->values.all",
+                        "collect->when.values",
+                        "collect.when",
+                        "collect",
+                        "this.projects",
+                        "items.where",
+                        "view",
+                        "this.stats",
+                        "this.posts",
+                        "collect.firstWhere",
+                        "abort_if",
+                        "this.minimalPdf",
+                        "response.streamDownload",
+                        "response",
+                        "str_replace",
+                        "strlen",
+                        "count",
+                        "array_slice",
+                        "str_pad"
+                    ]
+                },
+                {
+                    "id": "process.level2.public-page.15",
+                    "number": "12.15",
+                    "name": "Ambil Data",
+                    "label": "12.15 Ambil Data",
+                    "level": 2,
+                    "parentId": "process.group.public-page",
+                    "sourceProcessIds": [
+                        "process.App.Http.Controllers.PublicPageController.privacy"
+                    ],
+                    "inputs": [
+                        "GET|HEAD kebijakan-privasi"
+                    ],
+                    "outputs": []
+                },
+                {
+                    "id": "process.level2.public-page.16",
+                    "number": "12.16",
+                    "name": "Kelola Public Page",
+                    "label": "12.16 Kelola Public Page",
+                    "level": 2,
+                    "parentId": "process.group.public-page",
+                    "sourceProcessIds": [
+                        "process.App.Http.Controllers.PublicPageController.privacy"
+                    ],
+                    "inputs": [],
+                    "outputs": [
+                        "request.query",
+                        "collect->when->values.all",
+                        "collect->when.values",
+                        "collect.when",
+                        "collect",
+                        "this.projects",
+                        "items.where",
+                        "view",
+                        "this.stats",
+                        "this.posts",
+                        "collect.firstWhere",
+                        "abort_if",
+                        "this.minimalPdf",
+                        "response.streamDownload",
+                        "response",
+                        "str_replace",
+                        "strlen",
+                        "count",
+                        "array_slice",
+                        "str_pad"
+                    ]
+                },
+                {
+                    "id": "process.level2.public-page.17",
+                    "number": "12.17",
+                    "name": "Ambil Data",
+                    "label": "12.17 Ambil Data",
+                    "level": 2,
+                    "parentId": "process.group.public-page",
+                    "sourceProcessIds": [
+                        "process.App.Http.Controllers.PublicPageController.sitemap"
+                    ],
+                    "inputs": [
+                        "GET|HEAD peta-situs"
+                    ],
+                    "outputs": []
+                },
+                {
+                    "id": "process.level2.public-page.18",
+                    "number": "12.18",
+                    "name": "Kelola Public Page",
+                    "label": "12.18 Kelola Public Page",
+                    "level": 2,
+                    "parentId": "process.group.public-page",
+                    "sourceProcessIds": [
+                        "process.App.Http.Controllers.PublicPageController.sitemap"
+                    ],
+                    "inputs": [],
+                    "outputs": [
+                        "request.query",
+                        "collect->when->values.all",
+                        "collect->when.values",
+                        "collect.when",
+                        "collect",
+                        "this.projects",
+                        "items.where",
+                        "view",
+                        "this.stats",
+                        "this.posts",
+                        "collect.firstWhere",
+                        "abort_if",
+                        "this.minimalPdf",
+                        "response.streamDownload",
+                        "response",
+                        "str_replace",
+                        "strlen",
+                        "count",
+                        "array_slice",
+                        "str_pad"
+                    ]
+                }
+            ],
+            "dataStores": [],
+            "externalEntities": [
+                {
+                    "id": "external.client",
+                    "name": "User"
+                }
+            ],
+            "flows": [
+                {
+                    "from": "process.level2.public-page.1",
+                    "to": "process.level2.public-page.2",
+                    "label": "Data Bisnis"
+                },
+                {
+                    "from": "external.client",
+                    "to": "process.level2.public-page.1",
+                    "label": "Data Bisnis"
+                },
+                {
+                    "from": "process.level2.public-page.2",
+                    "to": "process.level2.public-page.3",
+                    "label": "Data Bisnis"
+                },
+                {
+                    "from": "process.level2.public-page.3",
+                    "to": "process.level2.public-page.4",
+                    "label": "Data Bisnis"
+                },
+                {
+                    "from": "process.level2.public-page.4",
+                    "to": "process.level2.public-page.5",
+                    "label": "Data Bisnis"
+                },
+                {
+                    "from": "process.level2.public-page.5",
+                    "to": "process.level2.public-page.6",
+                    "label": "Data Bisnis"
+                },
+                {
+                    "from": "process.level2.public-page.6",
+                    "to": "process.level2.public-page.7",
+                    "label": "Data Bisnis"
+                },
+                {
+                    "from": "process.level2.public-page.7",
+                    "to": "process.level2.public-page.8",
+                    "label": "Data Bisnis"
+                },
+                {
+                    "from": "process.level2.public-page.8",
+                    "to": "process.level2.public-page.9",
+                    "label": "Data Bisnis"
+                },
+                {
+                    "from": "process.level2.public-page.9",
+                    "to": "process.level2.public-page.10",
+                    "label": "Data Bisnis"
+                },
+                {
+                    "from": "process.level2.public-page.10",
+                    "to": "process.level2.public-page.11",
+                    "label": "Data Bisnis"
+                },
+                {
+                    "from": "process.level2.public-page.11",
+                    "to": "process.level2.public-page.12",
+                    "label": "Data Bisnis"
+                },
+                {
+                    "from": "process.level2.public-page.12",
+                    "to": "process.level2.public-page.13",
+                    "label": "Data Bisnis"
+                },
+                {
+                    "from": "process.level2.public-page.13",
+                    "to": "process.level2.public-page.14",
+                    "label": "Data Bisnis"
+                },
+                {
+                    "from": "process.level2.public-page.14",
+                    "to": "process.level2.public-page.15",
+                    "label": "Data Bisnis"
+                },
+                {
+                    "from": "process.level2.public-page.15",
+                    "to": "process.level2.public-page.16",
+                    "label": "Data Bisnis"
+                },
+                {
+                    "from": "process.level2.public-page.16",
+                    "to": "process.level2.public-page.17",
+                    "label": "Data Bisnis"
+                },
+                {
+                    "from": "process.level2.public-page.17",
+                    "to": "process.level2.public-page.18",
+                    "label": "Data Bisnis"
+                }
+            ]
+        },
+        {
+            "id": "level-2-laporan-warga",
+            "level": 2,
+            "title": "Level 2 Manajemen Laporan Warga",
+            "parentProcessId": "process.group.laporan-warga",
+            "childLevelIds": [],
+            "processes": [
+                {
+                    "id": "process.level2.laporan-warga.1",
+                    "number": "13.1",
+                    "name": "Validasi Data",
+                    "label": "13.1 Validasi Data",
+                    "level": 2,
+                    "parentId": "process.group.laporan-warga",
+                    "sourceProcessIds": [
+                        "process.App.Http.Controllers.LaporanWargaController.create"
+                    ],
+                    "inputs": [
+                        "GET|HEAD laporan-warga"
+                    ],
+                    "outputs": []
+                },
+                {
+                    "id": "process.level2.laporan-warga.2",
+                    "number": "13.2",
+                    "name": "Simpan Data",
+                    "label": "13.2 Simpan Data",
+                    "level": 2,
+                    "parentId": "process.group.laporan-warga",
+                    "sourceProcessIds": [
+                        "process.App.Http.Controllers.LaporanWargaController.create"
+                    ],
+                    "inputs": [],
+                    "outputs": []
+                },
+                {
+                    "id": "process.level2.laporan-warga.3",
+                    "number": "13.3",
+                    "name": "Buka Form Laporan Warga",
+                    "label": "13.3 Buka Form Laporan Warga",
+                    "level": 2,
+                    "parentId": "process.group.laporan-warga",
+                    "sourceProcessIds": [
+                        "process.App.Http.Controllers.LaporanWargaController.create"
+                    ],
+                    "inputs": [],
+                    "outputs": [
+                        "view",
+                        "request.validate",
+                        "request.hasFile",
+                        "request->file.store",
+                        "request.file",
+                        "now.format",
+                        "now",
+                        "Str.upper",
+                        "Str.random",
+                        "LaporanWarga::query.create",
+                        "LaporanWarga.query",
+                        "redirect->route.with",
+                        "redirect.route",
+                        "redirect"
+                    ]
+                },
+                {
+                    "id": "process.level2.laporan-warga.4",
+                    "number": "13.4",
+                    "name": "Validasi Data",
+                    "label": "13.4 Validasi Data",
+                    "level": 2,
+                    "parentId": "process.group.laporan-warga",
+                    "sourceProcessIds": [
+                        "process.App.Http.Controllers.LaporanWargaController.store"
+                    ],
+                    "inputs": [
+                        "POST laporan-warga"
+                    ],
+                    "outputs": []
+                },
+                {
+                    "id": "process.level2.laporan-warga.5",
+                    "number": "13.5",
+                    "name": "Simpan Data",
+                    "label": "13.5 Simpan Data",
+                    "level": 2,
+                    "parentId": "process.group.laporan-warga",
+                    "sourceProcessIds": [
+                        "process.App.Http.Controllers.LaporanWargaController.store"
+                    ],
+                    "inputs": [],
+                    "outputs": []
+                },
+                {
+                    "id": "process.level2.laporan-warga.6",
+                    "number": "13.6",
+                    "name": "Simpan Laporan Warga",
+                    "label": "13.6 Simpan Laporan Warga",
+                    "level": 2,
+                    "parentId": "process.group.laporan-warga",
+                    "sourceProcessIds": [
+                        "process.App.Http.Controllers.LaporanWargaController.store"
+                    ],
+                    "inputs": [],
+                    "outputs": [
+                        "view",
+                        "request.validate",
+                        "request.hasFile",
+                        "request->file.store",
+                        "request.file",
+                        "now.format",
+                        "now",
+                        "Str.upper",
+                        "Str.random",
+                        "LaporanWarga::query.create",
+                        "LaporanWarga.query",
+                        "redirect->route.with",
+                        "redirect.route",
+                        "redirect"
+                    ]
+                }
+            ],
+            "dataStores": [],
+            "externalEntities": [
+                {
+                    "id": "external.client",
+                    "name": "User"
+                }
+            ],
+            "flows": [
+                {
+                    "from": "process.level2.laporan-warga.1",
+                    "to": "process.level2.laporan-warga.2",
+                    "label": "Data Bisnis"
+                },
+                {
+                    "from": "process.level2.laporan-warga.2",
+                    "to": "process.level2.laporan-warga.3",
+                    "label": "Data Bisnis"
+                },
+                {
+                    "from": "external.client",
+                    "to": "process.level2.laporan-warga.1",
+                    "label": "Data Bisnis"
+                },
+                {
+                    "from": "process.level2.laporan-warga.3",
+                    "to": "process.level2.laporan-warga.4",
+                    "label": "Data Bisnis"
+                },
+                {
+                    "from": "process.level2.laporan-warga.4",
+                    "to": "process.level2.laporan-warga.5",
+                    "label": "Data Bisnis"
+                },
+                {
+                    "from": "process.level2.laporan-warga.5",
+                    "to": "process.level2.laporan-warga.6",
+                    "label": "Data Bisnis"
+                }
+            ]
+        },
+        {
+            "id": "level-2-admin-page",
+            "level": 2,
+            "title": "Level 2 Manajemen Admin Page",
+            "parentProcessId": "process.group.admin-page",
+            "childLevelIds": [],
+            "processes": [
+                {
+                    "id": "process.level2.admin-page.1",
+                    "number": "14.1",
+                    "name": "Kelola Admin Page",
+                    "label": "14.1 Kelola Admin Page",
+                    "level": 2,
+                    "parentId": "process.group.admin-page",
+                    "sourceProcessIds": [
+                        "process.App.Http.Controllers.AdminPageController.dashboard"
+                    ],
+                    "inputs": [
+                        "GET|HEAD dashboard"
+                    ],
+                    "outputs": [
+                        "view"
+                    ]
+                },
+                {
+                    "id": "process.level2.admin-page.2",
+                    "number": "14.2",
+                    "name": "Kelola Admin Page",
+                    "label": "14.2 Kelola Admin Page",
+                    "level": 2,
+                    "parentId": "process.group.admin-page",
+                    "sourceProcessIds": [
+                        "process.App.Http.Controllers.AdminPageController.funds"
+                    ],
+                    "inputs": [
+                        "GET|HEAD dashboard/dana"
+                    ],
+                    "outputs": [
+                        "view"
+                    ]
+                },
+                {
+                    "id": "process.level2.admin-page.3",
+                    "number": "14.3",
+                    "name": "Kelola Admin Page",
+                    "label": "14.3 Kelola Admin Page",
+                    "level": 2,
+                    "parentId": "process.group.admin-page",
+                    "sourceProcessIds": [
+                        "process.App.Http.Controllers.AdminPageController.projects"
+                    ],
+                    "inputs": [
+                        "GET|HEAD dashboard/proyek"
+                    ],
+                    "outputs": [
+                        "view"
+                    ]
+                },
+                {
+                    "id": "process.level2.admin-page.4",
+                    "number": "14.4",
+                    "name": "Kelola Admin Page",
+                    "label": "14.4 Kelola Admin Page",
+                    "level": 2,
+                    "parentId": "process.group.admin-page",
+                    "sourceProcessIds": [
+                        "process.App.Http.Controllers.AdminPageController.reports"
+                    ],
+                    "inputs": [
+                        "GET|HEAD dashboard/laporan"
+                    ],
+                    "outputs": [
+                        "view"
+                    ]
+                },
+                {
+                    "id": "process.level2.admin-page.5",
+                    "number": "14.5",
+                    "name": "Kelola Admin Page",
+                    "label": "14.5 Kelola Admin Page",
+                    "level": 2,
+                    "parentId": "process.group.admin-page",
+                    "sourceProcessIds": [
+                        "process.App.Http.Controllers.AdminPageController.users"
+                    ],
+                    "inputs": [
+                        "GET|HEAD dashboard/pengguna"
+                    ],
+                    "outputs": [
+                        "view"
+                    ]
+                }
+            ],
+            "dataStores": [],
+            "externalEntities": [
+                {
+                    "id": "external.client",
+                    "name": "User"
+                }
+            ],
+            "flows": [
+                {
+                    "from": "external.client",
+                    "to": "process.level2.admin-page.1",
+                    "label": "Data Bisnis"
+                },
+                {
+                    "from": "process.level2.admin-page.1",
+                    "to": "process.level2.admin-page.2",
+                    "label": "Data Bisnis"
+                },
+                {
+                    "from": "process.level2.admin-page.2",
+                    "to": "process.level2.admin-page.3",
+                    "label": "Data Bisnis"
+                },
+                {
+                    "from": "process.level2.admin-page.3",
+                    "to": "process.level2.admin-page.4",
+                    "label": "Data Bisnis"
+                },
+                {
+                    "from": "process.level2.admin-page.4",
+                    "to": "process.level2.admin-page.5",
+                    "label": "Data Bisnis"
+                }
+            ]
+        }
+    ]
+}

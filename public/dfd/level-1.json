@@ -1,0 +1,1412 @@
+{
+    "system": "Profil Kampung System",
+    "level": 1,
+    "meta": {
+        "generatedAt": "2026-05-22T11:29:30+00:00",
+        "routes": 50,
+        "processes": 123,
+        "dataStores": 0,
+        "externalEntities": 1,
+        "warnings": [
+            "Tidak ada proses kompleks untuk Level 3. Diagram Level 3 dibuat sebagai empty state."
+        ],
+        "creator": "Andre Tumbelaka"
+    },
+    "groups": [
+        {
+            "key": "authentication",
+            "label": "Autentikasi",
+            "number": "1.0",
+            "processId": "process.group.authentication",
+            "processes": [
+                {
+                    "id": "process.Filament.Actions.Exports.Http.Controllers.DownloadExport",
+                    "name": "Filament\\Actions\\Exports\\Http\\Controllers\\DownloadExport",
+                    "inputs": [
+                        "GET|HEAD filament/exports/{export}/download"
+                    ],
+                    "outputs": [
+                        "filled",
+                        "Gate.getPolicyFor",
+                        "authorize",
+                        "abort_unless",
+                        "export->user.is",
+                        "export.user",
+                        "auth.user",
+                        "auth",
+                        "this.resolveFormatFromRequest",
+                        "PhpParser\\Node\\Expr\\MethodCall",
+                        "format.getDownloader",
+                        "ExportFormat.tryFrom",
+                        "request.query"
+                    ]
+                },
+                {
+                    "id": "process.Filament.Actions.Imports.Http.Controllers.DownloadImportFailureCsv",
+                    "name": "Filament\\Actions\\Imports\\Http\\Controllers\\DownloadImportFailureCsv",
+                    "inputs": [
+                        "GET|HEAD filament/imports/{import}/failed-rows/download"
+                    ],
+                    "outputs": [
+                        "filled",
+                        "Gate.getPolicyFor",
+                        "authorize",
+                        "abort_unless",
+                        "import->user.is",
+                        "import.user",
+                        "auth.user",
+                        "auth",
+                        "Writer.createFromFileObject",
+                        "csv.setOutputBOM",
+                        "import->failedRows.first",
+                        "import.failedRows",
+                        "array_keys",
+                        "__",
+                        "csv.insertOne",
+                        "import->failedRows->lazyById.each",
+                        "import->failedRows.lazyById",
+                        "response.streamDownload",
+                        "response",
+                        "csv.chunk",
+                        "flush",
+                        "import.getKey",
+                        "str->beforeLast.remove",
+                        "str.beforeLast",
+                        "str"
+                    ]
+                },
+                {
+                    "id": "process.Filament.Pages.Auth.Login",
+                    "name": "Filament\\Pages\\Auth\\Login",
+                    "inputs": [
+                        "GET|HEAD admin/login"
+                    ],
+                    "outputs": [
+                        "Filament::auth.check",
+                        "Filament.auth",
+                        "redirect.intended",
+                        "redirect",
+                        "Filament.getUrl",
+                        "PhpParser\\Node\\Expr\\PropertyFetch.fill",
+                        "this.rateLimit",
+                        "this.getRateLimitedNotification",
+                        "PhpParser\\Node\\Expr\\PropertyFetch.getState",
+                        "Filament::auth.attempt",
+                        "this.getCredentialsFromFormData",
+                        "this.throwFailureValidationException",
+                        "Filament::auth.user",
+                        "user.canAccessPanel",
+                        "Filament.getCurrentPanel",
+                        "Filament::auth.logout",
+                        "session.regenerate",
+                        "session",
+                        "app",
+                        "Notification::make->title->body.danger",
+                        "Notification::make->title.body",
+                        "Notification::make.title",
+                        "Notification.make",
+                        "__",
+                        "array_key_exists",
+                        "ValidationException.withMessages",
+                        "this.form",
+                        "this->makeForm->schema.statePath",
+                        "this->makeForm.schema",
+                        "this.makeForm",
+                        "this.getEmailFormComponent",
+                        "this.getPasswordFormComponent",
+                        "this.getRememberFormComponent",
+                        "TextInput::make->label->email->required->autocomplete->autofocus.extraInputAttributes",
+                        "TextInput::make->label->email->required->autocomplete.autofocus",
+                        "TextInput::make->label->email->required.autocomplete",
+                        "TextInput::make->label->email.required",
+                        "TextInput::make->label.email",
+                        "TextInput::make.label",
+                        "TextInput.make",
+                        "TextInput::make->label->hint->password->revealable->autocomplete->required.extraInputAttributes",
+                        "TextInput::make->label->hint->password->revealable->autocomplete.required",
+                        "TextInput::make->label->hint->password->revealable.autocomplete",
+                        "TextInput::make->label->hint->password.revealable",
+                        "TextInput::make->label->hint.password",
+                        "TextInput::make->label.hint",
+                        "filament.hasPasswordReset",
+                        "filament",
+                        "Blade.render",
+                        "filament.arePasswordsRevealable",
+                        "Checkbox::make.label",
+                        "Checkbox.make",
+                        "Action::make->link->label.url",
+                        "Action::make->link.label",
+                        "Action::make.link",
+                        "Action.make",
+                        "filament.getRegistrationUrl",
+                        "this.getAuthenticateFormAction",
+                        "Action::make->label.submit",
+                        "Action::make.label"
+                    ]
+                },
+                {
+                    "id": "process.Filament.Http.Controllers.Auth.LogoutController",
+                    "name": "Filament\\Http\\Controllers\\Auth\\LogoutController",
+                    "inputs": [
+                        "POST admin/logout"
+                    ],
+                    "outputs": [
+                        "Filament::auth.logout",
+                        "Filament.auth",
+                        "session.invalidate",
+                        "session",
+                        "session.regenerateToken",
+                        "app"
+                    ]
+                },
+                {
+                    "id": "process.App.Http.Controllers.AuthController.showLogin",
+                    "name": "App\\Http\\Controllers\\AuthController@showLogin",
+                    "inputs": [
+                        "GET|HEAD login"
+                    ],
+                    "outputs": [
+                        "view",
+                        "request.validate",
+                        "Auth.attempt",
+                        "request.boolean",
+                        "request->session.regenerate",
+                        "request.session",
+                        "redirect.intended",
+                        "redirect",
+                        "route",
+                        "back->withErrors.onlyInput",
+                        "back.withErrors",
+                        "back",
+                        "Auth.logout",
+                        "request->session.invalidate",
+                        "request->session.regenerateToken",
+                        "redirect.route"
+                    ]
+                },
+                {
+                    "id": "process.App.Http.Controllers.AuthController.login",
+                    "name": "App\\Http\\Controllers\\AuthController@login",
+                    "inputs": [
+                        "POST login"
+                    ],
+                    "outputs": [
+                        "view",
+                        "request.validate",
+                        "Auth.attempt",
+                        "request.boolean",
+                        "request->session.regenerate",
+                        "request.session",
+                        "redirect.intended",
+                        "redirect",
+                        "route",
+                        "back->withErrors.onlyInput",
+                        "back.withErrors",
+                        "back",
+                        "Auth.logout",
+                        "request->session.invalidate",
+                        "request->session.regenerateToken",
+                        "redirect.route"
+                    ]
+                },
+                {
+                    "id": "process.App.Http.Controllers.AuthController.logout",
+                    "name": "App\\Http\\Controllers\\AuthController@logout",
+                    "inputs": [
+                        "POST logout"
+                    ],
+                    "outputs": [
+                        "view",
+                        "request.validate",
+                        "Auth.attempt",
+                        "request.boolean",
+                        "request->session.regenerate",
+                        "request.session",
+                        "redirect.intended",
+                        "redirect",
+                        "route",
+                        "back->withErrors.onlyInput",
+                        "back.withErrors",
+                        "back",
+                        "Auth.logout",
+                        "request->session.invalidate",
+                        "request->session.regenerateToken",
+                        "redirect.route"
+                    ]
+                }
+            ]
+        },
+        {
+            "key": "product",
+            "label": "Manajemen Produk",
+            "number": "2.0",
+            "processId": "process.group.product",
+            "processes": [
+                {
+                    "id": "process.App.Filament.Resources.KategoriAnggaranResource.Pages.ListKategoriAnggarans",
+                    "name": "App\\Filament\\Resources\\KategoriAnggaranResource\\Pages\\ListKategoriAnggarans",
+                    "inputs": [
+                        "GET|HEAD admin/kategori-anggarans"
+                    ],
+                    "outputs": [
+                        "Actions\\CreateAction.make"
+                    ]
+                },
+                {
+                    "id": "process.App.Filament.Resources.KategoriAnggaranResource.Pages.CreateKategoriAnggaran",
+                    "name": "App\\Filament\\Resources\\KategoriAnggaranResource\\Pages\\CreateKategoriAnggaran",
+                    "inputs": [
+                        "GET|HEAD admin/kategori-anggarans/create"
+                    ],
+                    "outputs": []
+                },
+                {
+                    "id": "process.App.Filament.Resources.KategoriAnggaranResource.Pages.EditKategoriAnggaran",
+                    "name": "App\\Filament\\Resources\\KategoriAnggaranResource\\Pages\\EditKategoriAnggaran",
+                    "inputs": [
+                        "GET|HEAD admin/kategori-anggarans/{record}/edit"
+                    ],
+                    "outputs": [
+                        "Actions\\DeleteAction.make"
+                    ]
+                }
+            ]
+        },
+        {
+            "key": "dashboard-g-e-t-h-e-a-d-admin-filament-icon-resolve-filament-has-top-navigation-filament-get-widgets-this-filter-visible-widgets-this-get-widgets",
+            "label": "Manajemen Dashboard  G E T| H E A D admin __  Filament Icon.resolve  Filament.has Top Navigation  Filament.get Widgets this.filter Visible Widgets this.get Widgets",
+            "number": "3.0",
+            "processId": "process.group.dashboard-g-e-t-h-e-a-d-admin-filament-icon-resolve-filament-has-top-navigation-filament-get-widgets-this-filter-visible-widgets-this-get-widgets",
+            "processes": [
+                {
+                    "id": "process.Filament.Pages.Dashboard",
+                    "name": "Filament\\Pages\\Dashboard",
+                    "inputs": [
+                        "GET|HEAD admin"
+                    ],
+                    "outputs": [
+                        "__",
+                        "FilamentIcon.resolve",
+                        "Filament.hasTopNavigation",
+                        "Filament.getWidgets",
+                        "this.filterVisibleWidgets",
+                        "this.getWidgets"
+                    ]
+                }
+            ]
+        },
+        {
+            "key": "create-action-make",
+            "label": "Manajemen Create Action.make",
+            "number": "4.0",
+            "processId": "process.group.create-action-make",
+            "processes": [
+                {
+                    "id": "process.App.Filament.Resources.DanaMasukResource.Pages.ListDanaMasuks",
+                    "name": "App\\Filament\\Resources\\DanaMasukResource\\Pages\\ListDanaMasuks",
+                    "inputs": [
+                        "GET|HEAD admin/dana-masuks"
+                    ],
+                    "outputs": [
+                        "Actions\\CreateAction.make"
+                    ]
+                },
+                {
+                    "id": "process.App.Filament.Resources.LaporanKeuanganResource.Pages.ListLaporanKeuangans",
+                    "name": "App\\Filament\\Resources\\LaporanKeuanganResource\\Pages\\ListLaporanKeuangans",
+                    "inputs": [
+                        "GET|HEAD admin/laporan-keuangans"
+                    ],
+                    "outputs": [
+                        "Actions\\CreateAction.make"
+                    ]
+                },
+                {
+                    "id": "process.App.Filament.Resources.LaporanWargaResource.Pages.ListLaporanWargas",
+                    "name": "App\\Filament\\Resources\\LaporanWargaResource\\Pages\\ListLaporanWargas",
+                    "inputs": [
+                        "GET|HEAD admin/laporan-wargas"
+                    ],
+                    "outputs": [
+                        "Actions\\CreateAction.make"
+                    ]
+                },
+                {
+                    "id": "process.App.Filament.Resources.PengeluaranResource.Pages.ListPengeluarans",
+                    "name": "App\\Filament\\Resources\\PengeluaranResource\\Pages\\ListPengeluarans",
+                    "inputs": [
+                        "GET|HEAD admin/pengeluarans"
+                    ],
+                    "outputs": [
+                        "Actions\\CreateAction.make"
+                    ]
+                },
+                {
+                    "id": "process.App.Filament.Resources.ProyekKampungResource.Pages.ListProyekKampungs",
+                    "name": "App\\Filament\\Resources\\ProyekKampungResource\\Pages\\ListProyekKampungs",
+                    "inputs": [
+                        "GET|HEAD admin/proyek-kampungs"
+                    ],
+                    "outputs": [
+                        "Actions\\CreateAction.make"
+                    ]
+                },
+                {
+                    "id": "process.App.Filament.Resources.UserResource.Pages.ListUsers",
+                    "name": "App\\Filament\\Resources\\UserResource\\Pages\\ListUsers",
+                    "inputs": [
+                        "GET|HEAD admin/users"
+                    ],
+                    "outputs": [
+                        "Actions\\CreateAction.make"
+                    ]
+                }
+            ]
+        },
+        {
+            "key": "create",
+            "label": "Manajemen create",
+            "number": "5.0",
+            "processId": "process.group.create",
+            "processes": [
+                {
+                    "id": "process.App.Filament.Resources.DanaMasukResource.Pages.CreateDanaMasuk",
+                    "name": "App\\Filament\\Resources\\DanaMasukResource\\Pages\\CreateDanaMasuk",
+                    "inputs": [
+                        "GET|HEAD admin/dana-masuks/create"
+                    ],
+                    "outputs": []
+                },
+                {
+                    "id": "process.App.Filament.Resources.LaporanKeuanganResource.Pages.CreateLaporanKeuangan",
+                    "name": "App\\Filament\\Resources\\LaporanKeuanganResource\\Pages\\CreateLaporanKeuangan",
+                    "inputs": [
+                        "GET|HEAD admin/laporan-keuangans/create"
+                    ],
+                    "outputs": []
+                },
+                {
+                    "id": "process.App.Filament.Resources.PengeluaranResource.Pages.CreatePengeluaran",
+                    "name": "App\\Filament\\Resources\\PengeluaranResource\\Pages\\CreatePengeluaran",
+                    "inputs": [
+                        "GET|HEAD admin/pengeluarans/create"
+                    ],
+                    "outputs": []
+                },
+                {
+                    "id": "process.App.Filament.Resources.ProyekKampungResource.Pages.CreateProyekKampung",
+                    "name": "App\\Filament\\Resources\\ProyekKampungResource\\Pages\\CreateProyekKampung",
+                    "inputs": [
+                        "GET|HEAD admin/proyek-kampungs/create"
+                    ],
+                    "outputs": []
+                },
+                {
+                    "id": "process.App.Filament.Resources.UserResource.Pages.CreateUser",
+                    "name": "App\\Filament\\Resources\\UserResource\\Pages\\CreateUser",
+                    "inputs": [
+                        "GET|HEAD admin/users/create"
+                    ],
+                    "outputs": []
+                }
+            ]
+        },
+        {
+            "key": "delete-action-make",
+            "label": "Manajemen Delete Action.make",
+            "number": "6.0",
+            "processId": "process.group.delete-action-make",
+            "processes": [
+                {
+                    "id": "process.App.Filament.Resources.DanaMasukResource.Pages.EditDanaMasuk",
+                    "name": "App\\Filament\\Resources\\DanaMasukResource\\Pages\\EditDanaMasuk",
+                    "inputs": [
+                        "GET|HEAD admin/dana-masuks/{record}/edit"
+                    ],
+                    "outputs": [
+                        "Actions\\DeleteAction.make"
+                    ]
+                },
+                {
+                    "id": "process.App.Filament.Resources.LaporanKeuanganResource.Pages.EditLaporanKeuangan",
+                    "name": "App\\Filament\\Resources\\LaporanKeuanganResource\\Pages\\EditLaporanKeuangan",
+                    "inputs": [
+                        "GET|HEAD admin/laporan-keuangans/{record}/edit"
+                    ],
+                    "outputs": [
+                        "Actions\\DeleteAction.make"
+                    ]
+                },
+                {
+                    "id": "process.App.Filament.Resources.LaporanWargaResource.Pages.EditLaporanWarga",
+                    "name": "App\\Filament\\Resources\\LaporanWargaResource\\Pages\\EditLaporanWarga",
+                    "inputs": [
+                        "GET|HEAD admin/laporan-wargas/{record}/edit"
+                    ],
+                    "outputs": [
+                        "Actions\\DeleteAction.make"
+                    ]
+                },
+                {
+                    "id": "process.App.Filament.Resources.PengeluaranResource.Pages.EditPengeluaran",
+                    "name": "App\\Filament\\Resources\\PengeluaranResource\\Pages\\EditPengeluaran",
+                    "inputs": [
+                        "GET|HEAD admin/pengeluarans/{record}/edit"
+                    ],
+                    "outputs": [
+                        "Actions\\DeleteAction.make"
+                    ]
+                },
+                {
+                    "id": "process.App.Filament.Resources.ProyekKampungResource.Pages.EditProyekKampung",
+                    "name": "App\\Filament\\Resources\\ProyekKampungResource\\Pages\\EditProyekKampung",
+                    "inputs": [
+                        "GET|HEAD admin/proyek-kampungs/{record}/edit"
+                    ],
+                    "outputs": [
+                        "Actions\\DeleteAction.make"
+                    ]
+                },
+                {
+                    "id": "process.App.Filament.Resources.UserResource.Pages.EditUser",
+                    "name": "App\\Filament\\Resources\\UserResource\\Pages\\EditUser",
+                    "inputs": [
+                        "GET|HEAD admin/users/{record}/edit"
+                    ],
+                    "outputs": [
+                        "Actions\\DeleteAction.make"
+                    ]
+                }
+            ]
+        },
+        {
+            "key": "create-now-format-now-str-upper-str-random",
+            "label": "Manajemen create now.format now  Str.upper  Str.random",
+            "number": "7.0",
+            "processId": "process.group.create-now-format-now-str-upper-str-random",
+            "processes": [
+                {
+                    "id": "process.App.Filament.Resources.LaporanWargaResource.Pages.CreateLaporanWarga",
+                    "name": "App\\Filament\\Resources\\LaporanWargaResource\\Pages\\CreateLaporanWarga",
+                    "inputs": [
+                        "GET|HEAD admin/laporan-wargas/create"
+                    ],
+                    "outputs": [
+                        "now.format",
+                        "now",
+                        "Str.upper",
+                        "Str.random"
+                    ]
+                }
+            ]
+        },
+        {
+            "key": "handle-requests",
+            "label": "Manajemen Handle Requests",
+            "number": "8.0",
+            "processId": "process.group.handle-requests",
+            "processes": [
+                {
+                    "id": "process.Livewire.Mechanisms.HandleRequests.HandleRequests.handleUpdate",
+                    "name": "Livewire\\Mechanisms\\HandleRequests\\HandleRequests@handleUpdate",
+                    "inputs": [
+                        "POST livewire/update"
+                    ],
+                    "outputs": [
+                        "this.updateRouteExists",
+                        "app.setUpdateRoute",
+                        "app",
+                        "Route::post->middleware.name",
+                        "Route::post.middleware",
+                        "Route.post",
+                        "this.skipRequestPayloadTamperingMiddleware",
+                        "this.findUpdateRoute",
+                        "str.start",
+                        "str",
+                        "app.toRoute",
+                        "Route::getRoutes.getRoutes",
+                        "Route.getRoutes",
+                        "str.endsWith",
+                        "route.getName",
+                        "Illuminate\\Foundation\\Http\\Middleware\\ConvertEmptyStringsToNull.skipWhen",
+                        "this.isLivewireRequest",
+                        "Illuminate\\Foundation\\Http\\Middleware\\TrimStrings.skipWhen",
+                        "callback",
+                        "route.name",
+                        "request.hasHeader",
+                        "request",
+                        "request.route",
+                        "route.named",
+                        "is_array",
+                        "abort",
+                        "is_string",
+                        "trigger",
+                        "finish",
+                        "json_decode",
+                        "app.update",
+                        "config",
+                        "json_encode",
+                        "SupportScriptsAndAssets.getAssets"
+                    ]
+                }
+            ]
+        },
+        {
+            "key": "frontend-assets",
+            "label": "Manajemen Frontend Assets",
+            "number": "9.0",
+            "processId": "process.group.frontend-assets",
+            "processes": [
+                {
+                    "id": "process.Livewire.Mechanisms.FrontendAssets.FrontendAssets.returnJavaScriptAsFile",
+                    "name": "Livewire\\Mechanisms\\FrontendAssets\\FrontendAssets@returnJavaScriptAsFile",
+                    "inputs": [
+                        "GET|HEAD livewire/livewire.js"
+                    ],
+                    "outputs": [
+                        "app.setScriptRoute",
+                        "app",
+                        "config",
+                        "Route.get",
+                        "Blade.directive",
+                        "app.provide",
+                        "this.publishes",
+                        "public_path",
+                        "on",
+                        "array_merge",
+                        "callback",
+                        "Utils.pretendResponseIsFile",
+                        "static.nonce",
+                        "static.minify",
+                        "static.js",
+                        "implode",
+                        "rtrim",
+                        "str.when",
+                        "str",
+                        "str.isUrl",
+                        "url.start",
+                        "file_exists",
+                        "json_decode",
+                        "file_get_contents",
+                        "app.has",
+                        "csrf_token",
+                        "static.usePublishedAssetsIfAvailable",
+                        "app.getUpdateUri",
+                        "Utils.stringifyHtmlAttributes",
+                        "json_encode",
+                        "app.isRunningServerless",
+                        "url",
+                        "preg_replace",
+                        "Vite.cspNonce"
+                    ]
+                },
+                {
+                    "id": "process.Livewire.Mechanisms.FrontendAssets.FrontendAssets.maps",
+                    "name": "Livewire\\Mechanisms\\FrontendAssets\\FrontendAssets@maps",
+                    "inputs": [
+                        "GET|HEAD livewire/livewire.min.js.map"
+                    ],
+                    "outputs": [
+                        "app.setScriptRoute",
+                        "app",
+                        "config",
+                        "Route.get",
+                        "Blade.directive",
+                        "app.provide",
+                        "this.publishes",
+                        "public_path",
+                        "on",
+                        "array_merge",
+                        "callback",
+                        "Utils.pretendResponseIsFile",
+                        "static.nonce",
+                        "static.minify",
+                        "static.js",
+                        "implode",
+                        "rtrim",
+                        "str.when",
+                        "str",
+                        "str.isUrl",
+                        "url.start",
+                        "file_exists",
+                        "json_decode",
+                        "file_get_contents",
+                        "app.has",
+                        "csrf_token",
+                        "static.usePublishedAssetsIfAvailable",
+                        "app.getUpdateUri",
+                        "Utils.stringifyHtmlAttributes",
+                        "json_encode",
+                        "app.isRunningServerless",
+                        "url",
+                        "preg_replace",
+                        "Vite.cspNonce"
+                    ]
+                }
+            ]
+        },
+        {
+            "key": "file-upload",
+            "label": "Manajemen File Upload",
+            "number": "10.0",
+            "processId": "process.group.file-upload",
+            "processes": [
+                {
+                    "id": "process.Livewire.Features.SupportFileUploads.FileUploadController.handle",
+                    "name": "Livewire\\Features\\SupportFileUploads\\FileUploadController@handle",
+                    "inputs": [
+                        "POST livewire/upload-file"
+                    ],
+                    "outputs": [
+                        "FileUploadConfiguration.middleware",
+                        "array_reverse",
+                        "in_array",
+                        "array_unshift",
+                        "array_map",
+                        "abort_unless",
+                        "request.hasValidSignature",
+                        "request",
+                        "FileUploadConfiguration.disk",
+                        "this.validateAndStore",
+                        "Validator::make.validate",
+                        "Validator.make",
+                        "FileUploadConfiguration.rules",
+                        "collect.map",
+                        "collect",
+                        "TemporaryUploadedFile.generateHashNameWithOriginalNameEmbedded",
+                        "file.storeAs",
+                        "FileUploadConfiguration.path",
+                        "fileHashPaths.map",
+                        "str_replace"
+                    ]
+                }
+            ]
+        },
+        {
+            "key": "file-preview",
+            "label": "Manajemen File Preview",
+            "number": "11.0",
+            "processId": "process.group.file-preview",
+            "processes": [
+                {
+                    "id": "process.Livewire.Features.SupportFileUploads.FilePreviewController.handle",
+                    "name": "Livewire\\Features\\SupportFileUploads\\FilePreviewController@handle",
+                    "inputs": [
+                        "GET|HEAD livewire/preview-file/{filename}"
+                    ],
+                    "outputs": [
+                        "array_map",
+                        "abort_unless",
+                        "request.hasValidSignature",
+                        "request",
+                        "Utils.pretendPreviewResponseIsPreviewFile"
+                    ]
+                }
+            ]
+        },
+        {
+            "key": "public-page",
+            "label": "Manajemen Public Page",
+            "number": "12.0",
+            "processId": "process.group.public-page",
+            "processes": [
+                {
+                    "id": "process.App.Http.Controllers.PublicPageController.transparency",
+                    "name": "App\\Http\\Controllers\\PublicPageController@transparency",
+                    "inputs": [
+                        "GET|HEAD transparansi"
+                    ],
+                    "outputs": [
+                        "request.query",
+                        "collect->when->values.all",
+                        "collect->when.values",
+                        "collect.when",
+                        "collect",
+                        "this.projects",
+                        "items.where",
+                        "view",
+                        "this.stats",
+                        "this.posts",
+                        "collect.firstWhere",
+                        "abort_if",
+                        "this.minimalPdf",
+                        "response.streamDownload",
+                        "response",
+                        "str_replace",
+                        "strlen",
+                        "count",
+                        "array_slice",
+                        "str_pad"
+                    ]
+                },
+                {
+                    "id": "process.App.Http.Controllers.PublicPageController.news",
+                    "name": "App\\Http\\Controllers\\PublicPageController@news",
+                    "inputs": [
+                        "GET|HEAD berita"
+                    ],
+                    "outputs": [
+                        "request.query",
+                        "collect->when->values.all",
+                        "collect->when.values",
+                        "collect.when",
+                        "collect",
+                        "this.projects",
+                        "items.where",
+                        "view",
+                        "this.stats",
+                        "this.posts",
+                        "collect.firstWhere",
+                        "abort_if",
+                        "this.minimalPdf",
+                        "response.streamDownload",
+                        "response",
+                        "str_replace",
+                        "strlen",
+                        "count",
+                        "array_slice",
+                        "str_pad"
+                    ]
+                },
+                {
+                    "id": "process.App.Http.Controllers.PublicPageController.newsDetail",
+                    "name": "App\\Http\\Controllers\\PublicPageController@newsDetail",
+                    "inputs": [
+                        "GET|HEAD berita/{slug}"
+                    ],
+                    "outputs": [
+                        "request.query",
+                        "collect->when->values.all",
+                        "collect->when.values",
+                        "collect.when",
+                        "collect",
+                        "this.projects",
+                        "items.where",
+                        "view",
+                        "this.stats",
+                        "this.posts",
+                        "collect.firstWhere",
+                        "abort_if",
+                        "this.minimalPdf",
+                        "response.streamDownload",
+                        "response",
+                        "str_replace",
+                        "strlen",
+                        "count",
+                        "array_slice",
+                        "str_pad"
+                    ]
+                },
+                {
+                    "id": "process.App.Http.Controllers.PublicPageController.downloadPdf",
+                    "name": "App\\Http\\Controllers\\PublicPageController@downloadPdf",
+                    "inputs": [
+                        "GET|HEAD laporan/pdf"
+                    ],
+                    "outputs": [
+                        "request.query",
+                        "collect->when->values.all",
+                        "collect->when.values",
+                        "collect.when",
+                        "collect",
+                        "this.projects",
+                        "items.where",
+                        "view",
+                        "this.stats",
+                        "this.posts",
+                        "collect.firstWhere",
+                        "abort_if",
+                        "this.minimalPdf",
+                        "response.streamDownload",
+                        "response",
+                        "str_replace",
+                        "strlen",
+                        "count",
+                        "array_slice",
+                        "str_pad"
+                    ]
+                },
+                {
+                    "id": "process.App.Http.Controllers.PublicPageController.contact",
+                    "name": "App\\Http\\Controllers\\PublicPageController@contact",
+                    "inputs": [
+                        "GET|HEAD kontak"
+                    ],
+                    "outputs": [
+                        "request.query",
+                        "collect->when->values.all",
+                        "collect->when.values",
+                        "collect.when",
+                        "collect",
+                        "this.projects",
+                        "items.where",
+                        "view",
+                        "this.stats",
+                        "this.posts",
+                        "collect.firstWhere",
+                        "abort_if",
+                        "this.minimalPdf",
+                        "response.streamDownload",
+                        "response",
+                        "str_replace",
+                        "strlen",
+                        "count",
+                        "array_slice",
+                        "str_pad"
+                    ]
+                },
+                {
+                    "id": "process.App.Http.Controllers.PublicPageController.support",
+                    "name": "App\\Http\\Controllers\\PublicPageController@support",
+                    "inputs": [
+                        "GET|HEAD support"
+                    ],
+                    "outputs": [
+                        "request.query",
+                        "collect->when->values.all",
+                        "collect->when.values",
+                        "collect.when",
+                        "collect",
+                        "this.projects",
+                        "items.where",
+                        "view",
+                        "this.stats",
+                        "this.posts",
+                        "collect.firstWhere",
+                        "abort_if",
+                        "this.minimalPdf",
+                        "response.streamDownload",
+                        "response",
+                        "str_replace",
+                        "strlen",
+                        "count",
+                        "array_slice",
+                        "str_pad"
+                    ]
+                },
+                {
+                    "id": "process.App.Http.Controllers.PublicPageController.forgotPassword",
+                    "name": "App\\Http\\Controllers\\PublicPageController@forgotPassword",
+                    "inputs": [
+                        "GET|HEAD forgot-password"
+                    ],
+                    "outputs": [
+                        "request.query",
+                        "collect->when->values.all",
+                        "collect->when.values",
+                        "collect.when",
+                        "collect",
+                        "this.projects",
+                        "items.where",
+                        "view",
+                        "this.stats",
+                        "this.posts",
+                        "collect.firstWhere",
+                        "abort_if",
+                        "this.minimalPdf",
+                        "response.streamDownload",
+                        "response",
+                        "str_replace",
+                        "strlen",
+                        "count",
+                        "array_slice",
+                        "str_pad"
+                    ]
+                },
+                {
+                    "id": "process.App.Http.Controllers.PublicPageController.privacy",
+                    "name": "App\\Http\\Controllers\\PublicPageController@privacy",
+                    "inputs": [
+                        "GET|HEAD kebijakan-privasi"
+                    ],
+                    "outputs": [
+                        "request.query",
+                        "collect->when->values.all",
+                        "collect->when.values",
+                        "collect.when",
+                        "collect",
+                        "this.projects",
+                        "items.where",
+                        "view",
+                        "this.stats",
+                        "this.posts",
+                        "collect.firstWhere",
+                        "abort_if",
+                        "this.minimalPdf",
+                        "response.streamDownload",
+                        "response",
+                        "str_replace",
+                        "strlen",
+                        "count",
+                        "array_slice",
+                        "str_pad"
+                    ]
+                },
+                {
+                    "id": "process.App.Http.Controllers.PublicPageController.sitemap",
+                    "name": "App\\Http\\Controllers\\PublicPageController@sitemap",
+                    "inputs": [
+                        "GET|HEAD peta-situs"
+                    ],
+                    "outputs": [
+                        "request.query",
+                        "collect->when->values.all",
+                        "collect->when.values",
+                        "collect.when",
+                        "collect",
+                        "this.projects",
+                        "items.where",
+                        "view",
+                        "this.stats",
+                        "this.posts",
+                        "collect.firstWhere",
+                        "abort_if",
+                        "this.minimalPdf",
+                        "response.streamDownload",
+                        "response",
+                        "str_replace",
+                        "strlen",
+                        "count",
+                        "array_slice",
+                        "str_pad"
+                    ]
+                }
+            ]
+        },
+        {
+            "key": "laporan-warga",
+            "label": "Manajemen Laporan Warga",
+            "number": "13.0",
+            "processId": "process.group.laporan-warga",
+            "processes": [
+                {
+                    "id": "process.App.Http.Controllers.LaporanWargaController.create",
+                    "name": "App\\Http\\Controllers\\LaporanWargaController@create",
+                    "inputs": [
+                        "GET|HEAD laporan-warga"
+                    ],
+                    "outputs": [
+                        "view",
+                        "request.validate",
+                        "request.hasFile",
+                        "request->file.store",
+                        "request.file",
+                        "now.format",
+                        "now",
+                        "Str.upper",
+                        "Str.random",
+                        "LaporanWarga::query.create",
+                        "LaporanWarga.query",
+                        "redirect->route.with",
+                        "redirect.route",
+                        "redirect"
+                    ]
+                },
+                {
+                    "id": "process.App.Http.Controllers.LaporanWargaController.store",
+                    "name": "App\\Http\\Controllers\\LaporanWargaController@store",
+                    "inputs": [
+                        "POST laporan-warga"
+                    ],
+                    "outputs": [
+                        "view",
+                        "request.validate",
+                        "request.hasFile",
+                        "request->file.store",
+                        "request.file",
+                        "now.format",
+                        "now",
+                        "Str.upper",
+                        "Str.random",
+                        "LaporanWarga::query.create",
+                        "LaporanWarga.query",
+                        "redirect->route.with",
+                        "redirect.route",
+                        "redirect"
+                    ]
+                }
+            ]
+        },
+        {
+            "key": "admin-page",
+            "label": "Manajemen Admin Page",
+            "number": "14.0",
+            "processId": "process.group.admin-page",
+            "processes": [
+                {
+                    "id": "process.App.Http.Controllers.AdminPageController.dashboard",
+                    "name": "App\\Http\\Controllers\\AdminPageController@dashboard",
+                    "inputs": [
+                        "GET|HEAD dashboard"
+                    ],
+                    "outputs": [
+                        "view"
+                    ]
+                },
+                {
+                    "id": "process.App.Http.Controllers.AdminPageController.funds",
+                    "name": "App\\Http\\Controllers\\AdminPageController@funds",
+                    "inputs": [
+                        "GET|HEAD dashboard/dana"
+                    ],
+                    "outputs": [
+                        "view"
+                    ]
+                },
+                {
+                    "id": "process.App.Http.Controllers.AdminPageController.projects",
+                    "name": "App\\Http\\Controllers\\AdminPageController@projects",
+                    "inputs": [
+                        "GET|HEAD dashboard/proyek"
+                    ],
+                    "outputs": [
+                        "view"
+                    ]
+                },
+                {
+                    "id": "process.App.Http.Controllers.AdminPageController.reports",
+                    "name": "App\\Http\\Controllers\\AdminPageController@reports",
+                    "inputs": [
+                        "GET|HEAD dashboard/laporan"
+                    ],
+                    "outputs": [
+                        "view"
+                    ]
+                },
+                {
+                    "id": "process.App.Http.Controllers.AdminPageController.users",
+                    "name": "App\\Http\\Controllers\\AdminPageController@users",
+                    "inputs": [
+                        "GET|HEAD dashboard/pengguna"
+                    ],
+                    "outputs": [
+                        "view"
+                    ]
+                }
+            ]
+        }
+    ],
+    "diagrams": [
+        {
+            "id": "level-1",
+            "level": 1,
+            "title": "Level 1 Process Decomposition",
+            "parentProcessId": "process.system",
+            "childLevelIds": [
+                "level-2-authentication",
+                "level-2-product",
+                "level-2-dashboard-g-e-t-h-e-a-d-admin-filament-icon-resolve-filament-has-top-navigation-filament-get-widgets-this-filter-visible-widgets-this-get-widgets",
+                "level-2-create-action-make",
+                "level-2-create",
+                "level-2-delete-action-make",
+                "level-2-create-now-format-now-str-upper-str-random",
+                "level-2-handle-requests",
+                "level-2-frontend-assets",
+                "level-2-file-upload",
+                "level-2-file-preview",
+                "level-2-public-page",
+                "level-2-laporan-warga",
+                "level-2-admin-page"
+            ],
+            "processes": [
+                {
+                    "id": "process.group.authentication",
+                    "number": "1.0",
+                    "name": "Autentikasi",
+                    "label": "1.0 Autentikasi",
+                    "level": 1,
+                    "parentId": "process.system",
+                    "sourceProcessIds": [
+                        "process.Filament.Actions.Exports.Http.Controllers.DownloadExport",
+                        "process.Filament.Actions.Imports.Http.Controllers.DownloadImportFailureCsv",
+                        "process.Filament.Pages.Auth.Login",
+                        "process.Filament.Http.Controllers.Auth.LogoutController",
+                        "process.App.Http.Controllers.AuthController.showLogin",
+                        "process.App.Http.Controllers.AuthController.login",
+                        "process.App.Http.Controllers.AuthController.logout"
+                    ],
+                    "inputs": [],
+                    "outputs": []
+                },
+                {
+                    "id": "process.group.product",
+                    "number": "2.0",
+                    "name": "Manajemen Produk",
+                    "label": "2.0 Manajemen Produk",
+                    "level": 1,
+                    "parentId": "process.system",
+                    "sourceProcessIds": [
+                        "process.App.Filament.Resources.KategoriAnggaranResource.Pages.ListKategoriAnggarans",
+                        "process.App.Filament.Resources.KategoriAnggaranResource.Pages.CreateKategoriAnggaran",
+                        "process.App.Filament.Resources.KategoriAnggaranResource.Pages.EditKategoriAnggaran"
+                    ],
+                    "inputs": [],
+                    "outputs": []
+                },
+                {
+                    "id": "process.group.dashboard-g-e-t-h-e-a-d-admin-filament-icon-resolve-filament-has-top-navigation-filament-get-widgets-this-filter-visible-widgets-this-get-widgets",
+                    "number": "3.0",
+                    "name": "Manajemen Dashboard  G E T| H E A D admin __  Filament Icon.resolve  Filament.has Top Navigation  Filament.get Widgets this.filter Visible Widgets this.get Widgets",
+                    "label": "3.0 Manajemen Dashboard  G E T| H E A D admin __  Filament Icon.resolve  Filament.has Top Navigation  Filament.get Widgets this.filter Visible Widgets this.get Widgets",
+                    "level": 1,
+                    "parentId": "process.system",
+                    "sourceProcessIds": [
+                        "process.Filament.Pages.Dashboard"
+                    ],
+                    "inputs": [],
+                    "outputs": []
+                },
+                {
+                    "id": "process.group.create-action-make",
+                    "number": "4.0",
+                    "name": "Manajemen Create Action.make",
+                    "label": "4.0 Manajemen Create Action.make",
+                    "level": 1,
+                    "parentId": "process.system",
+                    "sourceProcessIds": [
+                        "process.App.Filament.Resources.DanaMasukResource.Pages.ListDanaMasuks",
+                        "process.App.Filament.Resources.LaporanKeuanganResource.Pages.ListLaporanKeuangans",
+                        "process.App.Filament.Resources.LaporanWargaResource.Pages.ListLaporanWargas",
+                        "process.App.Filament.Resources.PengeluaranResource.Pages.ListPengeluarans",
+                        "process.App.Filament.Resources.ProyekKampungResource.Pages.ListProyekKampungs",
+                        "process.App.Filament.Resources.UserResource.Pages.ListUsers"
+                    ],
+                    "inputs": [],
+                    "outputs": []
+                },
+                {
+                    "id": "process.group.create",
+                    "number": "5.0",
+                    "name": "Manajemen create",
+                    "label": "5.0 Manajemen create",
+                    "level": 1,
+                    "parentId": "process.system",
+                    "sourceProcessIds": [
+                        "process.App.Filament.Resources.DanaMasukResource.Pages.CreateDanaMasuk",
+                        "process.App.Filament.Resources.LaporanKeuanganResource.Pages.CreateLaporanKeuangan",
+                        "process.App.Filament.Resources.PengeluaranResource.Pages.CreatePengeluaran",
+                        "process.App.Filament.Resources.ProyekKampungResource.Pages.CreateProyekKampung",
+                        "process.App.Filament.Resources.UserResource.Pages.CreateUser"
+                    ],
+                    "inputs": [],
+                    "outputs": []
+                },
+                {
+                    "id": "process.group.delete-action-make",
+                    "number": "6.0",
+                    "name": "Manajemen Delete Action.make",
+                    "label": "6.0 Manajemen Delete Action.make",
+                    "level": 1,
+                    "parentId": "process.system",
+                    "sourceProcessIds": [
+                        "process.App.Filament.Resources.DanaMasukResource.Pages.EditDanaMasuk",
+                        "process.App.Filament.Resources.LaporanKeuanganResource.Pages.EditLaporanKeuangan",
+                        "process.App.Filament.Resources.LaporanWargaResource.Pages.EditLaporanWarga",
+                        "process.App.Filament.Resources.PengeluaranResource.Pages.EditPengeluaran",
+                        "process.App.Filament.Resources.ProyekKampungResource.Pages.EditProyekKampung",
+                        "process.App.Filament.Resources.UserResource.Pages.EditUser"
+                    ],
+                    "inputs": [],
+                    "outputs": []
+                },
+                {
+                    "id": "process.group.create-now-format-now-str-upper-str-random",
+                    "number": "7.0",
+                    "name": "Manajemen create now.format now  Str.upper  Str.random",
+                    "label": "7.0 Manajemen create now.format now  Str.upper  Str.random",
+                    "level": 1,
+                    "parentId": "process.system",
+                    "sourceProcessIds": [
+                        "process.App.Filament.Resources.LaporanWargaResource.Pages.CreateLaporanWarga"
+                    ],
+                    "inputs": [],
+                    "outputs": []
+                },
+                {
+                    "id": "process.group.handle-requests",
+                    "number": "8.0",
+                    "name": "Manajemen Handle Requests",
+                    "label": "8.0 Manajemen Handle Requests",
+                    "level": 1,
+                    "parentId": "process.system",
+                    "sourceProcessIds": [
+                        "process.Livewire.Mechanisms.HandleRequests.HandleRequests.handleUpdate"
+                    ],
+                    "inputs": [],
+                    "outputs": []
+                },
+                {
+                    "id": "process.group.frontend-assets",
+                    "number": "9.0",
+                    "name": "Manajemen Frontend Assets",
+                    "label": "9.0 Manajemen Frontend Assets",
+                    "level": 1,
+                    "parentId": "process.system",
+                    "sourceProcessIds": [
+                        "process.Livewire.Mechanisms.FrontendAssets.FrontendAssets.returnJavaScriptAsFile",
+                        "process.Livewire.Mechanisms.FrontendAssets.FrontendAssets.maps"
+                    ],
+                    "inputs": [],
+                    "outputs": []
+                },
+                {
+                    "id": "process.group.file-upload",
+                    "number": "10.0",
+                    "name": "Manajemen File Upload",
+                    "label": "10.0 Manajemen File Upload",
+                    "level": 1,
+                    "parentId": "process.system",
+                    "sourceProcessIds": [
+                        "process.Livewire.Features.SupportFileUploads.FileUploadController.handle"
+                    ],
+                    "inputs": [],
+                    "outputs": []
+                },
+                {
+                    "id": "process.group.file-preview",
+                    "number": "11.0",
+                    "name": "Manajemen File Preview",
+                    "label": "11.0 Manajemen File Preview",
+                    "level": 1,
+                    "parentId": "process.system",
+                    "sourceProcessIds": [
+                        "process.Livewire.Features.SupportFileUploads.FilePreviewController.handle"
+                    ],
+                    "inputs": [],
+                    "outputs": []
+                },
+                {
+                    "id": "process.group.public-page",
+                    "number": "12.0",
+                    "name": "Manajemen Public Page",
+                    "label": "12.0 Manajemen Public Page",
+                    "level": 1,
+                    "parentId": "process.system",
+                    "sourceProcessIds": [
+                        "process.App.Http.Controllers.PublicPageController.transparency",
+                        "process.App.Http.Controllers.PublicPageController.news",
+                        "process.App.Http.Controllers.PublicPageController.newsDetail",
+                        "process.App.Http.Controllers.PublicPageController.downloadPdf",
+                        "process.App.Http.Controllers.PublicPageController.contact",
+                        "process.App.Http.Controllers.PublicPageController.support",
+                        "process.App.Http.Controllers.PublicPageController.forgotPassword",
+                        "process.App.Http.Controllers.PublicPageController.privacy",
+                        "process.App.Http.Controllers.PublicPageController.sitemap"
+                    ],
+                    "inputs": [],
+                    "outputs": []
+                },
+                {
+                    "id": "process.group.laporan-warga",
+                    "number": "13.0",
+                    "name": "Manajemen Laporan Warga",
+                    "label": "13.0 Manajemen Laporan Warga",
+                    "level": 1,
+                    "parentId": "process.system",
+                    "sourceProcessIds": [
+                        "process.App.Http.Controllers.LaporanWargaController.create",
+                        "process.App.Http.Controllers.LaporanWargaController.store"
+                    ],
+                    "inputs": [],
+                    "outputs": []
+                },
+                {
+                    "id": "process.group.admin-page",
+                    "number": "14.0",
+                    "name": "Manajemen Admin Page",
+                    "label": "14.0 Manajemen Admin Page",
+                    "level": 1,
+                    "parentId": "process.system",
+                    "sourceProcessIds": [
+                        "process.App.Http.Controllers.AdminPageController.dashboard",
+                        "process.App.Http.Controllers.AdminPageController.funds",
+                        "process.App.Http.Controllers.AdminPageController.projects",
+                        "process.App.Http.Controllers.AdminPageController.reports",
+                        "process.App.Http.Controllers.AdminPageController.users"
+                    ],
+                    "inputs": [],
+                    "outputs": []
+                }
+            ],
+            "dataStores": [],
+            "externalEntities": [
+                {
+                    "id": "external.client",
+                    "name": "User"
+                }
+            ],
+            "flows": [
+                {
+                    "from": "external.client",
+                    "to": "process.group.authentication",
+                    "label": "Data Pengguna"
+                },
+                {
+                    "from": "external.client",
+                    "to": "process.group.product",
+                    "label": "Data Pengguna"
+                },
+                {
+                    "from": "external.client",
+                    "to": "process.group.dashboard-g-e-t-h-e-a-d-admin-filament-icon-resolve-filament-has-top-navigation-filament-get-widgets-this-filter-visible-widgets-this-get-widgets",
+                    "label": "Data Pengguna"
+                },
+                {
+                    "from": "external.client",
+                    "to": "process.group.create-action-make",
+                    "label": "Data Pengguna"
+                },
+                {
+                    "from": "external.client",
+                    "to": "process.group.create",
+                    "label": "Data Pengguna"
+                },
+                {
+                    "from": "external.client",
+                    "to": "process.group.delete-action-make",
+                    "label": "Data Pengguna"
+                },
+                {
+                    "from": "external.client",
+                    "to": "process.group.create-now-format-now-str-upper-str-random",
+                    "label": "Data Pengguna"
+                },
+                {
+                    "from": "external.client",
+                    "to": "process.group.handle-requests",
+                    "label": "Data Pengguna"
+                },
+                {
+                    "from": "external.client",
+                    "to": "process.group.frontend-assets",
+                    "label": "Data Pengguna"
+                },
+                {
+                    "from": "external.client",
+                    "to": "process.group.file-upload",
+                    "label": "Data Pengguna"
+                },
+                {
+                    "from": "external.client",
+                    "to": "process.group.file-preview",
+                    "label": "Data Pengguna"
+                },
+                {
+                    "from": "external.client",
+                    "to": "process.group.public-page",
+                    "label": "Data Pengguna"
+                },
+                {
+                    "from": "external.client",
+                    "to": "process.group.laporan-warga",
+                    "label": "Data Pengguna"
+                },
+                {
+                    "from": "external.client",
+                    "to": "process.group.admin-page",
+                    "label": "Data Pengguna"
+                }
+            ]
+        }
+    ]
+}

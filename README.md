@@ -12,37 +12,37 @@ Aplikasi Laravel untuk transparansi dana, proyek pembangunan, laporan keuangan, 
 
 ## Menjalankan Project
 
-Gunakan folder project ini sebagai sumber tunggal:
+Setelah clone repository, masuk ke folder project:
 
 ```bash
-cd D:\profilkampung
+git clone https://github.com/Andretmblkk/ProfilKampungMbu.git
+cd ProfilKampungMbu
+```
+
+Jalankan setup otomatis:
+
+```bash
+composer run setup
+```
+
+Script setup akan membuat `.env`, membuat database SQLite jika diperlukan, install dependency, generate app key, menjalankan migration dan seeder, membuat storage link, build asset, dan membersihkan cache.
+
+Jalankan server:
+
+```bash
+php artisan serve --host=127.0.0.1 --port=8000
+```
+
+Jika setup otomatis gagal karena konfigurasi database berbeda, sesuaikan `.env`, lalu jalankan ulang:
+
+```bash
+composer run setup
 ```
 
 Bersihkan cache setelah perubahan route, view, config, atau Filament:
 
 ```bash
 php artisan optimize:clear
-```
-
-Install dependency dan build asset:
-
-```bash
-composer install
-npm install
-npm run build
-```
-
-Migrasi dan seed data contoh:
-
-```bash
-php artisan migrate --force
-php artisan db:seed --force
-```
-
-Jalankan server:
-
-```bash
-php artisan serve --host=127.0.0.1 --port=8000
 ```
 
 Jika pernah menjalankan server lama di port lain, hentikan proses PHP lama terlebih dahulu agar tampilan browser sinkron dengan source lokal.
