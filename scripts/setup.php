@@ -86,17 +86,23 @@ if ((envValue('APP_KEY') ?: '') === '') {
     printLine('APP_KEY sudah ada, tidak diganti.');
 }
 
-runCommand('php artisan storage:link --ansi');
+if (file_exists('public/storage')) {
+    printLine('Storage link sudah ada, storage:link dilewati.');
+} else {
+    runCommand('php artisan storage:link --ansi');
+}
 runCommand('php artisan migrate --seed --force --ansi');
 
 if (file_exists('package.json')) {
-    if (! is_dir('node_modules')) {
+    if (file_exists('public/build/manifest.json')) {
+        printLine('Asset frontend sudah tersedia di public/build, npm install dan build dilewati.');
+    } elseif (! is_dir('node_modules')) {
         runCommand('npm install');
+        runCommand('npm run build');
     } else {
         printLine('Dependency NPM sudah ada, npm install dilewati.');
+        runCommand('npm run build');
     }
-
-    runCommand('npm run build');
 }
 
 runCommand('php artisan optimize:clear --ansi');

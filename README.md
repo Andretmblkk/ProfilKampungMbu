@@ -19,13 +19,43 @@ git clone https://github.com/Andretmblkk/ProfilKampungMbu.git
 cd ProfilKampungMbu
 ```
 
+### Opsi Docker
+
+Cara paling mudah di laptop lain adalah memakai Docker:
+
+```bash
+docker compose up --build
+```
+
+Container akan membuat `.env`, database SQLite, menjalankan migration dan seeder, membuat storage link, serta build asset jika `public/build` belum tersedia.
+
+Setelah proses selesai, buka:
+
+```text
+http://localhost:8000
+```
+
+Untuk menjalankan command Artisan di dalam container:
+
+```bash
+docker compose exec app php artisan migrate --seed
+```
+
+### Opsi Lokal Tanpa Docker
+
 Jalankan setup otomatis:
 
 ```bash
-composer run setup
+php scripts/setup.php
 ```
 
-Script setup akan membuat `.env`, membuat database SQLite jika diperlukan, install dependency, generate app key, menjalankan migration dan seeder, membuat storage link, build asset, dan membersihkan cache.
+Di Windows bisa juga jalankan:
+
+```bat
+setup.bat
+```
+
+Script setup akan membuat `.env`, membuat database SQLite jika diperlukan, generate app key, menjalankan migration dan seeder, membuat storage link, dan membersihkan cache. Repository ini menyertakan `vendor/` dan `public/build/`, jadi pengguna tidak perlu menjalankan `composer install` atau `npm install` setelah clone/pull selama file tersebut tersedia.
 
 Jalankan server:
 
@@ -36,13 +66,27 @@ php artisan serve --host=127.0.0.1 --port=8000
 Jika setup otomatis gagal karena konfigurasi database berbeda, sesuaikan `.env`, lalu jalankan ulang:
 
 ```bash
-composer run setup
+php scripts/setup.php
 ```
 
 Bersihkan cache setelah perubahan route, view, config, atau Filament:
 
 ```bash
 php artisan optimize:clear
+```
+
+## Membuat ZIP Siap Jalan
+
+Untuk membuat paket ZIP yang bisa diekstrak dan dijalankan tanpa Git:
+
+```bash
+composer run package
+```
+
+Hasil ZIP dibuat di:
+
+```text
+dist/ProfilKampungMbu-ready.zip
 ```
 
 Jika pernah menjalankan server lama di port lain, hentikan proses PHP lama terlebih dahulu agar tampilan browser sinkron dengan source lokal.
