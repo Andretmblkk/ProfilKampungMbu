@@ -27,6 +27,29 @@ if [ "${DB_CONNECTION:-sqlite}" = "sqlite" ]; then
     touch "$sqlite_path"
 fi
 
+if [ "${DB_CONNECTION:-sqlite}" = "mysql" ]; then
+    php -r '
+        $host = getenv("DB_HOST") ?: "mysql";
+        $port = getenv("DB_PORT") ?: "3306";
+        $database = getenv("DB_DATABASE") ?: "profilkampung";
+        $username = getenv("DB_USERNAME") ?: "profilkampung";
+        $password = getenv("DB_PASSWORD") ?: "profilkampung";
+
+        for ($i = 1; $i <= 60; $i++) {
+            try {
+                new PDO("mysql:host={$host};port={$port};dbname={$database}", $username, $password);
+                exit(0);
+            } catch (Throwable $e) {
+                fwrite(STDERR, "Waiting for MySQL ({$i}/60)...\n");
+                sleep(2);
+            }
+        }
+
+        fwrite(STDERR, "MySQL is not ready.\n");
+        exit(1);
+    '
+fi
+
 if [ ! -f vendor/autoload.php ]; then
     composer install --no-interaction --prefer-dist
 fi

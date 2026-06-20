@@ -27,12 +27,27 @@ Cara paling mudah di laptop lain adalah memakai Docker:
 docker compose up --build
 ```
 
-Container akan membuat `.env`, database SQLite, menjalankan migration dan seeder, membuat storage link, serta build asset jika `public/build` belum tersedia.
+Container akan menyiapkan Laravel, MySQL, phpMyAdmin, menjalankan migration dan seeder, membuat storage link, serta build asset jika `public/build` belum tersedia.
 
 Setelah proses selesai, buka:
 
 ```text
 http://localhost:8000
+```
+
+phpMyAdmin tersedia di:
+
+```text
+http://localhost:8081
+```
+
+Login phpMyAdmin:
+
+```text
+Server: mysql
+Username: root
+Password: root
+Database: profilkampung
 ```
 
 Untuk menjalankan command Artisan di dalam container:
