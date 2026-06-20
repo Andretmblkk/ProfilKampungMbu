@@ -105,10 +105,36 @@ Kalau Docker image dan container sudah pernah dibuat, cukup jalankan:
 docker compose up -d
 ```
 
+Di Windows bisa juga double-click:
+
+```text
+jalan-docker.bat
+```
+
+File tersebut menjalankan Docker lalu membuka aplikasi di browser.
+
+Untuk membuka aplikasi tanpa mengetik URL:
+
+```text
+buka-web.bat
+```
+
+Untuk membuka phpMyAdmin tanpa mengetik URL:
+
+```text
+buka-phpmyadmin.bat
+```
+
 Untuk mematikan semua container:
 
 ```bash
 docker compose down
+```
+
+Di Windows bisa juga double-click:
+
+```text
+stop-docker.bat
 ```
 
 Gunakan `--build` lagi kalau ada perubahan di `Dockerfile`, `docker-compose.yml`, dependency, atau setelah menarik update besar dari GitHub:
