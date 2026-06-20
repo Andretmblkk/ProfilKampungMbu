@@ -8,34 +8,38 @@ Aplikasi Laravel untuk transparansi dana, proyek pembangunan, laporan keuangan, 
 - Filament v3
 - Bootstrap 5 + Blade
 - Alpine.js
-- MySQL/SQLite
+- MySQL
 
-## Menjalankan Project
+## Instalasi dan Menjalankan Project
 
-Setelah clone repository, masuk ke folder project:
+Project ini disiapkan untuk berjalan paling mudah memakai Docker Desktop. Docker akan menjalankan 3 service:
+
+- `app`: aplikasi Laravel di port `8000`
+- `mysql`: database MySQL di port `3306`
+- `phpmyadmin`: phpMyAdmin di port `8081`
+
+Pastikan Docker Desktop sudah terbuka dan statusnya `Engine running`.
+
+### A. Untuk Laptop yang Baru Clone
 
 ```bash
 git clone https://github.com/Andretmblkk/ProfilKampungMbu.git
 cd ProfilKampungMbu
 ```
 
-### Opsi Docker
-
-Cara paling mudah di laptop lain adalah memakai Docker:
-
 ```bash
-docker compose up --build
+docker compose up -d --build
 ```
 
-Container akan menyiapkan Laravel, MySQL, phpMyAdmin, menjalankan migration dan seeder, membuat storage link, serta build asset jika `public/build` belum tersedia.
+Tunggu sampai semua container selesai dibuat. Pada proses pertama, Docker akan menyiapkan Laravel, MySQL, phpMyAdmin, menjalankan migration dan seeder, membuat storage link, serta build asset jika `public/build` belum tersedia.
 
-Setelah proses selesai, buka:
+Buka aplikasi:
 
 ```text
 http://localhost:8000
 ```
 
-phpMyAdmin tersedia di:
+Buka phpMyAdmin:
 
 ```text
 http://localhost:8081
@@ -50,10 +54,119 @@ Password: root
 Database: profilkampung
 ```
 
-Untuk menjalankan command Artisan di dalam container:
+Login admin aplikasi:
+
+```text
+URL: http://localhost:8000/admin
+Email: admin@kampungmbu.go.id
+Password: password
+```
+
+### B. Untuk Laptop yang Sudah Pernah Clone
+
+Masuk ke folder project yang sudah ada:
+
+```bash
+cd ProfilKampungMbu
+```
+
+Ambil update terbaru dari GitHub:
+
+```bash
+git pull origin main
+```
+
+Kalau sebelumnya container lama masih jalan, hentikan dulu:
+
+```bash
+docker compose down
+```
+
+Jalankan ulang dengan build agar perubahan Docker/MySQL/phpMyAdmin ikut terpakai:
+
+```bash
+docker compose up -d --build
+```
+
+Setelah itu buka lagi:
+
+```text
+http://localhost:8000
+http://localhost:8081
+```
+
+Jika `git pull` gagal karena ada perubahan lokal, jangan langsung hapus file. Simpan atau commit dulu perubahan lokalnya, lalu ulangi `git pull`.
+
+### C. Menjalankan Project Setelah Setup Pertama
+
+Kalau Docker image dan container sudah pernah dibuat, cukup jalankan:
+
+```bash
+docker compose up -d
+```
+
+Untuk mematikan semua container:
+
+```bash
+docker compose down
+```
+
+Gunakan `--build` lagi kalau ada perubahan di `Dockerfile`, `docker-compose.yml`, dependency, atau setelah menarik update besar dari GitHub:
+
+```bash
+docker compose up -d --build
+```
+
+### D. Command Laravel di Dalam Docker
+
+Menjalankan migration dan seeder:
 
 ```bash
 docker compose exec app php artisan migrate --seed
+```
+
+Membersihkan cache Laravel:
+
+```bash
+docker compose exec app php artisan optimize:clear
+```
+
+Masuk ke shell container Laravel:
+
+```bash
+docker compose exec app sh
+```
+
+### E. Cara Pull dan Push Update ke GitHub
+
+Sebelum mulai kerja, ambil update terbaru:
+
+```bash
+git pull origin main
+```
+
+Setelah mengubah file, cek status:
+
+```bash
+git status
+```
+
+Tambahkan file yang ingin dikirim:
+
+```bash
+git add .
+```
+
+Buat commit:
+
+```bash
+git commit -m "Tulis pesan perubahan"
+```
+
+Kirim ke GitHub:
+
+```bash
+git push origin main
 ```
 
 ### Opsi Lokal Tanpa Docker
@@ -70,7 +183,7 @@ Di Windows bisa juga jalankan:
 setup.bat
 ```
 
-Script setup akan membuat `.env`, membuat database SQLite jika diperlukan, generate app key, menjalankan migration dan seeder, membuat storage link, dan membersihkan cache. Repository ini menyertakan `vendor/` dan `public/build/`, jadi pengguna tidak perlu menjalankan `composer install` atau `npm install` setelah clone/pull selama file tersebut tersedia.
+Script setup akan membuat `.env`, generate app key, menjalankan migration dan seeder, membuat storage link, dan membersihkan cache. Untuk penggunaan normal, gunakan Docker agar database MySQL dan phpMyAdmin otomatis tersedia.
 
 Jalankan server:
 
