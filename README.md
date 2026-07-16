@@ -263,6 +263,7 @@ Jika pernah menjalankan server lama di port lain, hentikan proses PHP lama terle
 
 ## Modul Filament
 
+- Berita Kampung
 - Dana Masuk
 - Pengeluaran
 - Proyek Kampung
@@ -270,6 +271,41 @@ Jika pernah menjalankan server lama di port lain, hentikan proses PHP lama terle
 - Kategori Anggaran
 - Laporan Warga
 - Manajemen Pengguna
+
+## Sumber Data Publik
+
+Halaman beranda, transparansi, filter tahun/status, grafik admin, berita, dan PDF mengambil data dari database yang sama dengan panel admin. Hanya transaksi berstatus `terverifikasi` yang masuk ke ringkasan dana publik.
+
+Status proyek ditentukan otomatis berdasarkan progress:
+
+- `0%`: Direncanakan
+- `1-99%`: Berjalan
+- `100%`: Selesai
+
+## Gambar Wilayah
+
+Gambar wilayah disimpan lokal di `public/images/kampung`. Karena dokumentasi publik yang secara jelas berlabel Kampung Mbu belum memiliki izin penggunaan ulang yang memadai, portal menggunakan panorama Kabupaten Lanny Jaya dan ilustrasi regional Papua Pegunungan dengan keterangan yang jujur.
+
+Daftar pencipta, sumber, dan lisensi tersedia di:
+
+```text
+public/images/ATTRIBUTION.md
+```
+
+Admin dapat mengunggah foto resmi masing-masing proyek melalui modul Proyek Kampung.
+
+## Catatan Produksi
+
+Konfigurasi Docker pada repository ditujukan untuk development lokal. Sebelum publikasi:
+
+- gunakan `APP_ENV=production`;
+- gunakan `APP_DEBUG=false`;
+- ganti password admin bawaan;
+- ganti seluruh password MySQL;
+- jangan membuka port MySQL atau phpMyAdmin ke internet;
+- aktifkan HTTPS dan backup database;
+- jalankan `php artisan optimize`;
+- pastikan `php artisan storage:link` telah dijalankan.
 
 ## Pengujian
 

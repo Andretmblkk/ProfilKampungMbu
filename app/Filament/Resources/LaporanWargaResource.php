@@ -13,8 +13,11 @@ use Filament\Tables\Table;
 class LaporanWargaResource extends Resource
 {
     protected static ?string $model = LaporanWarga::class;
+
     protected static ?string $navigationIcon = 'heroicon-o-chat-bubble-left-right';
+
     protected static ?string $navigationGroup = 'Layanan Publik';
+
     protected static ?string $navigationLabel = 'Laporan Warga';
 
     public static function form(Form $form): Form
@@ -37,7 +40,7 @@ class LaporanWargaResource extends Resource
                     'selesai' => 'Selesai',
                     'ditolak' => 'Ditolak',
                 ])->required(),
-                Forms\Components\FileUpload::make('lampiran_path')->directory('laporan-warga')->acceptedFileTypes(['application/pdf', 'image/*']),
+                Forms\Components\FileUpload::make('lampiran_path')->directory('laporan-warga')->disk('public')->acceptedFileTypes(['application/pdf', 'image/*']),
                 Forms\Components\Textarea::make('isi_laporan')->required()->columnSpanFull(),
                 Forms\Components\Textarea::make('tanggapan_admin')->label('Tanggapan Admin')->columnSpanFull(),
             ]),

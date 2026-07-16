@@ -13,8 +13,11 @@ use Filament\Tables\Table;
 class DanaMasukResource extends Resource
 {
     protected static ?string $model = DanaMasuk::class;
+
     protected static ?string $navigationIcon = 'heroicon-o-banknotes';
+
     protected static ?string $navigationGroup = 'Keuangan Kampung';
+
     protected static ?string $navigationLabel = 'Dana Masuk';
 
     public static function form(Form $form): Form
@@ -27,7 +30,7 @@ class DanaMasukResource extends Resource
                 Forms\Components\TextInput::make('nominal')->numeric()->prefix('Rp')->required(),
                 Forms\Components\DatePicker::make('tanggal')->required(),
                 Forms\Components\Select::make('status')->options(['menunggu' => 'Menunggu', 'terverifikasi' => 'Terverifikasi', 'ditolak' => 'Ditolak'])->default('menunggu'),
-                Forms\Components\FileUpload::make('bukti_path')->label('Bukti Transfer')->directory('bukti/dana-masuk')->acceptedFileTypes(['application/pdf', 'image/*']),
+                Forms\Components\FileUpload::make('bukti_path')->label('Bukti Transfer')->directory('bukti/dana-masuk')->disk('public')->acceptedFileTypes(['application/pdf', 'image/*']),
                 Forms\Components\Textarea::make('keterangan')->columnSpanFull(),
             ]),
         ]);

@@ -10,7 +10,7 @@
 </head>
 <body class="public-shell">
     <nav class="public-navbar">
-        <a class="brand" href="{{ route('home') }}">Kampung Mbu</a>
+        <a class="brand" href="{{ route('home') }}"><img src="{{ asset('images/kampung/lambang-lanny-jaya.jpg') }}" alt=""> Kampung Mbu</a>
         <div class="nav-links">
             <a class="{{ request()->routeIs('home') ? 'active' : '' }}" href="{{ route('home') }}">Beranda</a>
             <a class="{{ request()->routeIs('transparency') ? 'active' : '' }}" href="{{ route('transparency') }}">Transparansi</a>
@@ -27,17 +27,25 @@
     <main>@yield('content')</main>
 
     <footer class="site-footer">
-        <div>
-            <strong>Kampung Mbu</strong>
-            <p>Platform resmi transparansi dana dan pembangunan desa Kampung Mbu, Distrik Melagi, Kabupaten Lanny Jaya, Papua Pegunungan, Indonesia.</p>
+        <div class="footer-main">
+            <div class="footer-identity">
+                <img src="{{ asset('images/kampung/lambang-lanny-jaya.jpg') }}" alt="Lambang Kabupaten Lanny Jaya">
+                <div>
+                    <strong>Kampung Mbu</strong>
+                    <p>Platform resmi transparansi dana dan pembangunan Kampung Mbu, Distrik Melagi, Kabupaten Lanny Jaya, Papua Pegunungan.</p>
+                </div>
+            </div>
+            <nav class="footer-links" aria-label="Tautan bagian bawah">
+                <a href="{{ route('privacy') }}">Kebijakan Privasi</a>
+                <a href="{{ route('contact') }}">Kontak Kami</a>
+                <a href="{{ route('sitemap') }}">Peta Situs</a>
+                <a href="https://www.lannyjayakab.go.id" target="_blank" rel="noopener">Portal Kabupaten</a>
+            </nav>
         </div>
-        <div class="footer-links">
-            <a href="{{ route('privacy') }}">Kebijakan Privasi</a>
-            <a href="{{ route('contact') }}">Kontak Kami</a>
-            <a href="{{ route('sitemap') }}">Peta Situs</a>
-            <a href="https://www.lannyjayakab.go.id" target="_blank" rel="noopener">Portal Kabupaten</a>
+        <div class="footer-copy">
+            <span>&copy; {{ now()->year }} Pemerintah Kampung Mbu. Transparansi untuk Kemajuan.</span>
+            <a href="{{ asset('images/ATTRIBUTION.md') }}">Atribusi gambar</a>
         </div>
-        <div class="footer-copy">© 2024 Pemerintah Kampung Mbu. Transparansi untuk Kemajuan.</div>
     </footer>
 </body>
 </html>

@@ -1,13 +1,14 @@
 @extends('layouts.public')
 
-@section('title', $post['title'].' - Kampung Mbu')
+@section('title', $post->judul.' - Kampung Mbu')
 
 @section('content')
-<section class="section-block page-section narrow">
-    <span class="section-kicker">{{ $post['date'] }}</span>
-    <h1>{{ $post['title'] }}</h1>
-    <p class="lead">{{ $post['excerpt'] }}</p>
-    <p>Informasi ini diterbitkan sebagai bagian dari komitmen Pemerintah Kampung Mbu untuk menyediakan komunikasi publik yang terbuka dan mudah diakses warga.</p>
+<article class="section-block page-section narrow article-detail">
+    <span class="section-kicker">{{ $post->published_at->translatedFormat('d F Y') }}</span>
+    <h1>{{ $post->judul }}</h1>
+    <p class="lead">{{ $post->ringkasan }}</p>
+    <img class="article-image" src="{{ $post->gambar_path ? asset('storage/'.$post->gambar_path) : asset('images/kampung/pegunungan-tiom-lanny-jaya.jpg') }}" alt="{{ $post->judul }}">
+    <div class="article-content">{!! $post->isi !!}</div>
     <a class="btn btn-light" href="{{ route('news.index') }}"><i class="fa-solid fa-arrow-left"></i> Kembali ke Berita</a>
-</section>
+</article>
 @endsection

@@ -13,8 +13,11 @@ use Filament\Tables\Table;
 class LaporanKeuanganResource extends Resource
 {
     protected static ?string $model = LaporanKeuangan::class;
+
     protected static ?string $navigationIcon = 'heroicon-o-document-chart-bar';
+
     protected static ?string $navigationGroup = 'Keuangan Kampung';
+
     protected static ?string $navigationLabel = 'Laporan Keuangan';
 
     public static function form(Form $form): Form
@@ -25,7 +28,7 @@ class LaporanKeuanganResource extends Resource
                 Forms\Components\Select::make('kategori')->options(['Administrasi' => 'Administrasi', 'Keuangan' => 'Keuangan', 'Pembangunan' => 'Pembangunan'])->required(),
                 Forms\Components\TextInput::make('periode')->required(),
                 Forms\Components\DatePicker::make('tanggal_laporan')->required(),
-                Forms\Components\FileUpload::make('file_path')->directory('laporan-keuangan')->acceptedFileTypes(['application/pdf', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'text/csv'])->required()->columnSpanFull(),
+                Forms\Components\FileUpload::make('file_path')->directory('laporan-keuangan')->disk('public')->acceptedFileTypes(['application/pdf', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'text/csv'])->required()->columnSpanFull(),
                 Forms\Components\Select::make('status')->options(['menunggu' => 'Menunggu', 'terverifikasi' => 'Terverifikasi', 'ditolak' => 'Ditolak'])->default('menunggu'),
             ]),
         ]);

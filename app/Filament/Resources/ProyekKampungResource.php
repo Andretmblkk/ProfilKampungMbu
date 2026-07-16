@@ -13,7 +13,9 @@ use Filament\Tables\Table;
 class ProyekKampungResource extends Resource
 {
     protected static ?string $model = ProyekKampung::class;
+
     protected static ?string $navigationIcon = 'heroicon-o-wrench-screwdriver';
+
     protected static ?string $navigationLabel = 'Proyek Kampung';
 
     public static function form(Form $form): Form
@@ -25,13 +27,15 @@ class ProyekKampungResource extends Resource
                 Forms\Components\TextInput::make('lokasi')->required(),
                 Forms\Components\Select::make('kategori_anggaran_id')->relationship('kategoriAnggaran', 'nama')->searchable()->preload(),
                 Forms\Components\TextInput::make('anggaran')->numeric()->prefix('Rp')->required(),
-                Forms\Components\TextInput::make('realisasi')->numeric()->prefix('Rp')->default(0),
+                Forms\Components\TextInput::make('realisasi')->numeric()->prefix('Rp')->default(0)->lte('anggaran'),
                 Forms\Components\TextInput::make('progress')->numeric()->minValue(0)->maxValue(100)->suffix('%')->default(0),
-                Forms\Components\Select::make('status')->options(['direncanakan' => 'Direncanakan', 'berjalan' => 'Berjalan', 'selesai' => 'Selesai'])->default('direncanakan'),
+                Forms\Components\Placeholder::make('status_otomatis')
+                    ->label('Status')
+                    ->content('Status ditentukan otomatis: 0% direncanakan, 1–99% berjalan, 100% selesai.'),
                 Forms\Components\DatePicker::make('tanggal_mulai'),
-                Forms\Components\DatePicker::make('tanggal_selesai'),
-                Forms\Components\FileUpload::make('foto_path')->image()->directory('proyek/foto'),
-                Forms\Components\FileUpload::make('dokumen_path')->directory('proyek/dokumen')->acceptedFileTypes(['application/pdf']),
+                Forms\Components\DatePicker::make('tanggal_selesai')->afterOrEqual('tanggal_mulai'),
+                Forms\Components\FileUpload::make('foto_path')->image()->directory('proyek/foto')->disk('public'),
+                Forms\Components\FileUpload::make('dokumen_path')->directory('proyek/dokumen')->disk('public')->acceptedFileTypes(['application/pdf']),
                 Forms\Components\Textarea::make('deskripsi')->columnSpanFull(),
             ]),
         ]);
@@ -40,7 +44,7 @@ class ProyekKampungResource extends Resource
     public static function table(Table $table): Table
     {
         return $table->columns([
-            Tables\Columns\ImageColumn::make('foto_path')->square(),
+            Tables\Columns\ImageColumn::make('foto_path')->disk('public')->square(),
             Tables\Columns\TextColumn::make('nama')->searchable()->sortable(),
             Tables\Columns\TextColumn::make('anggaran')->money('IDR')->sortable(),
             Tables\Columns\TextColumn::make('progress')->suffix('%')->sortable(),

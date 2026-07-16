@@ -14,8 +14,11 @@ use Illuminate\Support\Facades\Hash;
 class UserResource extends Resource
 {
     protected static ?string $model = User::class;
+
     protected static ?string $navigationIcon = 'heroicon-o-users';
+
     protected static ?string $navigationGroup = 'Administrasi';
+
     protected static ?string $navigationLabel = 'Manajemen Pengguna';
 
     public static function form(Form $form): Form
@@ -26,7 +29,7 @@ class UserResource extends Resource
                 Forms\Components\TextInput::make('email')->email()->required()->unique(ignoreRecord: true),
                 Forms\Components\Select::make('role')->options(['administrator' => 'Administrator', 'operator' => 'Operator'])->default('operator')->required(),
                 Forms\Components\Select::make('status')->options(['aktif' => 'Aktif', 'nonaktif' => 'Non-Aktif'])->default('aktif')->required(),
-                Forms\Components\FileUpload::make('avatar')->image()->directory('avatars'),
+                Forms\Components\FileUpload::make('avatar')->image()->directory('avatars')->disk('public'),
                 Forms\Components\TextInput::make('password')->password()->dehydrateStateUsing(fn (?string $state) => filled($state) ? Hash::make($state) : null)->dehydrated(fn (?string $state) => filled($state))->columnSpanFull(),
             ]),
         ]);
@@ -35,7 +38,7 @@ class UserResource extends Resource
     public static function table(Table $table): Table
     {
         return $table->columns([
-            Tables\Columns\ImageColumn::make('avatar')->circular(),
+            Tables\Columns\ImageColumn::make('avatar')->disk('public')->circular(),
             Tables\Columns\TextColumn::make('name')->searchable()->description(fn (User $record): string => $record->email),
             Tables\Columns\BadgeColumn::make('role')->colors(['primary' => 'administrator', 'gray' => 'operator']),
             Tables\Columns\BadgeColumn::make('status')->colors(['success' => 'aktif', 'gray' => 'nonaktif']),

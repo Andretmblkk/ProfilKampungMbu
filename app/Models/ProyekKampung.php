@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class ProyekKampung extends Model
 {
@@ -34,8 +35,25 @@ class ProyekKampung extends Model
         ];
     }
 
+    protected static function booted(): void
+    {
+        static::saving(function (ProyekKampung $project): void {
+            $project->progress = max(0, min(100, (int) $project->progress));
+            $project->status = match (true) {
+                $project->progress === 0 => 'direncanakan',
+                $project->progress === 100 => 'selesai',
+                default => 'berjalan',
+            };
+        });
+    }
+
     public function kategoriAnggaran(): BelongsTo
     {
         return $this->belongsTo(KategoriAnggaran::class);
+    }
+
+    public function pengeluarans(): HasMany
+    {
+        return $this->hasMany(Pengeluaran::class);
     }
 }

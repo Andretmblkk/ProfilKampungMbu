@@ -13,8 +13,11 @@ use Filament\Tables\Table;
 class PengeluaranResource extends Resource
 {
     protected static ?string $model = Pengeluaran::class;
+
     protected static ?string $navigationIcon = 'heroicon-o-receipt-percent';
+
     protected static ?string $navigationGroup = 'Keuangan Kampung';
+
     protected static ?string $navigationLabel = 'Pengeluaran';
 
     public static function form(Form $form): Form
@@ -29,7 +32,7 @@ class PengeluaranResource extends Resource
                 Forms\Components\DatePicker::make('tanggal')->required(),
                 Forms\Components\TextInput::make('penerima'),
                 Forms\Components\Select::make('status')->options(['menunggu' => 'Menunggu', 'terverifikasi' => 'Terverifikasi', 'ditolak' => 'Ditolak'])->default('menunggu'),
-                Forms\Components\FileUpload::make('bukti_path')->directory('bukti/pengeluaran')->acceptedFileTypes(['application/pdf', 'image/*'])->columnSpanFull(),
+                Forms\Components\FileUpload::make('bukti_path')->directory('bukti/pengeluaran')->disk('public')->acceptedFileTypes(['application/pdf', 'image/*'])->columnSpanFull(),
             ]),
         ]);
     }

@@ -2,51 +2,93 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Berita;
+use App\Models\DanaMasuk;
+use App\Models\KategoriAnggaran;
+use App\Models\Pengeluaran;
+use App\Models\ProyekKampung;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Symfony\Component\HttpFoundation\StreamedResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 class PublicPageController extends Controller
 {
     public function home(Request $request)
     {
+        $year = $this->selectedYear($request);
         $status = $request->query('status', 'semua');
-        $projects = collect($this->projects())
-            ->when($status !== 'semua', fn ($items) => $items->where('status_key', $status))
-            ->values()
-            ->all();
+
+        $projects = $this->projectQuery($year)
+            ->when($status !== 'semua', fn (Builder $query) => $query->where('status', $this->databaseStatus($status)))
+            ->latest('updated_at')
+            ->limit(8)
+            ->get();
 
         return view('public.home', [
-            'stats' => $this->stats(),
+            'stats' => $this->stats($year),
             'projects' => $projects,
             'selectedStatus' => $status,
+            'selectedYear' => $year,
+            'availableYears' => $this->availableYears(),
         ]);
     }
 
-    public function transparency()
+    public function transparency(Request $request)
     {
+        $year = $this->selectedYear($request);
+        $status = $request->query('status', 'semua');
+        $projects = $this->projectQuery($year)
+            ->when($status !== 'semua', fn (Builder $query) => $query->where('status', $this->databaseStatus($status)))
+            ->latest('updated_at')
+            ->get();
+
+        $allocations = KategoriAnggaran::query()
+            ->withSum(['pengeluarans as realisasi' => fn (Builder $query) => $query
+                ->where('status', 'terverifikasi')
+                ->whereYear('tanggal', $year)], 'nominal')
+            ->orderByDesc('pagu_anggaran')
+            ->get();
+
+        $timeline = $this->projectQuery($year)
+            ->orderByDesc('tanggal_mulai')
+            ->orderByDesc('updated_at')
+            ->limit(6)
+            ->get();
+
         return view('public.transparency', [
-            'stats' => $this->stats(),
-            'projects' => $this->projects(),
-            'timeline' => [
-                ['month' => 'Mei 2024', 'title' => 'Paving Jalan Dusun 2', 'amount' => 'Rp 125.000.000', 'status' => 'Selesai 100%', 'side' => 'right'],
-                ['month' => 'Juni 2024', 'title' => 'Renovasi Balai Posyandu', 'amount' => 'Rp 85.000.000', 'status' => 'Progres 65%', 'side' => 'left'],
-                ['month' => 'Agustus 2024', 'title' => 'Instalasi Panel Surya Desa', 'amount' => 'Estimasi Rp 210.000.000', 'status' => 'Verifikasi', 'side' => 'right'],
-            ],
+            'stats' => $this->stats($year),
+            'projects' => $projects,
+            'timeline' => $timeline,
+            'allocations' => $allocations,
+            'selectedStatus' => $status,
+            'selectedYear' => $year,
+            'availableYears' => $this->availableYears(),
         ]);
     }
 
     public function news()
     {
-        return view('public.news-index', ['posts' => $this->posts()]);
+        $posts = Berita::query()
+            ->where('status', 'terbit')
+            ->whereNotNull('published_at')
+            ->where('published_at', '<=', now())
+            ->latest('published_at')
+            ->paginate(9);
+
+        return view('public.news-index', compact('posts'));
     }
 
     public function newsDetail(string $slug)
     {
-        $post = collect($this->posts())->firstWhere('slug', $slug);
-        abort_if(! $post, 404);
+        $post = Berita::query()
+            ->where('slug', $slug)
+            ->where('status', 'terbit')
+            ->whereNotNull('published_at')
+            ->where('published_at', '<=', now())
+            ->firstOrFail();
 
-        return view('public.news-show', ['post' => $post]);
+        return view('public.news-show', compact('post'));
     }
 
     public function contact()
@@ -86,80 +128,95 @@ class PublicPageController extends Controller
         return view('public.sitemap');
     }
 
-    public function downloadPdf(): StreamedResponse
+    public function downloadPdf(Request $request): Response
     {
-        $pdf = $this->minimalPdf('Laporan Dana Kampung Mbu 2024', [
-            'Total Dana Masuk: Rp 2.450.000.000',
-            'Total Pengeluaran: Rp 1.120.000.000',
-            'Dana Tersisa: Rp 1.330.000.000',
-            'Total Proyek: 14',
-        ]);
+        $year = $this->selectedYear($request);
+        $incomes = DanaMasuk::query()
+            ->where('status', 'terverifikasi')
+            ->whereYear('tanggal', $year)
+            ->orderBy('tanggal')
+            ->get();
+        $expenses = Pengeluaran::query()
+            ->with('kategoriAnggaran')
+            ->where('status', 'terverifikasi')
+            ->whereYear('tanggal', $year)
+            ->orderBy('tanggal')
+            ->get();
+        $projects = $this->projectQuery($year)->orderBy('nama')->get();
 
-        return response()->streamDownload(
-            fn () => print($pdf),
-            'laporan-dana-kampung-2024.pdf',
-            ['Content-Type' => 'application/pdf']
-        );
+        return Pdf::loadView('public.report-pdf', [
+            'year' => $year,
+            'stats' => $this->stats($year),
+            'incomes' => $incomes,
+            'expenses' => $expenses,
+            'projects' => $projects,
+        ])->setPaper('a4')->download("laporan-dana-kampung-mbu-{$year}.pdf");
     }
 
-    private function stats(): array
+    private function stats(int $year): array
     {
+        $income = (float) DanaMasuk::query()
+            ->where('status', 'terverifikasi')
+            ->whereYear('tanggal', $year)
+            ->sum('nominal');
+        $expense = (float) Pengeluaran::query()
+            ->where('status', 'terverifikasi')
+            ->whereYear('tanggal', $year)
+            ->sum('nominal');
+        $projectQuery = $this->projectQuery($year);
+
         return [
-            'income' => 2450000000,
-            'expense' => 1120000000,
-            'remaining' => 1330000000,
-            'absorption' => 82.4,
-            'projects' => 14,
-            'beneficiaries' => 1240,
+            'income' => $income,
+            'expense' => $expense,
+            'remaining' => $income - $expense,
+            'absorption' => $income > 0 ? round(($expense / $income) * 100, 1) : 0,
+            'projects' => (clone $projectQuery)->count(),
+            'active_projects' => (clone $projectQuery)->where('status', 'berjalan')->count(),
+            'completed_projects' => (clone $projectQuery)->where('status', 'selesai')->count(),
         ];
     }
 
-    private function projects(): array
+    private function projectQuery(int $year): Builder
     {
-        return [
-            ['name' => 'Pembangunan Jembatan Dusun A', 'budget' => 'Rp 450.000.000', 'category' => 'Infrastruktur', 'progress' => 85, 'status' => 'Sedang Berjalan', 'status_key' => 'sedang-berjalan'],
-            ['name' => 'Rehabilitasi Balai Desa', 'budget' => 'Rp 120.000.000', 'category' => 'Publik', 'progress' => 100, 'status' => 'Selesai', 'status_key' => 'selesai'],
-            ['name' => 'Pengadaan Bibit Pertanian Utama', 'budget' => 'Rp 75.000.000', 'category' => 'Ekonomi', 'progress' => 0, 'status' => 'Direncanakan', 'status_key' => 'direncanakan'],
-        ];
+        return ProyekKampung::query()
+            ->with('kategoriAnggaran')
+            ->where(function (Builder $query) use ($year) {
+                $query->whereYear('tanggal_mulai', $year)
+                    ->orWhere(function (Builder $undated) {
+                        $undated->whereNull('tanggal_mulai')->whereNull('tanggal_selesai');
+                    });
+            });
     }
 
-    private function posts(): array
+    private function selectedYear(Request $request): int
     {
-        return [
-            ['slug' => 'musyawarah-transparansi-dana-2024', 'title' => 'Musyawarah Transparansi Dana 2024', 'date' => '12 Juni 2024', 'excerpt' => 'Pemerintah Kampung Mbu membuka forum publik untuk memaparkan realisasi anggaran semester berjalan.'],
-            ['slug' => 'pembangunan-jembatan-dusun-a', 'title' => 'Pembangunan Jembatan Dusun A Masuk Tahap Akhir', 'date' => '28 Mei 2024', 'excerpt' => 'Progres fisik jembatan telah mencapai 85% dan ditargetkan selesai tepat waktu.'],
-            ['slug' => 'pelatihan-operator-sistem-desa', 'title' => 'Pelatihan Operator Sistem Desa', 'date' => '06 Mei 2024', 'excerpt' => 'Operator kampung mengikuti pelatihan pengelolaan data keuangan dan laporan digital.'],
-        ];
+        $years = $this->availableYears();
+        $requested = (int) $request->query('tahun');
+
+        return in_array($requested, $years, true) ? $requested : $years[0];
     }
 
-    private function minimalPdf(string $title, array $lines): string
+    private function availableYears(): array
     {
-        $content = "BT /F1 18 Tf 72 760 Td ($title) Tj /F1 12 Tf";
-        $y = 0;
-        foreach ($lines as $line) {
-            $escaped = str_replace(['\\', '(', ')'], ['\\\\', '\\(', '\\)'], $line);
-            $content .= " 0 -28 Td ($escaped) Tj";
-            $y++;
-        }
-        $content .= ' ET';
-        $objects = [
-            "1 0 obj << /Type /Catalog /Pages 2 0 R >> endobj",
-            "2 0 obj << /Type /Pages /Kids [3 0 R] /Count 1 >> endobj",
-            "3 0 obj << /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 4 0 R >> >> /Contents 5 0 R >> endobj",
-            "4 0 obj << /Type /Font /Subtype /Type1 /BaseFont /Helvetica >> endobj",
-            "5 0 obj << /Length ".strlen($content)." >> stream\n$content\nendstream endobj",
-        ];
-        $pdf = "%PDF-1.4\n";
-        $offsets = [0];
-        foreach ($objects as $object) {
-            $offsets[] = strlen($pdf);
-            $pdf .= $object."\n";
-        }
-        $xref = strlen($pdf);
-        $pdf .= "xref\n0 ".(count($objects) + 1)."\n0000000000 65535 f \n";
-        foreach (array_slice($offsets, 1) as $offset) {
-            $pdf .= str_pad((string) $offset, 10, '0', STR_PAD_LEFT)." 00000 n \n";
-        }
-        return $pdf."trailer << /Size ".(count($objects) + 1)." /Root 1 0 R >>\nstartxref\n$xref\n%%EOF";
+        $years = collect()
+            ->merge(DanaMasuk::query()->whereNotNull('tanggal')->pluck('tanggal'))
+            ->merge(Pengeluaran::query()->whereNotNull('tanggal')->pluck('tanggal'))
+            ->merge(ProyekKampung::query()->whereNotNull('tanggal_mulai')->pluck('tanggal_mulai'))
+            ->map(fn ($date) => (int) substr((string) $date, 0, 4))
+            ->filter()
+            ->unique()
+            ->sortDesc()
+            ->values()
+            ->all();
+
+        return $years ?: [(int) now()->year];
+    }
+
+    private function databaseStatus(string $status): string
+    {
+        return match ($status) {
+            'sedang-berjalan' => 'berjalan',
+            default => $status,
+        };
     }
 }
