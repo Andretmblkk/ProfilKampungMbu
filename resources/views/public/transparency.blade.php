@@ -8,7 +8,11 @@
         <span class="eyebrow">Laporan Tahun {{ $selectedYear }}</span>
         <h1>Transparansi Dana Kampung Mbu</h1>
         <p>Ringkasan dana masuk, pengeluaran, alokasi anggaran, dan perkembangan proyek berdasarkan data terverifikasi.</p>
-        <a class="btn btn-primary" href="{{ route('reports.pdf', ['tahun' => $selectedYear]) }}"><i class="fa-solid fa-download"></i> Unduh PDF Laporan</a>
+        @if(auth()->check() && in_array(auth()->user()->role, ['administrator', 'operator'], true) && auth()->user()->status === 'aktif')
+            <a class="btn btn-primary" href="{{ route('reports.pdf', ['tahun' => $selectedYear]) }}"><i class="fa-solid fa-download"></i> Unduh PDF Laporan</a>
+        @else
+            <a class="btn btn-light" href="{{ route('login') }}"><i class="fa-solid fa-lock"></i> Masuk untuk Mengunduh</a>
+        @endif
     </div>
     <figure class="hero-media">
         <img class="hero-image" alt="Pegunungan Tiom di Kabupaten Lanny Jaya" src="{{ asset('images/kampung/pegunungan-tiom-lanny-jaya.jpg') }}">

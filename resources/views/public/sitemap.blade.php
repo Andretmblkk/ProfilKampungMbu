@@ -10,7 +10,11 @@
         <a href="{{ route('home') }}">Beranda</a>
         <a href="{{ route('transparency') }}">Transparansi Publik</a>
         <a href="{{ route('news.index') }}">Berita</a>
-        <a href="{{ route('reports.pdf') }}">Unduh Laporan PDF</a>
+        @if(auth()->check() && in_array(auth()->user()->role, ['administrator', 'operator'], true) && auth()->user()->status === 'aktif')
+            <a href="{{ route('reports.pdf') }}">Unduh Laporan PDF</a>
+        @else
+            <a href="{{ route('login') }}">Masuk untuk Unduh Laporan PDF</a>
+        @endif
         <a href="{{ route('citizen-reports.create') }}">Laporan Warga</a>
         <a href="{{ route('contact') }}">Kontak</a>
         <a href="{{ route('privacy') }}">Kebijakan Privasi</a>

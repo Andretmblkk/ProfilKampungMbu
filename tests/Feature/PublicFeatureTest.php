@@ -6,6 +6,7 @@ use App\Models\Berita;
 use App\Models\DanaMasuk;
 use App\Models\Pengeluaran;
 use App\Models\ProyekKampung;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -52,7 +53,12 @@ class PublicFeatureTest extends TestCase
             ->assertDontSee('Proyek Berjalan');
     }
 
-    public function test_pdf_download_returns_pdf_response(): void
+    public function test_pdf_download_requires_an_internal_user(): void
+    {
+        $this->get('/laporan/pdf?tahun=2026')->assertRedirect('/login');
+    }
+
+    public function test_active_operator_can_download_pdf_report(): void
     {
         DanaMasuk::query()->create([
             'kode_transaksi' => 'DM-TEST',
@@ -69,9 +75,24 @@ class PublicFeatureTest extends TestCase
             'status' => 'terverifikasi',
         ]);
 
-        $this->get('/laporan/pdf?tahun=2026')
+        $operator = User::factory()->create([
+            'role' => 'operator',
+            'status' => 'aktif',
+        ]);
+
+        $this->actingAs($operator)->get('/laporan/pdf?tahun=2026')
             ->assertOk()
             ->assertHeader('content-type', 'application/pdf');
+    }
+
+    public function test_inactive_operator_cannot_download_pdf_report(): void
+    {
+        $operator = User::factory()->create([
+            'role' => 'operator',
+            'status' => 'nonaktif',
+        ]);
+
+        $this->actingAs($operator)->get('/laporan/pdf?tahun=2026')->assertForbidden();
     }
 
     public function test_public_financial_summary_comes_from_database(): void

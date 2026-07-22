@@ -49,7 +49,11 @@ class PublicUserJourneyTest extends TestCase
             ->assertSee('Musyawarah Transparansi Dana Kampung')
             ->assertSee('ringkasan dana masuk');
 
-        $this->get('/laporan/pdf?tahun=2024')
+        $this->get('/laporan/pdf?tahun=2024')->assertRedirect('/login');
+
+        $operator = User::query()->where('email', 'operator@kampungmbu.go.id')->firstOrFail();
+
+        $this->actingAs($operator)->get('/laporan/pdf?tahun=2024')
             ->assertOk()
             ->assertHeader('content-type', 'application/pdf')
             ->assertDownload('laporan-dana-kampung-mbu-2024.pdf');

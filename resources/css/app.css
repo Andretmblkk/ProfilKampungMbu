@@ -192,6 +192,35 @@ a { color: var(--blue); text-decoration: none; font-weight: 700; }
 .status-pill { background: #dcfce7; color: #13823a; text-transform: none; }
 .status-pill.waiting { background: #fef3c7; color: #a16207; }
 .status-pill.rejected { background: #fee2e2; color: #b91c1c; }
+.activity-showcase { padding-top: 72px; }
+.activity-heading {
+    display: grid;
+    grid-template-columns: minmax(0, 1.25fr) minmax(280px, .75fr);
+    align-items: end;
+    gap: 36px;
+    margin-bottom: 26px;
+}
+.activity-heading h2 { margin: 8px 0 0; font-size: clamp(30px, 4vw, 46px); font-weight: 900; }
+.activity-heading > p { color: var(--muted); line-height: 1.7; margin: 0; }
+.activity-carousel {
+    overflow: hidden;
+    border-radius: 20px;
+    background: #172033;
+    box-shadow: 0 24px 60px rgba(15, 35, 71, .22);
+}
+.activity-carousel .carousel-item { height: 520px; overflow: hidden; }
+.activity-photo { width: 100%; height: 100%; object-fit: cover; }
+.activity-carousel .carousel-item.active .activity-photo { animation: activity-zoom 4.4s ease-out both; }
+.activity-carousel .carousel-item::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(7, 17, 36, .02) 38%, rgba(7, 17, 36, .85) 100%);
+}
+.activity-caption { z-index: 2; left: 7%; right: 7%; bottom: 34px; text-align: left; }
+.activity-caption h3 { font-size: clamp(24px, 3vw, 36px); font-weight: 900; margin-bottom: 8px; }
+.activity-caption p { max-width: 650px; margin: 0; font-size: 16px; }
+@keyframes activity-zoom { from { transform: scale(1.01); } to { transform: scale(1.08); } }
 .progress-line { width: 120px; height: 8px; background: #e5e9f0; border-radius: 999px; overflow: hidden; margin-bottom: 7px; }
 .progress-line span { display: block; height: 100%; background: var(--blue); border-radius: 999px; margin: 0; }
 
@@ -351,6 +380,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
     .report-filters { justify-content: flex-start; }
     .footer-main { grid-template-columns: 1fr; gap: 20px; }
     .footer-links { justify-content: flex-start; }
+    .activity-heading { grid-template-columns: 1fr; gap: 12px; }
 }
 
 @media (max-width: 640px) {
@@ -370,4 +400,12 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
     .cta-band h2 { font-size: 32px; }
     .project-grid { grid-template-columns: 1fr; }
     .report-filters, .report-filters .form-select, .report-filters .btn { width: 100%; }
+    .activity-showcase { padding-top: 48px; }
+    .activity-carousel .carousel-item { height: 340px; }
+    .activity-caption { bottom: 25px; }
+    .activity-caption p { font-size: 14px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .activity-carousel .carousel-item.active .activity-photo { animation: none; }
 }

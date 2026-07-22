@@ -8,7 +8,9 @@ Route::get('/', [PublicPageController::class, 'home'])->name('home');
 Route::get('/transparansi', [PublicPageController::class, 'transparency'])->name('transparency');
 Route::get('/berita', [PublicPageController::class, 'news'])->name('news.index');
 Route::get('/berita/{slug}', [PublicPageController::class, 'newsDetail'])->name('news.show');
-Route::get('/laporan/pdf', [PublicPageController::class, 'downloadPdf'])->name('reports.pdf');
+Route::middleware(['auth', 'internal'])
+    ->get('/laporan/pdf', [PublicPageController::class, 'downloadPdf'])
+    ->name('reports.pdf');
 Route::get('/laporan-warga', [LaporanWargaController::class, 'create'])->name('citizen-reports.create');
 Route::post('/laporan-warga', [LaporanWargaController::class, 'store'])->name('citizen-reports.store');
 Route::get('/kontak', [PublicPageController::class, 'contact'])->name('contact');

@@ -15,12 +15,16 @@
             <a class="{{ request()->routeIs('home') ? 'active' : '' }}" href="{{ route('home') }}">Beranda</a>
             <a class="{{ request()->routeIs('transparency') ? 'active' : '' }}" href="{{ route('transparency') }}">Transparansi</a>
             <a class="{{ request()->routeIs('news.*') ? 'active' : '' }}" href="{{ route('news.index') }}">Berita</a>
-            <a href="{{ route('reports.pdf') }}">Laporan</a>
+            <a class="{{ request()->routeIs('transparency') ? 'active' : '' }}" href="{{ route('transparency') }}">Laporan</a>
         </div>
         <div class="nav-actions">
             <i class="fa-regular fa-bell"></i>
             <i class="fa-solid fa-gear"></i>
-            <a class="btn btn-primary btn-sm" href="{{ route('login') }}">Masuk</a>
+            @auth
+                <a class="btn btn-primary btn-sm" href="/admin">Panel {{ auth()->user()->role === 'administrator' ? 'Admin' : 'Operator' }}</a>
+            @else
+                <a class="btn btn-primary btn-sm" href="{{ route('login') }}">Masuk</a>
+            @endauth
         </div>
     </nav>
 

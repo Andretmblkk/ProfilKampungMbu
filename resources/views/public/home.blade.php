@@ -25,6 +25,50 @@
     <x-stat-card icon="fa-screwdriver-wrench" label="Total Proyek" value="{{ $stats['projects'] }}" meta="{{ $stats['completed_projects'] }} selesai, {{ $stats['active_projects'] }} berjalan" tone="indigo" />
 </section>
 
+@php
+    $activityPhotos = [
+        ['file' => 'WhatsApp Image 2026-07-18 at 11.45.05 (1).jpeg', 'title' => 'Kebersamaan Warga Kampung', 'caption' => 'Dokumentasi kegiatan dan kebersamaan masyarakat Kampung Mbu.'],
+        ['file' => 'WhatsApp Image 2026-07-18 at 11.45.07.jpeg', 'title' => 'Pelayanan Pemerintah Kampung', 'caption' => 'Kantor Kampung Mbu sebagai pusat pelayanan dan administrasi warga.'],
+        ['file' => 'WhatsApp Image 2026-07-18 at 11.45.06.jpeg', 'title' => 'Aktivitas di Lingkungan Kampung', 'caption' => 'Suasana aktivitas masyarakat di wilayah Kampung Mbu.'],
+        ['file' => 'WhatsApp Image 2026-07-18 at 11.48.08.jpeg', 'title' => 'Kegiatan Pembangunan', 'caption' => 'Dokumentasi kegiatan pembangunan di lingkungan kampung.'],
+        ['file' => 'WhatsApp Image 2026-07-18 at 11.48.08 (1).jpeg', 'title' => 'Wilayah Kampung Mbu', 'caption' => 'Pemandangan wilayah dan permukiman masyarakat Kampung Mbu.'],
+    ];
+@endphp
+
+<section class="activity-showcase section-block" aria-labelledby="activity-title">
+    <div class="activity-heading">
+        <div>
+            <span class="section-kicker">Dokumentasi Kampung</span>
+            <h2 id="activity-title">Kegiatan dan Suasana Kampung Mbu</h2>
+        </div>
+        <p>Galeri ini menampilkan dokumentasi terbaru dari pemerintah dan masyarakat Kampung Mbu.</p>
+    </div>
+    <div id="kampungActivityCarousel" class="carousel slide activity-carousel" data-bs-ride="carousel" data-bs-interval="4200">
+        <div class="carousel-indicators">
+            @foreach($activityPhotos as $photo)
+                <button type="button" data-bs-target="#kampungActivityCarousel" data-bs-slide-to="{{ $loop->index }}" class="{{ $loop->first ? 'active' : '' }}" aria-current="{{ $loop->first ? 'true' : 'false' }}" aria-label="Tampilkan foto {{ $loop->iteration }}"></button>
+            @endforeach
+        </div>
+        <div class="carousel-inner">
+            @foreach($activityPhotos as $photo)
+                <div class="carousel-item {{ $loop->first ? 'active' : '' }}">
+                    <img class="activity-photo" src="{{ asset('images/kampung/'.$photo['file']) }}" alt="{{ $photo['title'] }}">
+                    <div class="carousel-caption activity-caption">
+                        <h3>{{ $photo['title'] }}</h3>
+                        <p>{{ $photo['caption'] }}</p>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#kampungActivityCarousel" data-bs-slide="prev" aria-label="Foto sebelumnya">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#kampungActivityCarousel" data-bs-slide="next" aria-label="Foto berikutnya">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        </button>
+    </div>
+</section>
+
 <section id="tentang" class="about-grid">
     <div class="photo-stack regional-photo">
         <img src="{{ asset('images/kampung/kampung-dataran-tinggi-papua.jpg') }}" alt="Ilustrasi permukiman dataran tinggi Papua">
@@ -58,7 +102,11 @@
                 <option value="direncanakan" @selected($selectedStatus === 'direncanakan')>Direncanakan</option>
             </select>
             <button class="btn btn-light" type="submit"><i class="fa-solid fa-filter"></i> Terapkan</button>
-            <a class="btn btn-primary" href="{{ route('reports.pdf', ['tahun' => $selectedYear]) }}">Unduh PDF</a>
+            @if(auth()->check() && in_array(auth()->user()->role, ['administrator', 'operator'], true) && auth()->user()->status === 'aktif')
+                <a class="btn btn-primary" href="{{ route('reports.pdf', ['tahun' => $selectedYear]) }}">Unduh PDF</a>
+            @else
+                <a class="btn btn-light" href="{{ route('login') }}"><i class="fa-solid fa-lock"></i> Masuk untuk Unduh</a>
+            @endif
         </form>
     </div>
     <div id="proyek" class="table-card">

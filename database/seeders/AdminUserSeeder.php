@@ -12,7 +12,7 @@ class AdminUserSeeder extends Seeder
     {
         foreach ([
             ['Administrator Kampung Mbu', 'admin@kampungmbu.go.id', 'administrator', env('SEED_ADMIN_PASSWORD', 'password')],
-            ['Operator Kampung Mbu', 'operator@kampungmbu.go.id', 'operator', env('SEED_OPERATOR_PASSWORD', 'password')],
+            ['Wemiron Kiwo', 'operator@kampungmbu.go.id', 'operator', env('SEED_OPERATOR_PASSWORD', 'password')],
         ] as [$name, $email, $role, $password]) {
             $user = User::query()->firstOrNew(['email' => $email]);
             $user->fill([
